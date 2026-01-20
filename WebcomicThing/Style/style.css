@@ -1,0 +1,377 @@
+body {
+    margin: 0;
+}
+
+.background {
+    z-index: -1;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+}
+
+html {
+  scrollbar-width: none;
+}
+
+/* Header */
+
+.header {
+    background-color: rgb(176, 176, 176);
+    height: 7.5vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 2vh;
+}
+
+.vr-ship-header {
+    background-color: rgb(0, 0, 0);
+}
+
+.home-button {
+    grid-column: 2/3;
+    grid-row: 1/2;
+}
+
+.episodes-button {
+    grid-column: 3/4;
+    grid-row: 1/2;
+}
+
+.about-button {
+    grid-column: 4/5;
+    grid-row: 1/2;
+}
+
+.music-button {
+    grid-column: 5/6;
+    grid-row: 1/2;
+}
+
+.credits-button {
+    grid-column: 6/7;
+    grid-row: 1/2;
+}
+
+a:link,
+a:visited,
+a:active {
+  text-decoration: none;
+  color: rgb(75, 75, 75);
+}
+
+a:hover {
+    color: rgb(0, 0, 0);
+    transform: scale(1.1);
+}
+
+.vr-ship-a:link,
+.vr-ship-a:visited,
+.vr-ship-a:active {
+  text-decoration: none;
+  color: rgb(255, 196, 0);
+}
+
+.vr-ship-a:hover {
+    color: rgb(255, 153, 0);
+    transform: scale(1.1);
+}
+
+.button {
+    background-color: rgb(233, 233, 233);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 4vh;
+    width: 100%;
+    margin: auto;
+    font-family: "Jersey 10", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 20px;
+    transition: 0.1s
+}
+
+.button-vr-ship {
+    background-color: rgb(15, 7, 84);
+}
+
+.button:active {
+    background-color: rgb(128, 128, 128);
+    transform: scale(0.9);
+}
+
+.button-vr-ship:active {
+    background-color: rgb(6, 2, 42);
+}
+
+.button-here {
+    background-color: rgb(128, 128, 128);
+    color: rgb(176, 176, 176);
+}
+
+/* Episodes */
+
+.ep-container {
+    margin: 5%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 5vh;
+}
+
+.ep {
+    margin: auto;
+    width: 100%;
+    transition: 0.2s;
+    opacity: 0.65;
+}
+
+.ep:hover {
+    transform: scale(1.01);
+    opacity: 1;
+}
+
+.ep:active {
+    transform: scale(0.8);
+}
+
+/* Pages */
+
+.container {
+    margin: 2%;
+    display: grid;
+    grid-template-columns: 1.75fr 1.25fr;
+    grid-template-rows: 7fr 1fr;
+    height: 85vh;
+    width: 96vw;
+    gap: 5vh;
+}
+
+.img {
+    margin: auto;
+    width: 92%;
+    grid-column: 1/2;
+    grid-row: 1/3;
+    border: 1vh solid rgb(0, 0, 0);
+}
+
+.text {
+    background-color: rgba(176, 176, 176, 0.7);
+    font-family: "Jersey 10", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 30px;
+    text-align: left;
+    padding: 3vh;
+    grid-column: 2/3;
+    grid-row: 1/2;
+    overflow-y: auto;
+    max-height: 80vh;
+    scrollbar-width: none;
+}
+
+.text-vr-ship {
+    background-color: rgba(42, 45, 135, 0.7);
+}
+
+.text-biscord {
+    background-image: linear-gradient(rgb(34, 34, 34), rgb(56, 56, 56));
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    gap: 4vh;
+    padding: 3vh;
+    grid-column: 2/3;
+    grid-row: 1/2;
+    overflow-y: auto;
+    max-height: 80vh;
+    scrollbar-width: none;
+}
+
+.text-biscord p {
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+}
+
+.biscord-body {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 5fr;
+    grid-column: 1/2;
+    width: 100%;
+    gap: 3vh;
+}
+
+.pfp {
+    height: 9vh;
+    border-radius: 50%;
+}
+
+.top,
+.bot {
+    grid-row: 1/2;
+    grid-column: 2/3;
+    font-family: "Jersey 10", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 3vh;
+}
+
+.top {
+    color: rgb(255, 255, 255);
+    z-index: 1;
+}
+
+.bot {
+    color: rgb(255, 255, 255);
+    padding-top: 4vh;
+}
+
+.text p {
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+}
+
+.switch {
+    background-color: rgb(176, 176, 176, 0.7);
+    grid-column: 2/3;
+    grid-row: 2/3;
+    height: 100%;
+    font-family: "Jersey 10", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 9vh;
+    text-align: center;
+    word-spacing: 100px;
+}
+
+.switch-vr-ship {
+    background-color: rgba(42, 45, 135, 0.7);;
+}
+
+/* Colours */
+
+.pu {
+    color: rgb(129, 17, 203);
+}
+
+.ye {
+    color: rgb(255, 166, 0);
+}
+
+.ka {
+    color: rgb(20, 183, 63);
+}
+
+.a {
+    color: rgb(208, 13, 13);
+}
+
+.ma {
+    color: rgb(208, 13, 195);
+}
+
+.gl {
+    color: rgb(208, 81, 13);
+}
+
+.me {
+    color: rgb(247, 37, 37);
+}
+
+.ep {
+    color: rgb(70, 13, 108) ;
+}
+
+/* Media Query*/
+@media (max-width: 750px) {
+
+/* General */
+
+.button {
+    font-size: 15px;
+}
+
+/* Pages */
+
+.header {
+    height: 20vh;
+    padding: 2%;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+}
+
+.home-button {
+    width: 50vw;
+    grid-column: 1/3;
+    grid-row: 1/2;
+}
+
+.episodes-button {
+    grid-column: 1/2;
+    grid-row: 2/3;
+}
+
+.about-button {
+    grid-column: 2/3;
+    grid-row: 2/3;
+}
+
+.music-button {
+    grid-column: 1/2;
+    grid-row: 3/4;
+}
+
+.credits-button {
+    grid-column: 2/3;
+    grid-row: 3/4;
+}
+
+.container {
+    height: 125vh;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 3fr .75fr;
+}
+
+.img {
+    grid-row: 1/2;
+}
+
+.text {
+    margin-left: 2%;
+    margin-right: 2%;
+    grid-column: 1/2;
+    grid-row: 2/3;
+}
+
+.text-biscord {
+    margin-left: 2%;
+    margin-right: 2%;
+    grid-column: 1/2;
+    grid-row: 2/3;
+}
+
+.switch {
+    grid-column: 1/2;
+    grid-row: 3/4;
+    height: 100%;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+}
+
+/* Episodes */
+
+@media (max-width: 550px) {
+
+.ep-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+.ep {
+    opacity: 1;
+}
+
+}
