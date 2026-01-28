@@ -19,12 +19,48 @@
         <a href="./credits.html" class="credits-button button">Credits</a>
     </header>
     <div class="ep-container">
-        <a href="./P0.html"><img src="./Images/Episode_1_Cover.PNG" class="ep" alt=""></a>  
-        <a href="./"><img src="./Images/UnknowEpisode.png" class="ep" alt=""></a>  
-        <a href="./"><img src="./Images/UnknowEpisode.png" class="ep" alt=""></a> 
-        <a href="./"><img src="./Images/UnknowEpisode.png" class="ep" alt=""></a> 
-        <a href="./"><img src="./Images/UnknowEpisode.png" class="ep" alt=""></a> 
-        <a href="./"><img src="./Images/UnknowEpisode.png" class="ep" alt=""></a> 
+        <div class="ep-flex">
+            <img id="epButton" src="./Images/Episode_1_Cover.PNG" class="ep" alt="">
+            <div id="epDropDown" class="ep-drop-down-content">
+                <button class="ep-menu-button big-button"><a href="./P0.html">Read</a></button>
+                <br>
+                <button class="ep-menu-button small-button"><a href="./">Pages</a></button>
+            </div>
+        </div>
+        <div class="ep-flex">
+            <img id="epButton" src="./Images/UnknowEpisode.png" class="ep" alt="">
+        </div> 
+        <div class="ep-flex">
+            <img id="epButton" src="./Images/UnknowEpisode.png" class="ep" alt="">
+        </div>  
+        <div class="ep-flex">
+            <img id="epButton" src="./Images/UnknowEpisode.png" class="ep" alt="">
+        </div>  
+        <div class="ep-flex">
+            <img id="epButton" src="./Images/UnknowEpisode.png" class="ep" alt="">
+        </div>  
+        <div class="ep-flex">
+            <img id="epButton" src="./Images/UnknowEpisode.png" class="ep" alt="">
+        </div>  
     </div>
+    <script>
+    const epButton = document.getElementById('epButton');
+    const epDropDown = document.getElementById('epDropDown');
+
+    epButton.addEventListener('click', function() {
+
+        epDropDown.classList.toggle('show');
+        epDropDown.classList.remove('ep');
+    });
+
+
+    window.onclick = function(event) {
+        if (!event.target.matches('#epButton')) {
+            if (epDropDown.classList.contains('show')) {
+                epDropDown.classList.remove('show');
+            }
+        }
+    }
+    </script>
 </body>
 </html>
