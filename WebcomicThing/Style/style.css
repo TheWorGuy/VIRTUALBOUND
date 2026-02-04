@@ -7,6 +7,7 @@ body {
     position: fixed;
     height: 100%;
     width: 100%;
+    bottom: 0vw;
 }
 
 html {
@@ -18,10 +19,14 @@ html {
 .header {
     background-color: rgb(176, 176, 176);
     height: 7.5vh;
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr;
     gap: 2vh;
+    position: fixed;
+    top: 0vw;
+    z-index: 100;
 }
 
 .vr-ship-header {
@@ -31,26 +36,31 @@ html {
 .home-button {
     grid-column: 2/3;
     grid-row: 1/2;
+    clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%);
 }
 
 .episodes-button {
     grid-column: 3/4;
     grid-row: 1/2;
+    clip-path: polygon(2% 0, 98% 0, 100% 100%, 0 100%);
 }
 
 .about-button {
     grid-column: 4/5;
     grid-row: 1/2;
+    clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%);
 }
 
 .music-button {
     grid-column: 5/6;
     grid-row: 1/2;
+    clip-path: polygon(2% 0, 98% 0, 100% 100%, 0 100%);
 }
 
 .credits-button {
     grid-column: 6/7;
     grid-row: 1/2;
+    clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%);
 }
 
 a:link,
@@ -110,10 +120,41 @@ a:hover {
     color: rgb(176, 176, 176);
 }
 
+/* Home */
+
+.ho-container {
+    margin: 14vh 5vh 5vh 5vh;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 5vh;
+    max-height: 70vh;
+}
+
+.ho-container p {
+    color: rgb(255, 255, 255);
+    font-family: "Jersey 10", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 30px;
+}
+
+.main-cover {
+    height: 80vh;
+    grid-row: 1/4;
+    grid-column: 2/3;
+    margin: auto;
+}
+
+.news {
+    background-color: rgb(255, 255, 255);
+    grid-row: 2/4;
+}
+
 /* Episodes */
 
 .ep-container {
-    margin: 5%;
+    margin: 14vh 5vh 5vh 5vh;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
@@ -171,12 +212,14 @@ a:hover {
     height: 17.5%;
     width: 70%;
     font-size: 5vw;
+    clip-path: polygon(2% 0, 98% 0, 100% 100%, 0 100%);
 }
 
 .small-button {
     height: 10%;
     width: 45%;
     font-size: 3vw;
+    clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%);
 }
 .ep-drop-down-content a {
     padding-left: 23%;
@@ -191,10 +234,76 @@ a:hover {
     display: block;
 }
 
+/* About */
+
+.ab-container {
+    background-color: rgb(176, 176, 176);
+    margin: 12.5vh 5vh 2vh 5vh;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    gap: 5vh;
+    padding-left: 4%;
+    padding-right: 4%;
+    font-family: "Jersey 10", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 30px;
+    clip-path: polygon(0 0, 99% 0, 100% 100%, 1% 100%);
+}
+
+.about-dance {
+    height: 21.5vw;
+}
+
+/* Music */
+
+.mu-container {
+    margin: 12.5vh 5vh 0vh 80vh;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    gap: 5vh;
+}
+
+.mu-audio {
+    grid-column: 1/1;
+    background-color: rgb(159, 159, 159);
+    gap: 3vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.2s;
+    clip-path: polygon(1% 1%, 100% 0, 99% 99%, 2% 99%);
+}
+
+.mu-audio p {
+    color: rgb(255, 255, 255);
+    font-family: "Jersey 10", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 30px;
+    text-align: center;
+    margin-left: 5%;
+}
+
+.mu-audio:hover {
+    transform: scale(1.05);
+}
+
+.audio {
+    margin-right: 5%;
+}
+
+.vinyl {
+    position: absolute;
+    height: 90vh;
+}
+
 /* Credits */
 
 .cre-container {
-    margin: 5%;
+    margin: 12.5vh 5vh 5vh 5vh;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
@@ -206,6 +315,11 @@ a:hover {
     width: 100%;
     gap: 3vh;
     transition: 0.2s;
+    clip-path: polygon(0 0, 99% 0, 100% 100%, 1% 100%);
+}
+
+.cre-bio img {
+    margin: 20%;
 }
 
 .cre-bio:hover {
@@ -216,6 +330,7 @@ a:hover {
 
 .container {
     margin: 2%;
+    margin-top: 10vh;
     display: grid;
     grid-template-columns: 1.75fr 1.25fr;
     grid-template-rows: 7fr 1fr;
@@ -244,6 +359,7 @@ a:hover {
     grid-row: 1/2;
     overflow-y: auto;
     max-height: 80vh;
+    clip-path: polygon(1% 1%, 100% 0, 99% 99%, 2% 99%);
 }
 
 .text-vr-ship {
@@ -254,13 +370,14 @@ a:hover {
 .text-biscord {
     background-image: linear-gradient(rgb(34, 34, 34), rgb(56, 56, 56));
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
     gap: 4vh;
     padding: 3vh;
     grid-column: 2/3;
     grid-row: 1/2;
     overflow-y: auto;
     max-height: 80vh;
+    clip-path: polygon(1% 1%, 100% 0, 100% 100%, 2% 99%);
 }
 
 .text-biscord p {
@@ -280,7 +397,7 @@ a:hover {
 .pfp {
     height: 9vh;
     border-radius: 50%;
-    margin: 2vh;
+    margin-left: 0.5vw;
 }
 
 .top,
@@ -319,10 +436,16 @@ a:hover {
     font-size: 9vh;
     text-align: center;
     word-spacing: 100px;
+    clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%);
 }
 
 .switch-vr-ship {
     background-color: rgba(42, 45, 135, 0.7);;
+}
+
+.text-close {
+    word-spacing: normal;
+    margin: 0;
 }
 
 /* Colours */
@@ -363,8 +486,18 @@ a:hover {
     color: rgb(255, 208, 253);
 }
 
+.bl {
+    color: rgb(60, 115, 255);
+}
+
 /* Media Query*/
 @media (max-width: 750px) {
+
+/* Header */
+
+.header {
+    width: 96vw;
+}
 
 /* General */
 
@@ -372,9 +505,36 @@ a:hover {
     font-size: 15px;
 }
 
+/* Home */
+
+.ho-container {
+    margin-top: 27.5vh;
+}
+
+/* Episodes */
+
+.ep-container {
+    margin-top: 27.5vh;
+}
+
+/* About */
+
+.ab-container {
+    margin-top: 27.5vh;
+    padding-left: 6%;
+    padding-right: 6%;
+}
+
+/* Music */
+
+.mu-container {
+    margin-top: 27.5vh;
+}
+
 /* Credits */
 
 .cre-container {
+    margin-top: 27.5vh;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
 }
@@ -407,14 +567,17 @@ a:hover {
 .music-button {
     grid-column: 1/2;
     grid-row: 3/4;
+    clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%);
 }
 
 .credits-button {
     grid-column: 2/3;
     grid-row: 3/4;
+    clip-path: polygon(2% 0, 98% 0, 100% 100%, 0 100%);
 }
 
 .container {
+    margin-top: 27.5vh;
     height: 125vh;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 3fr .75fr;
@@ -448,9 +611,9 @@ a:hover {
 
 }
 
-/* Episodes */
-
 @media (max-width: 550px) {
+
+/* Episodes */
 
 .ep-container {
     grid-template-columns: 1fr 1fr;
@@ -467,6 +630,43 @@ a:hover {
 
 .small-button {
     font-size: 4vw;
+}
+
+}
+
+@media (max-width: 1250px) {
+
+/* Music */
+
+.mu-container {
+    margin-left: 5vh;
+}
+
+.vinyl {
+    display: none;
+}
+
+/* Home */
+
+.ho-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+}
+
+.main-cover {
+    height: 110vw;
+    grid-row: 1/2;
+    grid-column: 1/2;
+    margin: auto;
+}
+
+.news {
+    grid-row: 3/4;
+    height: 40vh;
+}
+
+.empty {
+    display: none;
 }
 
 }
