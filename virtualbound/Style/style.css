@@ -85,6 +85,7 @@ a:hover {
 .vr-ship-a:hover {
     color: rgb(255, 153, 0);
     transform: scale(1.1);
+    cursor: pointer;
 }
 
 .button {
@@ -531,7 +532,9 @@ a:hover {
 }
 
 .switch-vr-ship {
-    background-color: rgba(42, 45, 135, 0.7);;
+    background-color: rgba(42, 45, 135, 0.7);
+    color: rgb(255, 196, 0);
+    user-select: none;
 }
 
 .text-close {
