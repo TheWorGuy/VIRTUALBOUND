@@ -57,7 +57,7 @@ function showPage(pageNum) {
         element.src = file;
         element.autoplay = true;
         element.loop = true;
-        element.muted = true;
+        element.muted = false;
         element.playsInline = true;
     } else { // if neither... GET OUT
         console.warn("Unsupported media type:", ext);
@@ -80,6 +80,8 @@ function showPage(pageNum) {
 
     currPage = pageNum;
     localStorage.setItem("currPage", currPage);
+
+    console.log("Page " + currPage + " loaded.");
 
     preloadNextPage();
 }
@@ -113,3 +115,9 @@ function preloadNextPage() {
         video.src = nextPage;
     }
 }
+
+// edge cases (0 indexed)
+// Pages 5, 30, 49, 64, 76 leads to different html pages
+// Pages 85, 91, 94, 95, 96, 97, 99 Different html types
+
+// Page 77 is the fly minigame (different js)
