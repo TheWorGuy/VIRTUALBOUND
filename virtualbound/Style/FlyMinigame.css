@@ -6,6 +6,7 @@
     border: 1vh solid rgb(0, 0, 0);
     position: relative;
     overflow: hidden;
+    user-select: none; 
 }
 .game-area:hover {
     cursor: none;
@@ -26,6 +27,7 @@
     pointer-events: none;
     transform: translate(-50%, -50%);
     z-index: 2;
+    user-select: none; 
 }
 
 #fly {
@@ -35,6 +37,7 @@
     pointer-events: none;
     transform: translate(-50%, -50%);
     z-index: 1;
+    user-select: none; 
 }
 
 #game-text::after {

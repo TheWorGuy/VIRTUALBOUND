@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VIRTUALBOUND</title>
-    <script defer src="Backend/PageHandler.js"></script>
+    <!-- <script defer src="Backend/PageHandler.js"></script> -->
+    <script defer src="Backend/Interactable.js"></script>
     <link rel="stylesheet" href="./Style/style.css">
+    <link rel="stylesheet" href="./Style/Interactable.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
@@ -20,13 +22,15 @@
         <a href="./credits.html" class="credits-button button button-vr-ship vr-ship-a">Credits</a>
     </header>
     <div class="container">
-        <div id="comic-media" class="img" autoplay></div>
+        <div class="interact-area">
+            <img src="" class="interact-bg" alt="Interactable background">
+        </div>
         <div class="text text-vr-ship">
-            <p id="comic-text"></p>
+            <p id="interact-text"></p>
         </div>
         <div class="switch switch-vr-ship">
-            <a id="previous" onclick="prevPage()" class="vr-ship-a">&lt;Previous</a>
-            <a id="next" onclick="nextPage()" class="vr-ship-a">Next&gt;</a>
+            <a id="previous" onclick="prevPageIn()" class="vr-ship-a">&lt;Previous</a>
+            <a id="next" onclick="nextPageIn()" class="vr-ship-a">Next&gt;</a>
         </div>
     </div>
 </body>
