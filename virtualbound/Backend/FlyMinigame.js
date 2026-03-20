@@ -31,10 +31,14 @@ nextButton.style.display = 'none';
 
 // Static Functions
 function prevPageFly() {
-
+    if (gameActive) { // ONLY IF THE GAME IS ACTIVE
+        // go to previous page (./Images/77.png)
+        // index 76 in Pages.json
+    }
 }
 function nextPageFly() {
-
+    // go to next page (./Images/81.png)
+    // index 80 in Pages.json
 }
 
 function checkGameState() {

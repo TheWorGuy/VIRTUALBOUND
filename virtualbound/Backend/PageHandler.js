@@ -81,9 +81,10 @@ function showPage(pageNum) {
     currPage = pageNum;
     localStorage.setItem("currPage", currPage);
 
-    console.log("Page " + currPage + " loaded.");
+    console.log("Index " + currPage + " loaded.");
 
     preloadNextPage();
+    switchStyles(currPage);
 }
 
 function nextPage() {
@@ -116,8 +117,74 @@ function preloadNextPage() {
     }
 }
 
-// edge cases (0 indexed)
-// Pages 5, 30, 49, 64, 76 leads to different html pages
-// Pages 85, 91, 94, 95, 96, 97, 99 Different html types
+const background = document.querySelector(".background");
+const header = document.querySelector(".header");
+const text = document.querySelector(".text");
+const swit = document.querySelector(".switch");
+const previous = document.getElementById("previous");
+const next = document.getElementById("next");
 
-// Page 77 is the fly minigame (different js)
+function switchStyles(theCurrPage) {
+    if (theCurrPage >= 25) {
+        background.src = "./Images/web_backgroud.png";
+        header.classList.remove("vr-ship-header");
+        const buttons = document.querySelectorAll('.button');
+        buttons.forEach(el => {
+            el.classList.remove('button-vr-ship', 'vr-ship-a');
+        });
+        text.classList.remove("text-vr-ship");
+        swit.classList.remove("switch-vr-ship");
+        previous.className = "world-a";
+        next.className = "world-a";
+    } else {
+        background.src = "./Images/vr_ship_background.png";
+        header.classList.add("vr-ship-header");
+        const buttons = document.querySelectorAll('.button');
+        buttons.forEach(el => {
+            el.classList.add('button-vr-ship', 'vr-ship-a');
+        });
+        text.classList.add("text-vr-ship");
+        swit.classList.add("switch-vr-ship");
+        previous.className = "vr-ship-a";
+        next.className = "vr-ship-a";
+    }
+}
+
+// edge cases (0 indexed) so [index = page - 1]
+
+// we need to find a way to have other js files use this file and their own logic/functions for each html type
+// html types: Interactable.html, FlyMinigame.html, and P_ChitterChatter_Time.html
+
+// index 5 is a different html and can branch off to 2 other indices - uses Interactable.html
+// route 1: index 6, which will go sequentially until index 10
+// route 2: index 11, which will go sequentially until index 13
+// both routes (index 10 & 13) converge to index 14
+
+// index 30 is another different html and can branch off to 3 other indices - uses Interactable.html
+// route 1: index 31, which will go sequentially until index 34
+// route 2: index 35, which will go sequentially until index 37
+// route 3: index 38, which will go sequentially until index 40
+// all routes (index 34, 37 & 40) converge to index 41
+
+// index 49 is another different html and can branch off to  other indices - uses Interactable.html
+// route 1: index 50, which will go sequentially until index 53
+// route 2: index 54, which will go sequentially until index 55
+// route 3: index 56
+// all routes (index 53, 55 & 56) converge to index 57
+
+// index 64 is another different html and can branch off to 8 other indices - uses Interactable.html
+// route 1: index 65
+// route 2: index 66
+// route 3: index 67
+// route 4: index 68
+// route 5: index 69
+// route 6: index 70
+// route 7: index 71
+// route 8: index 72
+// all routes converge to index 74
+
+// index 76 leads to the FlyMinigame.html, which then leads to index 80
+
+// index 85, 91, 94, 95, 96, 97, and 99 use P_ChitterChatter_Time.html
+ 
+

@@ -88,6 +88,18 @@ a:hover {
     cursor: pointer;
 }
 
+/* Previous & Next Buttons For Other Style */
+.world-a {
+    text-decoration: none;
+    user-select: none; 
+    color: rgb(75, 75, 75);
+}
+.world-a:hover {
+    color: rgb(0, 0, 0);
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
 .button {
     background-color: rgb(233, 233, 233);
     display: flex;
