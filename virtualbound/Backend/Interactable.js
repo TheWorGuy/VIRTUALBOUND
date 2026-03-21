@@ -2,7 +2,7 @@
 // grab text of various indices
 
 // Constants
-const DEBUG_MODE = true;
+const DEBUG_MODE = false;
 const INTERACT_PAGES = [5, 30, 49, 64];
 
 // Globals
@@ -17,12 +17,11 @@ const interactArea = document.querySelector(".interact-area");
 const interactText = document.getElementById("interact-text");
 const interactBG = document.querySelector(".interact-bg");
 
-
 // initial conditions 
 next.hidden = true;
 //previous.hidden = true;
 
-loadInteract64();
+loadInteract5();
 
 // Function
 function nextPageIn() { // goes to next page depending on current page
@@ -198,7 +197,7 @@ function loadInteract49() {
     interactArea.appendChild(coffee);
     interactArea.appendChild(fruitBowl);
 
-    toaster.style.opacity = "0"; // initial - CHANGE TO CONSTANTLY FLASHING
+    toaster.style.opacity = "0"; // initial
     coffee.style.opacity = "0";
     fruitBowl.style.opacity = "0";
 
@@ -238,43 +237,43 @@ function loadInteract64() {
     currInteract = 64;
 
     const sweaters = [];
+    const sweaterConfigs = [
+        { letter: "a", top: "20%", left: "0%", width: "15%", height: "75%" },
+        { letter: "b", top: "20%", left: "15%", width: "14%", height: "75%" },
+        { letter: "c", top: "20%", left: "29%", width: "9%", height: "75%" },
+        { letter: "d", top: "20%", left: "38%", width: "12.5%", height: "75%" },
+        { letter: "e", top: "20%", left: "50.5%", width: "14%", height: "75%" },
+        { letter: "f", top: "20%", left: "64.5%", width: "13%", height: "75%" },
+        { letter: "g", top: "20%", left: "77.5%", width: "11.5%", height: "75%" },
+        { letter: "h", top: "20%", left: "89%", width: "11%", height: "75%" }
+    ];
 
     let basePath = "./Images/id_65_img/65"; // can be a - h 
     let fileType = ".png" // append after specifier
 
     interactBG.src = "./Images/id_65_img/65_background.png";
 
-    // iterate through 65a to 65h by editing the sweaterPaths string
-    const sweaterA = document.createElement("img");
-    sweaterA.src = "./Images/id_65_img/65a.png";
-    sweaterA.classList.add("interact-parts", "sweater");
-
     // iteration for all 8 sweater images, all will have the sweater class
-    for (let i = 0; i < 8; i++) {
-        const letter = String.fromCharCode(97+i); // a to h
-
+    sweaterConfigs.forEach((config, i) => {
         const sweater = document.createElement("img");
-        sweater.src = `${basePath}${letter}${fileType}`; 
+        sweater.src = `${basePath}${config.letter}${fileType}`;
         sweater.classList.add("interact-parts", "sweater");
         sweater.style.opacity = "0";
 
-        sweater.dataset.choice = letter;
-        sweater.dataset.index = i;
-
-        sweater.addEventListener("mousedown", handleSweaterClick); // this seems to be for the image, we need to reorient this to be for each hitbox rather than the image
+        sweater.dataset.choice = config.letter;
 
         interactArea.appendChild(sweater);
         sweaters.push(sweater);
 
-        // buildHitbox({
-        //     top: `${10 + i * 8}%`, // adjust positioning per sweater
-        //     left: "30%",
-        //     width: "20%",
-        //     height: "8%",
-        //     onEnter: () => sweater.style.opacity = "1",
-        //     onLeave: () => sweater.style.opacity = "0"
-        // });
-    }
+        buildHitbox({
+            top: config.top,
+            left: config.left,
+            width: config.width,
+            height: config.height,
+            onEnter: () => sweater.style.opacity = "1",
+            onLeave: () => sweater.style.opacity = "0"
+        });
+    });
 
     const foreground = document.createElement("img");
     foreground.src = "./Images/id_65_img/65_foreground.png";
@@ -287,28 +286,28 @@ function handleSweaterClick(theEvent) { // implement later
     const choice = theEvent.currentTarget.dataset.choice;
 
     switch(choice) {
-        case a: 
+        case "a": 
             // go to index 65 (different html)
             break;
-        case b: 
+        case "b": 
             // go to index 66 (different html)
             break;
-        case c: 
+        case "c": 
             // go to index 67 (different html) 
             break;
-        case d: 
+        case "d": 
             // go to index 68 (different html)
             break;
-        case e: 
+        case "e": 
             // go to index 69 (different html)
             break;
-        case f: 
+        case "f": 
             // go to ndex 70 (different html)
             break;
-        case g: 
+        case "g": 
             // go to index 71 (different html)
             break;
-        case h: 
+        case "h": 
             // go to index 72 (different html)
             break;
     }
