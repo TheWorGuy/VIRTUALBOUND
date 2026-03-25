@@ -62,7 +62,7 @@ function goToPage(index) {
     }
 
     // DIFFERENT PAGE TYPE, navigate
-    switch (newType) {
+    switch (newType) { 
         case "interactable":
             window.location.replace("Interactable.html");
             break;
@@ -73,9 +73,10 @@ function goToPage(index) {
             window.location.replace("ChitChatTime.html");
             break;
         default:
-            window.location.replace("Page.html");
+            window.location.replace("Page.html"); 
+            // will be split into two: VRPages and WebPages
     }
-}
+} 
 
 // indices 102, 103, 104, and 105 are easter eggs and separate from the flow. 
 
@@ -88,18 +89,24 @@ function goToPage(index) {
 // route 1: index 6, which will go sequentially until index 10
 // route 2: index 11, which will go sequentially until index 13
 // both routes (index 10 & 13) head back to index 5, clicking on next leads to index 14
+// clicking previous in all indices 6 and 11 would lead back to index 5
+// clicking previous in index 14 would lead back to index 5
 
 // index 30 is another different html and can branch off to 3 other indices - uses Interactable.html
 // route 1: index 31, which will go sequentially until index 34
 // route 2: index 35, which will go sequentially until index 37
-// route 3: index 38, which will go sequentially until index 40
-// all routes (index 34, 37 & 40) head back to index 30, clicking on next leads to index 41
+// route 3: index 38, which will go sequentially until index 39, then to interactable index 40
+// all routes (index 34, 37 & interactable 40) head back to index 30, clicking on next leads to index 41
+// clicking previous in all indices 31 35 and 38 would lead back to index 30
+// clicking previous in index 41 would lead back to index 30
 
 // index 49 is another different html and can branch off to  other indices - uses Interactable.html
-// route 1: index 50, which will go sequentially until index 53
+// route 1: index 50, which will go sequentially until index 53 
 // route 2: index 54, which will go sequentially until index 55
 // route 3: index 56
 // all routes (index 53, 55 & 56) head back to index 49, clicking on next leads to index 57
+// clicking previous in all indices 50 54 and 56 would lead back to index 49
+// clicking previous in index 57 would lead back to index 49
 
 // index 64 is another different html and can branch off to 8 other indices - uses Interactable.html
 // route 1: index 65
@@ -111,8 +118,11 @@ function goToPage(index) {
 // route 7: index 71
 // route 8: index 72
 // all routes converge to index 74, hitting previous heads back to 64
+// clicking previous in all routes would lead back to index 64
+// clicking previous in index 74 would lead back to index 64
 
-// index 76 leads to the FlyMinigame.html, which then leads to index 80
+// index 77 is the FlyMinigame.html, which then leads to index 80
+// the previous button would lead back to 76
 
 // index 85, 91, 94, 95, 96, 97, and 99 use ChitChatTime.html
  

@@ -3,7 +3,7 @@
 
 // Constants
 const DEBUG_MODE = true;
-const INTERACT_PAGES = [5, 30, 49, 64];
+const INTERACT_PAGES = [5, 30, 40, 49, 64]; 
 
 // Globals
 let currInteract = INTERACT_PAGES[0];
@@ -11,6 +11,7 @@ let isHovering = false;
 let blinkOn= true;
 let blinkInterval = null;
 let outlineImages = [];
+let nextIndex;
 
 console.log(currInteract);
 
@@ -44,7 +45,9 @@ window.onkeydown = function(event) {
             loadInteract49(); currInteract = 49;
         } else if (event.key  === '4') { 
             loadInteract64(); currInteract = 64;
-        } 
+        } else if (event.key === '5') {
+            loadInteract40(); currInteract = 40;
+        }
     }
     console.log("Index " + currInteract + " loaded.");
     setCurrPage(currInteract);
@@ -52,7 +55,7 @@ window.onkeydown = function(event) {
 
 // Function
 function nextPageIn() { // goes to next page depending on current page
-
+    goToPage(nextIndex);
 }
 function prevPageIn() {
     const curr = getCurrentPage();
@@ -69,10 +72,25 @@ function prevPageIn() {
 function loadPage() {
     // this is where this script decides which page to load 
     switch (currInteract) {
-        case 5: loadInteract5(); break;
-        case 30: loadInteract30(); break;
-        case 49: loadInteract49(); break;
-        case 64: loadInteract64(); break;
+        case 5: 
+            loadInteract5(); 
+            nextIndex = 14;
+            break;
+        case 30: 
+            loadInteract30(); 
+            nextIndex = 41;
+            break;
+        case 40:
+            loadInteract40();
+            nextIndex = 41;
+            break;
+        case 49: 
+            loadInteract49(); 
+            nextIndex = 57;
+            break;
+        case 64: 
+            loadInteract64(); 
+            break;
     }
 }
 function purpleBoatSelect() {
@@ -338,6 +356,30 @@ function loadInteract30() {
     startBlinking();
 }
 
+function loadInteract40() { 
+    resetInteract();
+    
+    currInteract = 40;
+
+    const page = getPageData(currInteract); // grab page
+    interactText.innerText = page?.text || ""; // set text
+
+    interactBG.src = "./Images/41.png";
+
+    buildHitbox({
+        top: "50%",
+        left: "42%",
+        width: "25%",
+        height: "18%",
+        onClick: () => loadFunny()
+    });
+}
+
+function loadFunny() {
+    // show video here 
+    // then go back to the page as soon as video is done
+}
+
 function loadInteract49() {
     resetInteract();
 
@@ -467,7 +509,6 @@ function loadInteract64() {
 
     startBlinking();
 }
-
 
 function handleSweaterClick(theEvent) { // implement later
 
