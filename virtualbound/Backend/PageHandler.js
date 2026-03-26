@@ -1,43 +1,53 @@
-// constants
-let currPage = 0;
-let comicData = [];
-
-let mediaContainer = document.getElementById("comic-media");
-const textContainer = document.getElementById("comic-text");
-let mediaParent = mediaContainer?.parentElement;
-
 // declare all media types that can be displayed
 const IMAGE_TYPES = ["png", "jpg", "jpeg", "gif"];
 const VIDEO_TYPES = ["mp4", "webm", "mov"];
+const FIRST_PAGE = 0;
+const LAST_PAGE = 101; // change as needed
 
-document.addEventListener("DOMContentLoaded", init);
+// gather elements
+const textContainer = document.getElementById("comic-text");
+const prev = document.getElementById("previous");
+const next = document.getElementById("next");
+
+let mediaContainer;
+let mediaParent;
+
+document.addEventListener("DOMContentLoaded", init); // wait for router...
 
 async function init() {
-    try {
-        const response = await fetch("./Backend/Pages.json"); // det da file
-        const data = await response.json(); 
+    await initRouter();
 
-        comicData = data;
+    const currPage = getCurrentPage();
 
-        const savedPage = localStorage.getItem("currPage");
+    // GUARD 
+    const expectedType = getPageType(currPage);
+    const currentType = getCurrentPageType?.(); // safe call
 
-        currPage = savedPage ? parseInt(savedPage) : 0;
-
-        showPage(currPage);
-    } catch (error) {
-        console.error("Error fetching pages:", error);
+    let expectedRenderType = expectedType;
+    if (expectedType === "comic") {
+        expectedRenderType = currPage < 25 ? "vr" : "web";
     }
+
+    if (expectedRenderType !== currentType) {
+        goToPage(currPage);
+        return;
+    }
+
+    // normal setup
+    mediaContainer = document.getElementById("comic-media");
+    mediaParent = mediaContainer?.parentElement;
+
+    showPage(currPage);
 }
 
 function showPage(pageNum) {
-    if (pageNum < 0 || pageNum >= comicData.length) return;
+    const page = getPageData(pageNum);
+    if (!page) return;
 
-    const page = comicData[pageNum];
     const file = page.media;
     const ext = file.split(".").pop().toLowerCase();
 
     // get da div
-    mediaContainer = document.getElementById("comic-media");
     mediaParent = mediaContainer?.parentElement;
 
     // Clear old media container div 
@@ -57,7 +67,7 @@ function showPage(pageNum) {
         element.src = file;
         element.autoplay = true;
         element.loop = true;
-        element.muted = true;
+        element.muted = false;
         element.playsInline = true;
     } else { // if neither... GET OUT
         console.warn("Unsupported media type:", ext);
@@ -78,38 +88,138 @@ function showPage(pageNum) {
 
     textContainer.innerText = page.text || "";
 
-    currPage = pageNum;
-    localStorage.setItem("currPage", currPage);
+    console.log("Index " + pageNum + " loaded.");
+
+    updateNavigation(); 
 
     preloadNextPage();
 }
 
 function nextPage() {
-    if (currPage < comicData.length - 1) {
-        showPage(currPage + 1);
+    const curr = getCurrentPage();
+    const nav = INTERACTABLE_NAV[curr];
 
+    if (nav) {
+        if (nav.next === null) {
+            // next button disabled, do nothing
+            console.log("Next button disabled at index", curr);
+            return;
+        }
+        goToPage(nav.next);
+    } else {
+        // fallback for normal sequential pages
+        goToPage(curr + 1);
     }
 }
 
 function prevPage() {
-    if (currPage > 0) {
-        showPage(currPage - 1);
+    const curr = getCurrentPage();
+    const nav = INTERACTABLE_NAV[curr];
+
+    if (nav) {
+        if (nav.prev === null) {
+            // prev button disabled, do nothing
+            console.log("Previous button disabled at index", curr);
+            return;
+        }
+        goToPage(nav.prev);
+    } else {
+        // fallback for normal sequential pages
+        goToPage(curr - 1);
     }
 }
 
 function preloadNextPage() {
-    if (currPage + 1 >= comicData.length) return;
+    const curr = getCurrentPage();
+    const nextPageData = getPageData(curr + 1);
+    if (!nextPageData) return;
 
-    const nextPage = comicData[currPage + 1].media;
-    const ext = nextPage.split(".").pop().toLowerCase();
+    const nextMedia = nextPageData.media;
+    const ext = nextMedia.split(".").pop().toLowerCase();
 
     if (IMAGE_TYPES.includes(ext)) {
         const img = new Image();
-        img.src = nextPage;
+        img.src = nextMedia;
     }
 
     if (VIDEO_TYPES.includes(ext)) {
         const video = document.createElement("video");
-        video.src = nextPage;
+        video.src = nextMedia;
     }
 }
+
+function updateNavigation() {
+    const curr = getCurrentPage();
+
+    if (curr === FIRST_PAGE) {
+        prev.style.display = "none";
+    } else {
+        prev.style.display = "inline"
+    }
+
+    if (curr === LAST_PAGE) {
+        next.style.display = "none";
+    } else {
+        next.style.display = "inline";
+    }
+
+}
+
+const INTERACTABLE_NAV = {
+    // index 5
+    5: { next: 6, prev: 4 }, // interact 
+    6: { next: 7, prev: 5 },
+    7: { next: 8, prev: 6 },
+    8: { next: 9, prev: 7 },
+    9: { next: 10, prev: 8 },
+    10: { next: 5, prev: 9 }, 
+    11: { next: 12, prev: 5 },
+    12: { next: 13, prev: 11 },
+    13: { next: 5, prev: 12 },
+    14: { next: 15, prev: 5 }, // end
+
+    16: { next: 20, prev: 15 },
+    17: { next: 16, prev: 16 }, // cannon
+    18: { next: 16, prev: 16 }, // sword
+    19: { next: 16, prev: 16 }, // fruits
+    20: { next: 21, prev: 16 },
+
+    // index 30
+    30: { next: 41, prev: 29 }, // interact 
+    31: { next: 32, prev: 30 },  // bed
+    32: { next: 33, prev: 31 },
+    33: { next: 34, prev: 32 },
+    34: { next: 30, prev: 33 },
+    35: { next: 36, prev: 30 }, // shelf
+    36: { next: 37, prev: 35 },
+    37: { next: 30, prev: 36 },
+    38: { next: 39, prev: 30 }, // records
+    39: { next: 40, prev: 38 },
+    40: { next: 30, prev: 39 },
+    41: { next: 42, prev: 30 }, // end
+
+    // index 49
+    49: { next: 57, prev: 48 }, // interact 
+    50: { next: 51, prev: 49 },
+    51: { next: 52, prev: 50 },
+    52: { next: 53, prev: 51 },
+    53: { next: 49, prev: 52 },
+    54: { next: 55, prev: 49 },
+    55: { next: 49, prev: 54 },
+    56: { next: 49, prev: 49 },
+    57: { next: 58, prev: 49 }, // end
+
+    // index 64
+    64: { next: null, prev: 63 }, // interact 
+    65: { next: 74, prev: 64 },
+    66: { next: 74, prev: 64 },
+    67: { next: 74, prev: 64 },
+    68: { next: 74, prev: 64 },
+    69: { next: 74, prev: 64 },
+    70: { next: 74, prev: 64 },
+    71: { next: 74, prev: 64 },
+    72: { next: 74, prev: 64 },
+    74: { next: 75, prev: 64 }, // end
+
+    105: { next: 40, prev: 40 },
+};
