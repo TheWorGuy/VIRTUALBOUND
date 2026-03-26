@@ -19,7 +19,12 @@ async function init() {
     const expectedType = getPageType(currPage);
     const currentType = getCurrentPageType?.(); // safe call
 
-    if (expectedType !== currentType) {
+    let expectedRenderType = expectedType;
+    if (expectedType === "comic") {
+        expectedRenderType = currPage < 25 ? "vr" : "web";
+    }
+
+    if (expectedRenderType !== currentType) {
         goToPage(currPage);
         return;
     }
@@ -82,7 +87,6 @@ function showPage(pageNum) {
     console.log("Index " + pageNum + " loaded.")
 
     preloadNextPage();
-    switchStyles(pageNum);
 }
 
 function nextPage() {
@@ -111,39 +115,5 @@ function preloadNextPage() {
     if (VIDEO_TYPES.includes(ext)) {
         const video = document.createElement("video");
         video.src = nextMedia;
-    }
-}
-
-const background = document.querySelector(".background");
-const header = document.querySelector(".header");
-const text = document.querySelector(".text");
-const swit = document.querySelector(".switch");
-const previous = document.getElementById("previous");
-const next = document.getElementById("next");
-
-// this function wont be needed when we reorient to using VRPages.html and WebPages.html rather than Pages.html
-function switchStyles(theCurrPage) {
-    if (theCurrPage >= 25) {
-        background.src = "./Images/web_backgroud.png";
-        header.classList.remove("vr-ship-header");
-        const buttons = document.querySelectorAll('.button');
-        buttons.forEach(el => {
-            el.classList.remove('button-vr-ship', 'vr-ship-a');
-        });
-        text.classList.remove("text-vr-ship");
-        swit.classList.remove("switch-vr-ship");
-        previous.className = "web-a";
-        next.className = "web-a";
-    } else {
-        background.src = "./Images/vr_ship_background.png";
-        header.classList.add("vr-ship-header");
-        const buttons = document.querySelectorAll('.button');
-        buttons.forEach(el => {
-            el.classList.add('button-vr-ship', 'vr-ship-a');
-        });
-        text.classList.add("text-vr-ship");
-        swit.classList.add("switch-vr-ship");
-        previous.className = "vr-ship-a";
-        next.className = "vr-ship-a";
     }
 }

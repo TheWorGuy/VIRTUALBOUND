@@ -25,8 +25,8 @@ function getPageData(index = currPage) {
 }
 
 function getPageType(index) {
-    if ([5, 30, 49, 64].includes(index)) return "interactable";
-    if (index === 76) return "fly";
+    if ([5, 30, 40, 49, 64].includes(index)) return "interactable";
+    if (index === 77) return "fly";
     if ([85, 91, 94, 95, 96, 97, 99].includes(index)) return "chat";
     return "comic";
 }
@@ -37,6 +37,10 @@ function getCurrentPageType() {
     if (path.includes("Interactable")) return "interactable";
     if (path.includes("FlyMinigame")) return "fly";
     if (path.includes("ChitChatTime")) return "chat";
+
+    if (path.includes("VRPages")) return "vr";
+    if (path.includes("WebPages")) return "web";
+
     return "comic";
 }
 
@@ -50,11 +54,16 @@ function goToPage(index) {
     const newType = getPageType(index);
     const currentType = getCurrentPageType();
 
+    let newRenderType = newType;
+    if (newType === "comic") {
+        newRenderType = index < 25 ? "vr" : "web";
+    }
+
     currPage = index;
     localStorage.setItem("currPage", index);
 
     // SAME PAGE TYPE, no reload
-    if (newType === currentType) {
+    if (newRenderType === currentType) {
         if (newType === "comic" && typeof showPage === "function") {
             showPage(index);
         }
@@ -62,7 +71,7 @@ function goToPage(index) {
     }
 
     // DIFFERENT PAGE TYPE, navigate
-    switch (newType) { 
+    switch (newRenderType) { 
         case "interactable":
             window.location.replace("Interactable.html");
             break;
@@ -72,9 +81,12 @@ function goToPage(index) {
         case "chat":
             window.location.replace("ChitChatTime.html");
             break;
-        default:
-            window.location.replace("Page.html"); 
-            // will be split into two: VRPages and WebPages
+        case "vr":
+            window.location.replace("VRPages.html");
+            break;
+        case "web":
+            window.location.replace("WebPages.html");
+            break;
     }
 } 
 
