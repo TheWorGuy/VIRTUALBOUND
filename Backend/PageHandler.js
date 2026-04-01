@@ -8,6 +8,7 @@ const SPECIAL_TEXT = {
     "Rose the Grape": 103,
     "onyx": 104,
     "You know what that means": 102,
+    "oil": 106,
 };
 
 // gather elements
@@ -270,8 +271,9 @@ const INTERACTABLE_NAV = {
     79: { next: 80, prev: 77 }, // hit
     80: { next: 81, prev: 77 }, // end
 
-    102: { next: 92, prev: 92 }, // fish special page
-    103: { next: 19, prev: 19 }, // homestuck special page
-    104: { next: 70, prev: 70 }, // onix special page
-    105: { next: 40, prev: 40 }, // banana 
+    102: { next: 93, prev: 92 }, // fish special page
+    103: { next: 16, prev: 19 }, // homestuck special page
+    104: { next: 74, prev: 64 }, // onix special page
+    105: { next: 30, prev: 40 }, // banana 
+    106: { next: 74, prev: 64 }, // oil 
 };

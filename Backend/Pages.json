@@ -409,18 +409,22 @@
     },
     {
         "media": "./Images/fish.PNG",
-        "text": ""
+        "text": "FISH!"
     },
     {
         "media": "./Images/homosuck_fruits.PNG",
-        "text": ""
+        "text": "We are the fruitlings\nConsume us"
     },
     {
         "media": "./Images/sus_onix.PNG",
-        "text": ""
+        "text": "These rocks are looking mighty suspicious..."
     },
     {
         "media": "./Images/mogus_video.mp4",
         "text": ""
+    },
+    {
+        "media": "./Images/nyle_america.png",
+        "text": "AMERICA!!!\nFUCK YEA!!!"
     }
 ]
