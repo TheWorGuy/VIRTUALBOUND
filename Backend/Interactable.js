@@ -2,7 +2,7 @@
 const DEBUG_MODE = false;
 
 // Globals
-let currInteract = INTERACT_PAGES[0];
+let currInteract = INTERACT_INDICES[0];
 let isHovering = false;
 let blinkOn= true;
 let blinkInterval = null;

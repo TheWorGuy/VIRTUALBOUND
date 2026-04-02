@@ -1,8 +1,8 @@
 // Constants
 const MAX_INDEX = 101; // 0–101 allowed in normal flow
-const SECRET_INDICES = [102, 103, 104, 105];
+const SECRET_INDICES = [102, 103, 104, 105, 106];
 const CHAT_INDICES = [85, 91, 94, 95, 96, 97, 99];
-const INTERACT_PAGES = [5, 16, 30, 40, 49, 64]; 
+const INTERACT_INDICES = [5, 16, 30, 40, 49, 64]; 
 const IMAGE_TYPES = ["png", "jpg", "jpeg", "gif"];
 const VIDEO_TYPES = ["mp4", "webm", "mov"];
 const STYLE_SPLIT = 25; // index at which style changes from VR to web
@@ -36,7 +36,7 @@ function getPageData(index = currPage) {
 }
 
 function getPageType(index) {
-    if (INTERACT_PAGES.includes(index)) return "interactable";
+    if (INTERACT_INDICES.includes(index)) return "interactable";
     if (index === 77) return "fly";
     if (CHAT_INDICES.includes(index)) return "chat";
     return "comic";
