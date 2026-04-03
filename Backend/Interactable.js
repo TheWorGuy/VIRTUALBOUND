@@ -123,6 +123,17 @@ function fruitBowlSelect() {
     goToPage(54);
 }
 
+function setVRStyle() { // DO NOT DELETE
+    // this should only happen in index 5
+    background.src = "./Images/vr_ship_background.png";
+    header.classList.add("vr-ship-header");
+    buttons.forEach(el => { el.classList.add('button-vr-ship', 'vr-ship-a'); });
+    textBox.classList.add("text-vr-ship"); 
+    swit.classList.add("switch-vr-ship"); 
+    previous.className = "vr-ship-a"; 
+    next.className = "vr-ship-a";
+}
+
 function buildHitbox({ top, left, width, height, onEnter, onLeave, onClick }) {
     const hitbox = document.createElement("div");
 

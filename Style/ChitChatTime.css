@@ -1,2 +1,44 @@
 /* TODO: Transfer any styles for the ChitChatTime page from style.css */
 
+.container {
+    position: relative;
+}
+
+.media-container {
+    position: relative;
+    grid-column: 1/2;
+    grid-row: 1/3;
+    width: 92%;
+    margin: auto;
+}
+
+.media-container .img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Portrait mode */
+@media (max-width: 750px) {
+    .container {
+        margin-top: 12vh; 
+        height: auto; 
+        grid-template-rows: auto auto auto; 
+    }
+
+    .media-container {
+        grid-row: 1/2; 
+        width: 96%; 
+        margin-bottom: 2vh;
+        margin-top: 16vh;
+    }
+
+    .text {
+        grid-row: 2/3; 
+        margin-top: 2vh; 
+    }
+
+    .switch {
+        grid-row: 3/4; 
+    }
+}
