@@ -1,6 +1,3 @@
-// Constants
-const DEBUG_MODE = false;
-
 // Globals
 let currInteract = INTERACT_INDICES[0];
 let isHovering = false;
@@ -36,26 +33,6 @@ const header = document.querySelector(".header");
 const buttons = document.querySelectorAll(".button");
 const textBox = document.querySelector(".text");
 const swit = document.querySelector(".switch");
-
-window.onkeydown = function(event) { 
-    if (DEBUG_MODE) {
-        if (event.key  === '1') { 
-            loadInteract5(); currInteract = 5; 
-        } else if (event.key  === '2') {
-            loadInteract16(); currInteract = 16; 
-        } else if (event.key  === '3') { 
-            loadInteract30(); currInteract = 30; setWebStyle();
-        } else if (event.key  === '4') { 
-            loadInteract49(); currInteract = 49; setWebStyle();
-        } else if (event.key  === '5') { 
-            loadInteract64(); currInteract = 64; setWebStyle();
-        } else if (event.key === '6') {
-            loadInteract40(); currInteract = 40; setWebStyle();
-        }
-    }
-    console.log("Index " + currInteract + " loaded.");
-    setCurrPage(currInteract);
-}
 
 // Function
 function nextPageIn() { // goes to next page depending on current page
@@ -144,27 +121,6 @@ function coffeeSelect() {
 function fruitBowlSelect() {
     console.log("fruit bowl");
     goToPage(54);
-}
-
-function setVRStyle() {
-    // this should only happen in index 5
-    background.src = "./Images/vr_ship_background.png";
-    header.classList.add("vr-ship-header");
-    buttons.forEach(el => { el.classList.add('button-vr-ship', 'vr-ship-a'); });
-    textBox.classList.add("text-vr-ship"); 
-    swit.classList.add("switch-vr-ship"); 
-    previous.className = "vr-ship-a"; 
-    next.className = "vr-ship-a";
-}
-
-function setWebStyle() { // for debugging - not needed in deployment
-    background.src = "./Images/web_backgroud.png"; 
-    header.classList.remove("vr-ship-header"); 
-    buttons.forEach(el => { el.classList.remove('button-vr-ship', 'vr-ship-a'); }); 
-    textBox.classList.remove("text-vr-ship"); 
-    swit.classList.remove("switch-vr-ship"); 
-    previous.className = "web-a"; 
-    next.className = "web-a";
 }
 
 function buildHitbox({ top, left, width, height, onEnter, onLeave, onClick }) {

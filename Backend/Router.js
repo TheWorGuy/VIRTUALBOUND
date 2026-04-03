@@ -6,6 +6,7 @@ const INTERACT_INDICES = [5, 16, 30, 40, 49, 64];
 const IMAGE_TYPES = ["png", "jpg", "jpeg", "gif"];
 const VIDEO_TYPES = ["mp4", "webm", "mov"];
 const STYLE_SPLIT = 25; // index at which style changes from VR to web
+const DEBUG_MODE = false;
 
 // Globals
 let currPage = 0; // current page 
