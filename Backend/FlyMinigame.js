@@ -6,7 +6,6 @@
 const RATE = 60; // ms (lower = faster buzzing) - used in FlyController
 const FLY_SPEED = 0.01;
 const PAGE_NUM = 77; // guaranteed to be index 77 
-const DEBUG_MODE = false; // DEBUG MODE
 
 // Global Variables
 let gameActive = true; // Flag to control game state

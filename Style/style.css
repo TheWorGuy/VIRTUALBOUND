@@ -163,11 +163,20 @@ a:hover {
 }
 
 .news {
+    padding: 2.5%;
     background-color: rgb(176, 176, 176);
     color: rgb(0, 0, 0);
     font-size: 30px;
-    grid-row: 2/4;
-    clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%);
+    grid-row: 1/4;
+    grid-column: 1/2;
+    max-height: 79vh;
+    overflow-y: auto;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 2% 100%);
+}
+
+.news-img {
+    width: 100%;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 1% 100%);
 }
 
 .news-title {
@@ -179,8 +188,11 @@ a:hover {
     font-size: 150px;
 }
 
-.news p {
-    margin: 5%;
+.news-text {
+    background-image: linear-gradient(rgb(34, 34, 34), rgb(56, 56, 56));
+    margin: 1% 0% 1% 1%;
+    padding: 0.1% 2.5% 2.5% 2.5%;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 }
 
 .playlist {
@@ -422,6 +434,18 @@ a:hover {
     margin: 0;
 }
 
+.cre-link {
+    margin-bottom: 2.5%;
+    grid-column: 2/3;
+    font-family: "Jersey 10", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 30px;
+    text-align: left;
+    background-color: transparent;
+    border: none;
+}
+
 .cre-bio img {
     margin: 20%;
 }
@@ -495,7 +519,7 @@ a:hover {
     grid-template-columns: 1fr 5fr;
     grid-column: 1/2;
     width: 100%;
-    gap: 3vh;
+    column-gap: 3vh;
 }
 
 .pfp {
@@ -558,10 +582,33 @@ a:hover {
     display: none;
 }
 
+/* General Pages - Easter Egg Pages */
+.special {
+    color: rgb(0, 0, 0);
+}
+.special:hover {
+    color: rgb(59, 59, 59);
+    cursor: pointer;
+}
+.vr-special {
+    color: rgb(255, 255, 255);
+}
+.vr-special:hover {
+    color: rgb(194, 194, 194);
+    cursor: pointer;
+}
+
 /* Colours */
+.pavo-pu {
+    color: rgb(176 117 255);
+}
 
 .pu {
     color: rgb(129, 17, 203);
+}
+
+.or {
+    color: rgb(255, 131, 8);
 }
 
 .ye {
@@ -627,9 +674,9 @@ a:hover {
 }
 
 .news {
-    grid-row: 2/4;
+    grid-row: 1/4;
     grid-column: 1/2;
-    height: 40vw;
+    height: 60;
 }
 
 .playlist {
@@ -729,8 +776,12 @@ a:hover {
 }
 
 .news {
-    grid-row: 3/4;
+    grid-row: 2/3;
     height: 60vw;
+}
+
+.news-text {
+    font-size: 22.5px;
 }
 
 .playlist {
@@ -801,6 +852,10 @@ a:hover {
 
 .cre-text {
     font-size: 50px;
+}
+
+.cre-link {
+    font-size: 22.5px;
 }
 
 /* Pages */

@@ -1,14 +1,24 @@
 // declare all media types that can be displayed
-const IMAGE_TYPES = ["png", "jpg", "jpeg", "gif"];
-const VIDEO_TYPES = ["mp4", "webm", "mov"];
 const FIRST_PAGE = 0;
-const LAST_PAGE = 101; // change as needed
+const SPECIAL_TEXT = {
+    "John the Banana": 103,
+    "Rose the Grape": 103,
+    "onyx": 104,
+    "You know what that means": 102,
+    "oil": 106,
+    "DAMNIT": 108,
+};
+const SPEAKERS = {
+    "Captain Kracker :": "or",
+    "Captain Pavo :": "pavo-pu",
+};
 
 // gather elements
 const textContainer = document.getElementById("comic-text");
 const prev = document.getElementById("previous");
 const next = document.getElementById("next");
 
+// Globals
 let mediaContainer;
 let mediaParent;
 
@@ -25,7 +35,7 @@ async function init() {
 
     let expectedRenderType = expectedType;
     if (expectedType === "comic") {
-        expectedRenderType = currPage < 25 ? "vr" : "web";
+        expectedRenderType = currPage < STYLE_SPLIT ? "vr" : "web";
     }
 
     if (expectedRenderType !== currentType) {
@@ -45,26 +55,35 @@ function showPage(pageNum) {
     if (!page) return;
 
     const file = page.media;
-    const ext = file.split(".").pop().toLowerCase();
 
     // get da div
     mediaParent = mediaContainer?.parentElement;
+    
+    renderMedia(file);
+    renderDialogueText(page.text, pageNum);
 
-    // Clear old media container div 
-    if (mediaContainer) {
+    console.log("Index " + pageNum + " loaded.");
+
+    updateNavigation(); 
+
+    preloadNextPage();
+}
+
+function renderMedia(theFile) {
+    const ext = theFile.split(".").pop().toLowerCase();
+    let element;
+
+    if (mediaContainer) { // clear media first
         mediaContainer.innerHTML = "";
     }
-    textContainer.innerHTML = "";
-
-    let element;
 
     // is it an image or a video? :3c hmmm
     if (IMAGE_TYPES.includes(ext)) {
         element = document.createElement("img");
-        element.src = file;
+        element.src = theFile;
     } else if (VIDEO_TYPES.includes(ext)) {
         element = document.createElement("video");
-        element.src = file;
+        element.src = theFile;
         element.autoplay = true;
         element.loop = true;
         element.muted = false;
@@ -85,19 +104,124 @@ function showPage(pageNum) {
     }
 
     mediaContainer = element; // replace da old div :3
+}
 
-    textContainer.innerText = page.text || "";
+function renderDialogueText(theText, pageNum) {
+    textContainer.innerHTML = "";
+    if (!theText) return;
 
-    console.log("Index " + pageNum + " loaded.");
+    const lines = theText.split("\n");
 
-    updateNavigation(); 
+    lines.forEach(line => {
+        const trimmed = line.trim();
+        if (!trimmed) return;
 
-    preloadNextPage();
+        let matchedClass = null;
+
+        // detect speaker
+        for (const speaker in SPEAKERS) {
+            if (trimmed.startsWith(speaker)) {
+                matchedClass = SPEAKERS[speaker];
+                break;
+            }
+        }
+
+        const p = document.createElement("p");
+
+        if (matchedClass) {
+            p.classList.add(matchedClass);
+        }
+
+        appendSpecialText(p, trimmed, pageNum);
+
+        textContainer.appendChild(p);
+    });
+}
+
+function appendSpecialText(container, theText, pageNum) {
+    if (!theText) return;
+
+    const regex = new RegExp(`(${Object.keys(SPECIAL_TEXT).join("|")})`);
+    const parts = theText.split(regex);
+
+    parts.forEach(part => {
+        if (SPECIAL_TEXT[part] !== undefined) {
+            const el = document.createElement("a");
+            el.className = "special";
+
+            if (pageNum < STYLE_SPLIT) {
+                el.classList.add("vr-special");
+            }
+
+            el.textContent = part;
+
+            el.addEventListener("click", () => {
+                goToPage(SPECIAL_TEXT[part]);
+            });
+
+            container.appendChild(el);
+        } else if (part) {
+            container.appendChild(document.createTextNode(part));
+        }
+    });
+}
+
+function isSpecialText(theText) {
+    if (!theText) return false;
+    return SPECIAL_TEXT.some(special => theText.includes(special));
+}
+
+function pantherJumpscare() {
+    console.log("Panther jumpscare triggered!");
+
+    // create overlay
+    const overlay = document.createElement("div");
+    overlay.style.position = "fixed";
+    overlay.style.top = "0";
+    overlay.style.left = "0";
+    overlay.style.width = "100vw";
+    overlay.style.height = "100vh";
+    overlay.style.zIndex = "9999"; 
+    overlay.style.margin = "0";
+    overlay.style.padding = "0";
+    overlay.style.overflow = "hidden";
+
+    // create image
+    const img = document.createElement("img");
+    img.src = "./Images/panther.png";
+
+    img.style.position = "absolute";
+    img.style.top = "0";
+    img.style.left = "0";
+    img.style.width = "100vw";
+    img.style.height = "100vh";
+    img.style.objectFit = "cover";
+    img.style.zIndex = "21";
+
+    overlay.appendChild(img);
+
+    // create audio
+    const audio = new Audio("./SoundEffects/panther.mp3");
+    audio.play();  
+
+    // add overlay to body
+    document.body.appendChild(overlay);
+
+    // when audio is done, remove overlay and go to next page
+    audio.addEventListener("ended", () => {
+        document.body.removeChild(overlay);
+        goToPage(74);
+    });
 }
 
 function nextPage() {
     const curr = getCurrentPage();
     const nav = INTERACTABLE_NAV[curr];
+
+    if (curr === 73) {
+        pantherJumpscare();
+        return;
+    }
 
     if (nav) {
         if (nav.next === null) {
@@ -157,7 +281,7 @@ function updateNavigation() {
         prev.style.display = "inline"
     }
 
-    if (curr === LAST_PAGE) {
+    if (curr === MAX_INDEX) {
         next.style.display = "none";
     } else {
         next.style.display = "inline";
@@ -227,5 +351,12 @@ const INTERACTABLE_NAV = {
     79: { next: 80, prev: 77 }, // hit
     80: { next: 81, prev: 77 }, // end
 
-    105: { next: 40, prev: 40 },
+    102: { next: 93, prev: 92 }, // fish special page
+    103: { next: 16, prev: 19 }, // homestuck special page
+    104: { next: 74, prev: 64 }, // onix special page
+    105: { next: 30, prev: 40 }, // banana 
+    106: { next: 74, prev: 64 }, // oil 
+    107: { next: 88, prev: 86 }, // damnit 87
+    108: { next: 88, prev: 87 }, // dubai chocowate (intended index numbers)
+    109: { next: 89, prev: 87 }, // nyle tweaking 88
 };

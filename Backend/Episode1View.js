@@ -1,6 +1,3 @@
-// also needs access to current page number and json
-// this loads links to any page in the pages html files. 
-
 const CHAPTERS = [
     { id: "Chapter1", start: 0, end: 25 },
     { id: "Chapter2", start: 26, end: 101 },
