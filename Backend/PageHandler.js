@@ -6,6 +6,7 @@ const SPECIAL_TEXT = {
     "onyx": 104,
     "You know what that means": 102,
     "oil": 106,
+    "DAMNIT": 108,
 };
 const SPEAKERS = {
     "Captain Kracker :": "or",
@@ -355,4 +356,7 @@ const INTERACTABLE_NAV = {
     104: { next: 74, prev: 64 }, // onix special page
     105: { next: 30, prev: 40 }, // banana 
     106: { next: 74, prev: 64 }, // oil 
+    107: { next: 88, prev: 86 }, // damnit 87
+    108: { next: 88, prev: 87 }, // dubai chocowate (intended index numbers)
+    109: { next: 89, prev: 87 }, // nyle tweaking 88
 };

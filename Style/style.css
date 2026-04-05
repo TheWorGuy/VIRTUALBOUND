@@ -167,8 +167,9 @@ a:hover {
     background-color: rgb(176, 176, 176);
     color: rgb(0, 0, 0);
     font-size: 30px;
-    grid-row: 2/4;
-    max-height: 50vh;
+    grid-row: 1/4;
+    grid-column: 1/2;
+    max-height: 79vh;
     overflow-y: auto;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 2% 100%);
 }
@@ -673,9 +674,9 @@ a:hover {
 }
 
 .news {
-    grid-row: 2/4;
+    grid-row: 1/4;
     grid-column: 1/2;
-    height: 40vw;
+    height: 60;
 }
 
 .playlist {
@@ -775,7 +776,7 @@ a:hover {
 }
 
 .news {
-    grid-row: 3/4;
+    grid-row: 2/3;
     height: 60vw;
 }
 

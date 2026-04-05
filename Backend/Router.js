@@ -1,7 +1,7 @@
 // Constants
 const MAX_INDEX = 101; // 0–101 allowed in normal flow
-const SECRET_INDICES = [102, 103, 104, 105, 106];
-const CHAT_INDICES = [85, 91, 94, 95, 96, 97, 99];
+const SECRET_INDICES = [102, 103, 104, 105, 106, 108];
+const CHAT_INDICES = [85, 91, 94, 95, 96, 97, 99, 108];
 const INTERACT_INDICES = [5, 16, 30, 40, 49, 64]; 
 const IMAGE_TYPES = ["png", "jpg", "jpeg", "gif"];
 const VIDEO_TYPES = ["mp4", "webm", "mov"];
@@ -130,6 +130,3 @@ function unlockPage(index) {
         localStorage.setItem("unlockedPages", JSON.stringify(unlocked));
     }
 }
-
-// indices 102, 103, 104, and 105 are easter eggs and separate from the flow. 
-// 105 handled 
