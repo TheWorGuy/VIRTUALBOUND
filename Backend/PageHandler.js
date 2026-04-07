@@ -353,9 +353,9 @@ const INTERACTABLE_NAV = {
 
     102: { next: 93, prev: 92 }, // fish special page
     103: { next: 16, prev: 19 }, // homestuck special page
-    104: { next: 74, prev: 64 }, // onix special page
+    104: { next: 74, prev: 70 }, // onix special page
     105: { next: 30, prev: 40 }, // banana 
-    106: { next: 74, prev: 64 }, // oil 
+    106: { next: 74, prev: 68 }, // oil 
     107: { next: 88, prev: 86 }, // damnit 87
     108: { next: 88, prev: 87 }, // dubai chocowate (intended index numbers)
     109: { next: 89, prev: 87 }, // nyle tweaking 88
