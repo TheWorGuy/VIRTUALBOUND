@@ -15,8 +15,8 @@ const profiles = {
         class: "pu"
     },
     "Token": {
-        img: "./Images/nyle_pfp.PNG",
-        class: "ye"
+        img: "./Images/karmine_pfp.PNG",
+        class: "ka"
     }
 };
 

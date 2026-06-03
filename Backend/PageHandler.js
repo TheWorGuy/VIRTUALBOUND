@@ -12,6 +12,8 @@ const SPEAKERS = {
     "Captain Kracker :": "or",
     "Captain Pavo :": "pavo-pu",
     "??? :": "gray-ye",
+    "KimiwimiUwU :": "ye",
+    "Token :": "ka",
 };
 
 // gather elements
