@@ -29,10 +29,6 @@ html {
     z-index: 100;
 }
 
-.vr-ship-header {
-    background-color: rgb(0, 0, 0);
-}
-
 .home-button {
     grid-column: 2/3;
     grid-row: 1/2;
@@ -75,19 +71,6 @@ a:hover {
     transform: scale(1.1);
 }
 
-.vr-ship-a:link,
-.vr-ship-a:visited,
-.vr-ship-a:active {
-  text-decoration: none;
-  color: rgb(255, 196, 0);
-}
-
-.vr-ship-a:hover {
-    color: rgb(255, 153, 0);
-    transform: scale(1.1);
-    cursor: pointer;
-}
-
 /* Previous & Next Buttons web style */
 .web-a {
     text-decoration: none;
@@ -115,17 +98,9 @@ a:hover {
     transition: 0.1s
 }
 
-.button-vr-ship {
-    background-color: rgb(15, 7, 84);
-}
-
 .button:active {
     background-color: rgb(128, 128, 128);
     transform: scale(0.9);
-}
-
-.button-vr-ship:active {
-    background-color: rgb(6, 2, 42);
 }
 
 .button-here {
@@ -490,11 +465,6 @@ a:hover {
     clip-path: polygon(1% 1%, 100% 0, 99% 100%, 2% 99%);
 }
 
-.text-vr-ship {
-    color: rgb(255, 255, 255);
-    background-color: rgba(42, 45, 135, 0.7);
-}
-
 .text-biscord {
     background-image: linear-gradient(rgb(34, 34, 34), rgb(56, 56, 56));
     display: flex;
@@ -567,12 +537,6 @@ a:hover {
     clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%);
 }
 
-.switch-vr-ship {
-    background-color: rgba(42, 45, 135, 0.7);
-    color: rgb(255, 196, 0);
-    user-select: none;
-}
-
 .text-close {
     word-spacing: normal;
     margin: 0;
@@ -613,6 +577,10 @@ a:hover {
 
 .ye {
     color: rgb(255, 166, 0);
+}
+
+.gray-ye {
+    color: rgb(254, 246, 11);
 }
 
 .ka {
@@ -931,10 +899,6 @@ a:hover {
 }
 
 .web-a {
-    font-size: 11vw;
-}
-
-.vr-ship-a-switch {
     font-size: 11vw;
 }
 

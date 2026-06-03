@@ -13,6 +13,10 @@ const profiles = {
     "xXDyedFeatherXx": {
         img: "./Images/nyle_pfp.PNG",
         class: "pu"
+    },
+    "Token": {
+        img: "./Images/nyle_pfp.PNG",
+        class: "ye"
     }
 };
 

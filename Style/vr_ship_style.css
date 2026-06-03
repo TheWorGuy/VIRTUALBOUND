@@ -1,0 +1,39 @@
+.vr-ship-header {
+    background-color: rgb(0, 0, 0);
+}
+
+.vr-ship-a:link,
+.vr-ship-a:visited,
+.vr-ship-a:active {
+  text-decoration: none;
+  color: rgb(255, 196, 0);
+}
+
+.vr-ship-a:hover {
+    color: rgb(255, 153, 0);
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.button-vr-ship {
+    background-color: rgb(15, 7, 84);
+}
+
+.button-vr-ship:active {
+    background-color: rgb(6, 2, 42);
+}
+
+.text-vr-ship {
+    color: rgb(255, 255, 255);
+    background-color: rgba(42, 45, 135, 0.7);
+}
+
+.switch-vr-ship {
+    background-color: rgba(42, 45, 135, 0.7);
+    color: rgb(255, 196, 0);
+    user-select: none;
+}
+
+.vr-ship-a-switch {
+    font-size: 11vw;
+}

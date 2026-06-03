@@ -36,7 +36,11 @@ async function init() {
 
     let expectedRenderType = expectedType;
     if (expectedType === "comic") {
-        expectedRenderType = currPage < STYLE_SPLIT ? "vr" : "web";
+        expectedRenderType = currPage < STYLE_SPLIT ? "vrship" : "web";
+    }
+
+    else if (expectedType === "comic") {
+        expectedRenderType = currPage < STYLE_SPLIT ? "vrbeach" : "web";
     }
 
     if (expectedRenderType !== currentType) {
@@ -394,6 +398,7 @@ const INTERACTABLE_NAV = {
     149: { next: 111, prev: 111 }, // kimiko
     150: { next: 151, prev: 111 }, // end
 
+    // index 151
     151: { next: 169, prev: 150 }, // interact 
     152: { next: 153, prev: 151 }, // plush
     153: { next: 154, prev: 152 },

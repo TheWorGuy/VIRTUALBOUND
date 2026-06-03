@@ -1,7 +1,7 @@
 // Constants
 const MAX_INDEX = 225; // 0–101 allowed in normal flow
 // const SECRET_INDICES = [102, 103, 104, 105, 106,];
-const CHAT_INDICES = [85, 91, 94, 95, 96, 97, 99,];
+const CHAT_INDICES = [85, 91, 94, 95, 96, 97, 99, 218];
 const INTERACT_INDICES = [5, 16, 30, 40, 49, 64, 111, 151]; 
 const IMAGE_TYPES = ["png", "jpg", "jpeg", "gif"];
 const VIDEO_TYPES = ["mp4", "webm", "mov"];
@@ -50,7 +50,8 @@ function getCurrentPageType() {
     if (path.includes("FlyMinigame")) return "fly";
     if (path.includes("ChitChatTime")) return "chat";
 
-    if (path.includes("VRPages")) return "vr";
+    if (path.includes("VRShipPages")) return "vrship";
+    if (path.includes("VRBeachPages")) return "vrbeach";
     if (path.includes("WebPages")) return "web";
 
     return "comic";
@@ -69,7 +70,11 @@ function goToPage(index) {
 
     let newRenderType = newType;
     if (newType === "comic") {
-        newRenderType = index < STYLE_SPLIT ? "vr" : "web";
+        newRenderType = index < STYLE_SPLIT ? "vrship" : "web";
+    }
+
+    else if (newType === "comic") {
+        newRenderType = index < STYLE_SPLIT ? "vrbeach" : "web";
     }
 
     currPage = index;
@@ -113,8 +118,11 @@ function goToPage(index) {
         case "chat":
             window.location.replace("ChitChatTime.html");
             break;
-        case "vr":
-            window.location.replace("VRPages.html");
+        case "vrship":
+            window.location.replace("VRShipPages.html");
+            break;
+        case "vrbeach":
+            window.location.replace("VRBeachPages.html");
             break;
         case "web":
             window.location.replace("WebPages.html");
