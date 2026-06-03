@@ -1,7 +1,7 @@
 const CHAPTERS = [
     { id: "Chapter1", start: 0, end: 25 },
     { id: "Chapter2", start: 26, end: 101 },
-    { id: "Chapter3", start: null, end: null },
+    { id: "Chapter3", start: 102, end: 224 },
     { id: "Chapter4", start: null, end: null },
     { id: "Chapter5", start: null, end: null },
     { id: "Chapter6", start: null, end: null }

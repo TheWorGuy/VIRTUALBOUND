@@ -11,6 +11,7 @@ const SPECIAL_TEXT = {
 const SPEAKERS = {
     "Captain Kracker :": "or",
     "Captain Pavo :": "pavo-pu",
+    "??? :": "gray-ye",
 };
 
 // gather elements
@@ -351,12 +352,75 @@ const INTERACTABLE_NAV = {
     79: { next: 80, prev: 77 }, // hit
     80: { next: 81, prev: 77 }, // end
 
-    102: { next: 93, prev: 92 }, // fish special page
-    103: { next: 16, prev: 19 }, // homestuck special page
-    104: { next: 74, prev: 70 }, // onix special page
-    105: { next: 30, prev: 40 }, // banana 
-    106: { next: 74, prev: 68 }, // oil 
-    107: { next: 88, prev: 86 }, // damnit 87
-    108: { next: 88, prev: 87 }, // dubai chocowate (intended index numbers)
-    109: { next: 89, prev: 87 }, // nyle tweaking 88
+    // index 111
+    111: { next: 150, prev: 110 }, // interact 
+    112: { next: 113, prev: 111 }, // crack
+    113: { next: 114, prev: 112 },
+    114: { next: 115, prev: 113 },
+    115: { next: 116, prev: 114 },
+    116: { next: 117, prev: 115 },
+    117: { next: 118, prev: 116 },
+    118: { next: 119, prev: 117 },
+    119: { next: 120, prev: 118 },
+    120: { next: 121, prev: 119 },
+    121: { next: 122, prev: 120 },
+    122: { next: 123, prev: 121 },
+    123: { next: 124, prev: 122 },
+    124: { next: 125, prev: 123 },
+    125: { next: 111, prev: 124 },
+    126: { next: 127, prev: 111 }, // plushpile
+    127: { next: 128, prev: 126 },
+    128: { next: 129, prev: 127 },
+    129: { next: 130, prev: 128 },
+    130: { next: 131, prev: 129 },
+    131: { next: 132, prev: 130 },
+    132: { next: 133, prev: 131 },
+    133: { next: 134, prev: 132 },
+    134: { next: 135, prev: 133 },
+    135: { next: 136, prev: 134 },
+    136: { next: 137, prev: 135 },
+    137: { next: 111, prev: 136 },
+    138: { next: 139, prev: 111 }, // posters
+    139: { next: 140, prev: 138 },
+    140: { next: 141, prev: 139 },
+    141: { next: 142, prev: 140 },
+    142: { next: 143, prev: 141 },
+    143: { next: 144, prev: 142 },
+    144: { next: 145, prev: 143 },
+    145: { next: 146, prev: 144 },
+    146: { next: 111, prev: 145 },
+    147: { next: 111, prev: 111 }, // wallet
+    148: { next: 111, prev: 111 }, // note
+    149: { next: 111, prev: 111 }, // kimiko
+    150: { next: 151, prev: 111 }, // end
+
+    151: { next: 169, prev: 150 }, // interact 
+    152: { next: 153, prev: 151 }, // plush
+    153: { next: 154, prev: 152 },
+    154: { next: 155, prev: 153 },
+    155: { next: 156, prev: 154 },
+    156: { next: 151, prev: 155 },
+    157: { next: 158, prev: 151 }, // rat
+    158: { next: 159, prev: 157 },
+    159: { next: 160, prev: 158 },
+    160: { next: 161, prev: 159 },
+    161: { next: 151, prev: 160 },
+    162: { next: 163, prev: 151 }, // poster
+    163: { next: 164, prev: 162 },
+    164: { next: 165, prev: 163 },
+    165: { next: 166, prev: 164 },
+    166: { next: 167, prev: 165 },
+    167: { next: 168, prev: 166 },
+    168: { next: 151, prev: 167 },
+    169: { next: 170, prev: 151 }, // end
+
+
+    // 102: { next: 93, prev: 92 }, // fish special page
+    // 103: { next: 16, prev: 19 }, // homestuck special page
+    // 104: { next: 74, prev: 70 }, // onix special page
+    // 105: { next: 30, prev: 40 }, // banana 
+    // 106: { next: 74, prev: 68 }, // oil 
+    // 107: { next: 88, prev: 86 }, // damnit 87
+    // 108: { next: 88, prev: 87 }, // dubai chocowate (intended index numbers)
+    // 109: { next: 89, prev: 87 }, // nyle tweaking 88
 };

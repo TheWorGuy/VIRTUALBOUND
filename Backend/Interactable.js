@@ -76,6 +76,15 @@ function loadPage() {
         case 64: 
             loadInteract64(); 
             break;
+        case 111: 
+            loadInteract111(); 
+            nextIndex = 150;
+            break;
+        case 151: 
+            loadInteract151(); 
+            nextIndex = 169;
+            break;
+
     }
 }
 function purpleBoatSelect() {
@@ -121,6 +130,51 @@ function coffeeSelect() {
 function fruitBowlSelect() {
     console.log("fruit bowl");
     goToPage(54);
+}
+
+function crackwallSelect() {
+    console.log("crackwall");
+    goToPage(112);
+}
+
+function plushpileSelect() {
+    console.log("plushpile");
+    goToPage(126);
+}
+
+function postersSelect() {
+    console.log("posters");
+    goToPage(138);
+}
+
+function walletSelect() {
+    console.log("wallet");
+    goToPage(147);
+}
+
+function noteSelect() {
+    console.log("note");
+    goToPage(148);
+}
+
+function kimikoSelect() {
+    console.log("kimiko");
+    goToPage(149);
+}
+
+function plushSelect() {
+    console.log("plush");
+    goToPage(152);
+}
+
+function ratSelect() {
+    console.log("rat");
+    goToPage(157);
+}
+
+function posterSelect() {
+    console.log("poster");
+    goToPage(162);
 }
 
 function setVRStyle() { // DO NOT DELETE
@@ -531,6 +585,215 @@ function loadInteract49() {
         onEnter: () => fruitBowl.style.opacity = "1",
         onLeave: () => fruitBowl.style.opacity = "0",
         onClick: () => fruitBowlSelect()
+    });
+
+    startBlinking();
+}
+
+function loadInteract111() {
+    resetInteract();
+    
+    currInteract = 111;
+
+    const page = getPageData(currInteract); // grab page
+    interactText.innerText = page?.text || ""; // set text
+
+    interactBG.src = "./Images/id_111_img/111_background.PNG";
+
+    const crackwall = document.createElement("img");
+    crackwall.src = "./Images/id_111_img/111_crackwall.PNG";
+    crackwall.classList.add("interact-parts", "kimikohouse");
+
+    const plushpile = document.createElement("img");
+    plushpile.src = "./Images/id_111_img/111_plushpile.PNG";
+    plushpile.classList.add("interact-parts", "kimikohouse");
+
+    const posters = document.createElement("img");
+    posters.src = "./Images/id_111_img/111_posters.PNG";
+    posters.classList.add("interact-parts", "kimikohouse");
+
+    const wallet = document.createElement("img");
+    wallet.src = "./Images/id_111_img/111_wallet.PNG";
+    wallet.classList.add("interact-parts", "kimikohouse");
+
+    const note = document.createElement("img");
+    note.src = "./Images/id_111_img/111_note.PNG";
+    note.classList.add("interact-parts", "kimikohouse");
+
+    const kimiko = document.createElement("img");
+    kimiko.src = "./Images/id_111_img/111_kimiko.PNG";
+    kimiko.classList.add("interact-parts", "kimikohouse");
+
+    interactArea.appendChild(crackwall);
+    interactArea.appendChild(plushpile);
+    interactArea.appendChild(posters);
+    interactArea.appendChild(wallet);
+    interactArea.appendChild(note);
+    interactArea.appendChild(kimiko);
+
+    crackwall.style.opacity = "0"; // initial
+    outlineImages.push(crackwall);
+
+    plushpile.style.opacity = "0";
+    outlineImages.push(plushpile);
+
+    posters.style.opacity = "0";
+    outlineImages.push(posters);
+
+    posters.style.opacity = "0";
+    outlineImages.push(wallet);
+
+    posters.style.opacity = "0";
+    outlineImages.push(note);
+
+    posters.style.opacity = "0";
+    outlineImages.push(kimiko);
+
+    // hitbox for crackwall
+    buildHitbox({
+        top: "44%",
+        left: "33%",
+        width: "7%",
+        height: "12%",
+        onEnter: () => crackwall.style.opacity = "1",
+        onLeave: () => crackwall.style.opacity = "0",
+        onClick: () => crackwallSelect()
+    });
+
+    // hitbox for plushpile
+    buildHitbox({ // lower hitbox
+        top: "51%",
+        left: "1%",
+        width: "30%",
+        height: "20%",
+        onEnter: () => plushpile.style.opacity = "1",
+        onLeave: () => plushpile.style.opacity = "0",
+        onClick: () => plushpileSelect()
+    });
+
+    buildHitbox({ // upper hitbox
+        top: "34%",
+        left: "5%",
+        width: "20%",
+        height: "17%",
+        onEnter: () => plushpile.style.opacity = "1",
+        onLeave: () => plushpile.style.opacity = "0",
+        onClick: () => plushpileSelect()
+    });
+
+    // hitbox for posters
+    buildHitbox({
+        top: "27%",
+        left: "76%",
+        width: "20%",
+        height: "25%",
+        onEnter: () => posters.style.opacity = "1",
+        onLeave: () => posters.style.opacity = "0",
+        onClick: () => postersSelect()
+    });
+
+    // hitbox for wallet
+    buildHitbox({
+        top: "63%",
+        left: "37%",
+        width: "7%",
+        height: "7%",
+        onEnter: () => wallet.style.opacity = "1",
+        onLeave: () => wallet.style.opacity = "0",
+        onClick: () => walletSelect()
+    });
+
+    // hitbox for note
+    buildHitbox({
+        top: "52%",
+        left: "63%",
+        width: "7%",
+        height: "7%",
+        onEnter: () => note.style.opacity = "1",
+        onLeave: () => note.style.opacity = "0",
+        onClick: () => noteSelect()
+    });
+
+    // hitbox for kimiko
+    buildHitbox({
+        top: "36%",
+        left: "44%",
+        width: "17%",
+        height: "30%",
+        onEnter: () => kimiko.style.opacity = "1",
+        onLeave: () => kimiko.style.opacity = "0",
+        onClick: () => kimikoSelect()
+    });
+
+    startBlinking();
+}
+
+function loadInteract151() {
+    resetInteract();
+    
+    currInteract = 151;
+
+    const page = getPageData(currInteract); // grab page
+    interactText.innerText = page?.text || ""; // set text
+
+    interactBG.src = "./Images/id_151_img/151_background.PNG";
+
+    const plush = document.createElement("img");
+    plush.src = "./Images/id_151_img/151_plush.PNG";
+    plush.classList.add("interact-parts", "suspects");
+
+    const rat = document.createElement("img");
+    rat.src = "./Images/id_151_img/151_rat.PNG";
+    rat.classList.add("interact-parts", "suspects");
+
+    const poster = document.createElement("img");
+    poster.src = "./Images/id_151_img/151_poster.PNG";
+    poster.classList.add("interact-parts", "suspects");
+
+    interactArea.appendChild(plush);
+    interactArea.appendChild(rat);
+    interactArea.appendChild(poster);
+
+    plush.style.opacity = "0"; // initial
+    outlineImages.push(plush);
+
+    rat.style.opacity = "0";
+    outlineImages.push(rat);
+
+    poster.style.opacity = "0";
+    outlineImages.push(poster);
+
+    // hitbox for plush
+    buildHitbox({
+        top: "40%",
+        left: "3.5%",
+        width: "30%",
+        height: "35%",
+        onEnter: () => plush.style.opacity = "1",
+        onLeave: () => plush.style.opacity = "0",
+        onClick: () => plushSelect()
+    });
+
+    // hitbox for rat
+    buildHitbox({
+        top: "47%",
+        left: "35%",
+        width: "30%",
+        height: "35%",
+        onEnter: () => rat.style.opacity = "1",
+        onLeave: () => rat.style.opacity = "0",
+        onClick: () => ratSelect()
+    });
+
+    // hitbox for poster
+    buildHitbox({
+        top: "40%",
+        left: "67%",
+        width: "30%",
+        height: "35%",
+        onEnter: () => poster.style.opacity = "1",
+        onLeave: () => poster.style.opacity = "0",
+        onClick: () => posterSelect()
     });
 
     startBlinking();
