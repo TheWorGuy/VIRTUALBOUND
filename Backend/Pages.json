@@ -728,6 +728,14 @@
         "text": "Objection!"
     },
     {
+        "media": "./Images/bace_attorney/defendant_1.mov",
+        "text": "*glp gulp gulp*"
+    },
+    {
+        "media": "./Images/bace_attorney/defendant_2.mov",
+        "text": "I think we’re missing one crucial bit of detail here."
+    },
+    {
         "media": "./Images/bace_attorney/prosecution_1.mov",
         "text": "?"
     },
@@ -741,10 +749,10 @@
     },
     {
         "media": "./Images/bace_attorney/defendant_1.mov",
-        "text": "…"
+        "text": "*glp gulp gulp*"
     },
     {
-        "media": "./Images/bace_attorney/defendant_2.mov",
+        "media": "./Images/bace_attorney/defendant_3.mov",
         "text": "Riddle me this."
     },
     {
