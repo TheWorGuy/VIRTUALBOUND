@@ -72,7 +72,7 @@ function goToPage(index) {
     if (newType === "comic") {
         if (index < STYLE_SPLIT) {
             newRenderType = "vrship";
-        } else if (index >= 211 && index <= 217) {
+        } else if (index >= 213 && index <= 219) {
             newRenderType = "vrbeach";
         } else {
             newRenderType = "web";

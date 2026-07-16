@@ -40,7 +40,7 @@ async function init() {
     if (expectedType === "comic") {
         if (currPage < STYLE_SPLIT) {
             expectedRenderType = "vrship";
-        } else if (currPage >= 211 && currPage <= 217) {
+        } else if (currPage >= 213 && currPage <= 219) {
             expectedRenderType = "vrbeach";
         } else {
             expectedRenderType = "web";
