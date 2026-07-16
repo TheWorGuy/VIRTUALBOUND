@@ -36,11 +36,13 @@ async function init() {
 
     let expectedRenderType = expectedType;
     if (expectedType === "comic") {
-        expectedRenderType = currPage < STYLE_SPLIT ? "vrship" : "web";
-    }
-
-    else if (expectedType === "comic") {
-        expectedRenderType = currPage < STYLE_SPLIT ? "vrbeach" : "web";
+        if (currPage < STYLE_SPLIT) {
+            expectedRenderType = "vrship";
+        } else if (currPage >= 211 && currPage <= 217) {
+            expectedRenderType = "vrbeach";
+        } else {
+            expectedRenderType = "web";
+        }
     }
 
     if (expectedRenderType !== currentType) {
@@ -418,7 +420,6 @@ const INTERACTABLE_NAV = {
     167: { next: 168, prev: 166 },
     168: { next: 151, prev: 167 },
     169: { next: 170, prev: 151 }, // end
-
 
     // 102: { next: 93, prev: 92 }, // fish special page
     // 103: { next: 16, prev: 19 }, // homestuck special page

@@ -70,12 +70,14 @@ function goToPage(index) {
 
     let newRenderType = newType;
     if (newType === "comic") {
-        newRenderType = index < STYLE_SPLIT ? "vrship" : "web";
-    }
-
-    else if (newType === "comic") {
-        newRenderType = index < STYLE_SPLIT ? "vrbeach" : "web";
-    }
+        if (index < STYLE_SPLIT) {
+            newRenderType = "vrship";
+        } else if (index >= 211 && index <= 217) {
+            newRenderType = "vrbeach";
+        } else {
+            newRenderType = "web";
+        }
+    } 
 
     currPage = index;
     localStorage.setItem("currPage", index);

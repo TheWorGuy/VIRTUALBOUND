@@ -35,5 +35,6 @@
 }
 
 .vr-ship-a-switch {
-    font-size: 11vw;
+    /* font-size: 11vw; */
+    font-size: inherit;
 }
