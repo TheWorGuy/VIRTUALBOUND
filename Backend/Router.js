@@ -6,7 +6,7 @@ const INTERACT_INDICES = [5, 16, 30, 40, 49, 64, 111, 151];
 const IMAGE_TYPES = ["png", "jpg", "jpeg", "gif"];
 const VIDEO_TYPES = ["mp4", "webm", "mov"];
 const STYLE_SPLIT = 25; // index at which style changes from VR to web
-const DEBUG_MODE = false;
+const DEBUG_MODE = true;
 
 // Globals
 let currPage = 0; // current page 
@@ -139,4 +139,32 @@ function unlockPage(index) {
         unlocked.push(index);
         localStorage.setItem("unlockedPages", JSON.stringify(unlocked));
     }
+}
+
+function buildHitbox({ top, left, width, height, onEnter, onLeave, onClick, mediaContainer }) {
+    const hitbox = document.createElement("div");
+    hitbox.classList.add("hitbox");
+    hitbox.style.position = "absolute";
+    hitbox.style.top = top;
+    hitbox.style.left = left;
+    hitbox.style.width = width;
+    hitbox.style.height = height;
+    hitbox.style.zIndex = "20";
+    hitbox.style.cursor = "pointer";
+    if (DEBUG_MODE) {
+        hitbox.style.backgroundColor = "rgba(255, 0, 0, 0.2)";
+    }
+    hitbox.addEventListener("mouseenter", () => {
+        isHovering = true;
+        onEnter();
+    });
+    hitbox.addEventListener("mouseleave", () => {
+        isHovering = false;
+        onLeave();
+    });
+    if (onClick) {
+        hitbox.addEventListener("mousedown", onClick);
+    }
+    mediaContainer.appendChild(hitbox);
+    return hitbox;
 }

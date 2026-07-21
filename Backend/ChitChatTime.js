@@ -1,11 +1,11 @@
 // Elements
-const container = document.querySelector(".text-biscord");
+const biscordContainer = document.querySelector(".text-biscord");
 const img = document.querySelector(".img");
 const containerParent = document.querySelector(".container");
-const mediaContainer = document.querySelector(".media-container");
+const mediaCCT = document.querySelector(".media-container");
 
 // Profile mapping
-const profiles = {
+const PROFILES = {
     "KimiwimiUwU": {
         img: "./Images/kimiko_pfp.PNG",
         class: "ye"
@@ -54,13 +54,16 @@ function renderPage() {
     }
     element.classList.add("img");
 
+
+    // ChitChatTime Exclusive
+
     // remove existing media (img or video)
-    if (mediaContainer) {
-        mediaContainer.innerHTML = "";
-        mediaContainer.appendChild(element);
+    if (mediaCCT) {
+        mediaCCT.innerHTML = "";
+        mediaCCT.appendChild(element);
     }
     // clear chat
-    container.innerHTML = "";
+    biscordContainer.innerHTML = "";
 
     // get chat
     const lines = (page.text || "")
@@ -74,7 +77,7 @@ function renderPage() {
         const [name, ...rest] = line.split(" : ");
         const message = rest.join(" : ").trim();
 
-        if (!profiles[name]) return;
+        if (!PROFILES[name]) return;
 
         const lastGroup = grouped[grouped.length - 1];
 
@@ -92,7 +95,7 @@ function renderPage() {
 
     // render grouped messages
     grouped.forEach(group => {
-        const profile = profiles[group.name];
+        const profile = PROFILES[group.name];
 
         const combinedMessage = group.messages
             .map(msg => msg.replace(/\n/g, "<br>"))
@@ -105,12 +108,12 @@ function renderPage() {
                 <p class="bot">${combinedMessage}</p>
             </div>
         `;
-        container.insertAdjacentHTML("beforeend", chatHTML);
+        biscordContainer.insertAdjacentHTML("beforeend", chatHTML);
     });
-    loadIndex94Hitbox()
+    loadIndex94Hitbox() // check if we need to load the index 94 hitbox for easter egg
 }
 
-// Navigation
+// Navigation - not needed for PageHandler.js, but kept for ChitChatTime.js 
 function nextPageCC() {
     goToPage(getCurrentPage() + 1);
 }
@@ -119,38 +122,11 @@ function prevPageCC() {
     goToPage(getCurrentPage() - 1);
 }
 
-function buildHitbox({ top, left, width, height, onEnter, onLeave, onClick }) {
-    const hitbox = document.createElement("div");
-    hitbox.classList.add("hitbox");
-    hitbox.style.position = "absolute";
-    hitbox.style.top = top;
-    hitbox.style.left = left;
-    hitbox.style.width = width;
-    hitbox.style.height = height;
-    hitbox.style.zIndex = "20";
-    hitbox.style.cursor = "pointer";
-    if (DEBUG_MODE) {
-        hitbox.style.backgroundColor = "rgba(255, 0, 0, 0.2)";
-    }
-    hitbox.addEventListener("mouseenter", () => {
-        isHovering = true;
-        onEnter();
-    });
-    hitbox.addEventListener("mouseleave", () => {
-        isHovering = false;
-        onLeave();
-    });
-    if (onClick) {
-        hitbox.addEventListener("mousedown", onClick);
-    }
-    mediaContainer.appendChild(hitbox);
-    return hitbox;
-}
-
+// Easter Egg for index 94
 function loadIndex94Hitbox() {
     if (getCurrentPage() !== 94) return;
 
-    const video = mediaContainer.querySelector("video");
+    const video = mediaCCT.querySelector("video");
     if (!video) return;
 
     let shouldReverse = false;
@@ -191,6 +167,7 @@ function loadIndex94Hitbox() {
         onClick: () => {
             // queue reversal for next loop boundary
             shouldReverse = true;
-        }
+        },
+        mediaContainer: mediaCCT
     });
 }

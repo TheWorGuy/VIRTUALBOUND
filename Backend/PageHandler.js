@@ -15,11 +15,46 @@ const SPEAKERS = {
     "KimiwimiUwU :": "ye",
     "Token :": "ka",
 };
+const PROFILES = {
+    "KimiwimiUwU": {
+        img: "./Images/kimiko_pfp.PNG",
+        class: "ye"
+    },
+    "xXDyedFeatherXx": {
+        img: "./Images/nyle_pfp.PNG",
+        class: "pu"
+    },
+    "Token": {
+        img: "./Images/karmine_pfp.PNG",
+        class: "ka"
+    }
+};
+
+/* 
+    TODO: check if Comic Pages or ChitChatTime
+    If ChitChatTime, load ChitChatTime.js and render chat and modify html:
+    Temporarily remove the following elements from the html:
+
+    <div id="comic-media" class="img" autoplay></div>
+        <div class="text">
+            <p id="comic-text"></p>
+        </div>
+
+    And replace with:
+    <div class="media-container"></div>
+    <div class="text-biscord"></div>
+*/
 
 // gather elements
 const textContainer = document.getElementById("comic-text");
 const prev = document.getElementById("previous");
 const next = document.getElementById("next");
+
+// gather elements for ChitChatTime
+const biscordContainer = document.querySelector(".text-biscord");
+const img = document.querySelector(".img");
+const containerParent = document.querySelector(".container");
+const mediaCCT = document.querySelector(".media-container");
 
 // Globals
 let mediaContainer;
@@ -297,6 +332,56 @@ function updateNavigation() {
     }
 
 }
+
+// ChitChatTime specific functions
+// function loadIndex94Hitbox() {
+//     if (getCurrentPage() !== 94) return;
+
+//     const video = mediaCCT.querySelector("video");
+//     if (!video) return;
+
+//     let shouldReverse = false;
+//     let isReversed = false;
+
+//     // disable native looping to control loop boundary
+//     video.loop = false;
+
+//     // handle manual looping + optional swap
+//     video.addEventListener("ended", () => {
+//         if (shouldReverse) {
+//             isReversed = !isReversed;
+//             shouldReverse = false;
+
+//             const newSrc = isReversed
+//                 ? "./Images/95b.mov" // reversed version
+//                 : getPageData().media; // original
+
+//             video.src = newSrc;
+
+//             // ensure seamless playback
+//             video.currentTime = 0;
+//             video.play();
+//         } else {
+//             // normal loop
+//             video.currentTime = 0;
+//             video.play();
+//         }
+//     });
+
+//     buildHitbox({
+//         top: "68%",
+//         left: "5%",
+//         width: "17%",
+//         height: "25%",
+//         onEnter: () => {},
+//         onLeave: () => {},
+//         onClick: () => {
+//             // queue reversal for next loop boundary
+//             shouldReverse = true;
+//         }, 
+//         mediaContainer: mediaCCT
+//     });
+// }
 
 const INTERACTABLE_NAV = {
     // index 5

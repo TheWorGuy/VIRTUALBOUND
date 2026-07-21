@@ -188,45 +188,6 @@ function setVRStyle() { // DO NOT DELETE
     next.className = "vr-ship-a";
 }
 
-function buildHitbox({ top, left, width, height, onEnter, onLeave, onClick }) {
-    const hitbox = document.createElement("div");
-
-    hitbox.classList.add("hitbox");
-
-    hitbox.style.position = "absolute";
-    hitbox.style.top = top;
-    hitbox.style.left = left;
-    hitbox.style.width = width;
-    hitbox.style.height = height;
-    hitbox.style.zIndex = "20";
-    hitbox.style.cursor = "pointer";
-
-    if (DEBUG_MODE) {
-        hitbox.style.backgroundColor = "rgba(255, 0, 0, 0.2)";
-    }
-
-    hitbox.addEventListener("mouseenter", () => {
-        isHovering = true;
-
-        outlineImages.forEach(img => img.style.opacity = "0");
-
-        onEnter();
-    });
-
-    hitbox.addEventListener("mouseleave", () => {
-        isHovering = false;
-        onLeave();
-    });
-
-    if (onClick) {
-        hitbox.addEventListener("mousedown", onClick);
-    }
-
-    interactArea.appendChild(hitbox);
-
-    return hitbox;
-}
-
 function resetInteract() {
     // stop blinking loop
     if (blinkInterval) {
@@ -308,7 +269,8 @@ function loadInteract5() {
         height: "50%",
         onEnter: () => purpleBoat.style.opacity = "1",
         onLeave: () => purpleBoat.style.opacity = "0",
-        onClick: () => purpleBoatSelect()
+        onClick: () => purpleBoatSelect(),
+        mediaContainer: interactArea
     });
 
     // hitbox for orange boat
@@ -319,7 +281,8 @@ function loadInteract5() {
         height: "72.5%",
         onEnter: () => orangeBoat.style.opacity = "1",
         onLeave: () => orangeBoat.style.opacity = "0",
-        onClick: () => orangeBoatSelect()
+        onClick: () => orangeBoatSelect(),
+        mediaContainer: interactArea
     });
 
     startBlinking();
@@ -374,7 +337,8 @@ function loadInteract16() {
         height: "28%",
         onEnter: () => cannon.style.opacity = "1",
         onLeave: () => cannon.style.opacity = "0",
-        onClick: () => cannonSelect()
+        onClick: () => cannonSelect(),
+        mediaContainer: interactArea
     });
 
     buildHitbox({ 
@@ -384,7 +348,8 @@ function loadInteract16() {
         height: "28%",
         onEnter: () => sword.style.opacity = "1",
         onLeave: () => sword.style.opacity = "0",
-        onClick: () => swordSelect()
+        onClick: () => swordSelect(),
+        mediaContainer: interactArea
     });
 
     buildHitbox({ 
@@ -394,7 +359,8 @@ function loadInteract16() {
         height: "28%",
         onEnter: () => fruits.style.opacity = "1",
         onLeave: () => fruits.style.opacity = "0",
-        onClick: () => fruitsSelect()
+        onClick: () => fruitsSelect(),
+        mediaContainer: interactArea
     });
 
     startBlinking();
@@ -448,7 +414,8 @@ function loadInteract30() {
         height: "20%",
         onEnter: () => bed.style.opacity = "1",
         onLeave: () => bed.style.opacity = "0",
-        onClick: () => bedSelect()
+        onClick: () => bedSelect(),
+        mediaContainer: interactArea
     });
     buildHitbox({ // upper hitbox
         top: "45%",
@@ -457,7 +424,8 @@ function loadInteract30() {
         height: "11%",
         onEnter: () => bed.style.opacity = "1",
         onLeave: () => bed.style.opacity = "0",
-        onClick: () => bedSelect()
+        onClick: () => bedSelect(),
+        mediaContainer: interactArea
     });
 
     // hitbox for records
@@ -468,7 +436,8 @@ function loadInteract30() {
         height: "12.5%",
         onEnter: () => records.style.opacity = "1",
         onLeave: () => records.style.opacity = "0",
-        onClick: () => recordsSelect()
+        onClick: () => recordsSelect(),
+        mediaContainer: interactArea
     });
 
     // hitbox for shelf
@@ -479,7 +448,8 @@ function loadInteract30() {
         height: "18%",
         onEnter: () => shelf.style.opacity = "1",
         onLeave: () => shelf.style.opacity = "0",
-        onClick: () => shelfSelect()
+        onClick: () => shelfSelect(),
+        mediaContainer: interactArea
     });
     buildHitbox({
         top: "20%",
@@ -488,7 +458,8 @@ function loadInteract30() {
         height: "18%",
         onEnter: () => shelf.style.opacity = "1",
         onLeave: () => shelf.style.opacity = "0",
-        onClick: () => shelfSelect()
+        onClick: () => shelfSelect(),
+        mediaContainer: interactArea
     });
 
     startBlinking();
@@ -511,7 +482,8 @@ function loadInteract40() {
         height: "18%",
         onEnter: () => {},
         onLeave: () => {},
-        onClick: () => loadFunny()
+        onClick: () => loadFunny(),
+        mediaContainer: interactArea
     });
 }
 
@@ -562,7 +534,8 @@ function loadInteract49() {
         height: "16%",
         onEnter: () => toaster.style.opacity = "1",
         onLeave: () => toaster.style.opacity = "0",
-        onClick: () => toasterSelect()
+        onClick: () => toasterSelect(),
+        mediaContainer: interactArea
     });
 
     // coffee hitbox
@@ -573,7 +546,8 @@ function loadInteract49() {
         height: "15%",
         onEnter: () => coffee.style.opacity = "1",
         onLeave: () => coffee.style.opacity = "0",
-        onClick: () => coffeeSelect()
+        onClick: () => coffeeSelect(),
+        mediaContainer: interactArea
     });
 
     // fruitBowl hitbox
@@ -584,7 +558,8 @@ function loadInteract49() {
         height: "17%",
         onEnter: () => fruitBowl.style.opacity = "1",
         onLeave: () => fruitBowl.style.opacity = "0",
-        onClick: () => fruitBowlSelect()
+        onClick: () => fruitBowlSelect(),
+        mediaContainer: interactArea
     });
 
     startBlinking();
@@ -657,7 +632,8 @@ function loadInteract111() {
         height: "12%",
         onEnter: () => crackwall.style.opacity = "1",
         onLeave: () => crackwall.style.opacity = "0",
-        onClick: () => crackwallSelect()
+        onClick: () => crackwallSelect(),
+        mediaContainer: interactArea
     });
 
     // hitbox for plushpile
@@ -668,7 +644,8 @@ function loadInteract111() {
         height: "20%",
         onEnter: () => plushpile.style.opacity = "1",
         onLeave: () => plushpile.style.opacity = "0",
-        onClick: () => plushpileSelect()
+        onClick: () => plushpileSelect(),
+        mediaContainer: interactArea
     });
 
     buildHitbox({ // upper hitbox
@@ -678,7 +655,8 @@ function loadInteract111() {
         height: "17%",
         onEnter: () => plushpile.style.opacity = "1",
         onLeave: () => plushpile.style.opacity = "0",
-        onClick: () => plushpileSelect()
+        onClick: () => plushpileSelect(),
+        mediaContainer: interactArea
     });
 
     // hitbox for posters
@@ -689,7 +667,8 @@ function loadInteract111() {
         height: "25%",
         onEnter: () => posters.style.opacity = "1",
         onLeave: () => posters.style.opacity = "0",
-        onClick: () => postersSelect()
+        onClick: () => postersSelect(),
+        mediaContainer: interactArea
     });
 
     // hitbox for wallet
@@ -700,7 +679,8 @@ function loadInteract111() {
         height: "7%",
         onEnter: () => wallet.style.opacity = "1",
         onLeave: () => wallet.style.opacity = "0",
-        onClick: () => walletSelect()
+        onClick: () => walletSelect(),
+        mediaContainer: interactArea
     });
 
     // hitbox for note
@@ -711,7 +691,8 @@ function loadInteract111() {
         height: "7%",
         onEnter: () => note.style.opacity = "1",
         onLeave: () => note.style.opacity = "0",
-        onClick: () => noteSelect()
+        onClick: () => noteSelect(),
+        mediaContainer: interactArea
     });
 
     // hitbox for kimiko
@@ -722,7 +703,8 @@ function loadInteract111() {
         height: "30%",
         onEnter: () => kimiko.style.opacity = "1",
         onLeave: () => kimiko.style.opacity = "0",
-        onClick: () => kimikoSelect()
+        onClick: () => kimikoSelect(),
+        mediaContainer: interactArea
     });
 
     startBlinking();
@@ -771,7 +753,8 @@ function loadInteract151() {
         height: "35%",
         onEnter: () => plush.style.opacity = "1",
         onLeave: () => plush.style.opacity = "0",
-        onClick: () => plushSelect()
+        onClick: () => plushSelect(),
+        mediaContainer: interactArea
     });
 
     // hitbox for rat
@@ -782,7 +765,8 @@ function loadInteract151() {
         height: "35%",
         onEnter: () => rat.style.opacity = "1",
         onLeave: () => rat.style.opacity = "0",
-        onClick: () => ratSelect()
+        onClick: () => ratSelect(),
+        mediaContainer: interactArea
     });
 
     // hitbox for poster
@@ -793,7 +777,8 @@ function loadInteract151() {
         height: "35%",
         onEnter: () => poster.style.opacity = "1",
         onLeave: () => poster.style.opacity = "0",
-        onClick: () => posterSelect()
+        onClick: () => posterSelect(),
+        mediaContainer: interactArea
     });
 
     startBlinking();
@@ -845,7 +830,8 @@ function loadInteract64() {
             height: config.height,
             onEnter: () => sweater.style.opacity = "1",
             onLeave: () => sweater.style.opacity = "0",
-            onClick: () => handleSweaterClick(config.letter)
+            onClick: () => handleSweaterClick(config.letter),
+            mediaContainer: interactArea
         });
     });
 
