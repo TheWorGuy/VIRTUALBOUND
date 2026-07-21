@@ -34,6 +34,8 @@ const buttons = document.querySelectorAll(".button");
 const textBox = document.querySelector(".text");
 const swit = document.querySelector(".switch");
 
+const BANANA_PAGE = 228;
+
 // Function
 function nextPageIn() { // goes to next page depending on current page
     goToPage(nextIndex);
@@ -488,7 +490,7 @@ function loadInteract40() {
 }
 
 function loadFunny() {
-    goToPage(105);
+    goToPage(BANANA_PAGE);
 }
 
 function loadInteract49() {

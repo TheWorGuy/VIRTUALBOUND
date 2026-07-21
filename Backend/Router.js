@@ -1,6 +1,6 @@
 // Constants
-const MAX_INDEX = 225; // 0–101 allowed in normal flow
-// const SECRET_INDICES = [102, 103, 104, 105, 106];
+const MAX_INDEX = 224; // 0–224 allowed in normal flow
+// const SECRET_INDICES = [225, 226, 227, 228, 229, 230, 231, 232]; // secret pages
 const CHAT_INDICES = [85, 91, 94, 95, 96, 97, 99];
 const INTERACT_INDICES = [5, 16, 30, 40, 49, 64, 111, 151]; 
 const IMAGE_TYPES = ["png", "jpg", "jpeg", "gif"];
@@ -141,6 +141,7 @@ function unlockPage(index) {
     }
 }
 
+// used in interactable pages to build hitboxes over media 
 function buildHitbox({ top, left, width, height, onEnter, onLeave, onClick, mediaContainer }) {
     const hitbox = document.createElement("div");
     hitbox.classList.add("hitbox");

@@ -1,12 +1,12 @@
 // declare all media types that can be displayed
 const FIRST_PAGE = 0;
 const SPECIAL_TEXT = {
-    "John the Banana": 103,
-    "Rose the Grape": 103,
-    "onyx": 104,
-    "You know what that means": 102,
-    "oil": 106,
-    "DAMNIT": 108,
+    "John the Banana": 226,
+    "Rose the Grape": 226,
+    "onyx": 227,
+    "You know what that means": 225,
+    "oil": 229,
+    "DAMNIT": 230,
 };
 const SPEAKERS = {
     "Captain Kracker :": "or",
@@ -508,12 +508,12 @@ const INTERACTABLE_NAV = {
     168: { next: 151, prev: 167 },
     169: { next: 170, prev: 151 }, // end
 
-    // 102: { next: 93, prev: 92 }, // fish special page
-    // 103: { next: 16, prev: 19 }, // homestuck special page
-    // 104: { next: 74, prev: 70 }, // onix special page
-    // 105: { next: 30, prev: 40 }, // banana 
-    // 106: { next: 74, prev: 68 }, // oil 
-    // 107: { next: 88, prev: 86 }, // damnit 87
-    // 108: { next: 88, prev: 87 }, // dubai chocowate (intended index numbers)
-    // 109: { next: 89, prev: 87 }, // nyle tweaking 88
+    225: { next: 93, prev: 92 }, // fish special page
+    226: { next: 16, prev: 19 }, // homestuck special page
+    227: { next: 74, prev: 70 }, // onix special page
+    228: { next: 30, prev: 40 }, // banana 
+    229: { next: 74, prev: 68 }, // oil 
+    // 230: { next: 88, prev: 86 }, // damnit 87
+    // 231: { next: 88, prev: 87 }, // dubai chocowate (intended index numbers)
+    // 232: { next: 89, prev: 87 }, // nyle tweaking 88
 };
