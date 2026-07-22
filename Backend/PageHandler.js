@@ -146,9 +146,9 @@ function renderMedia(theFile) {
     } else if (mediaContainer) {
         mediaContainer.appendChild(element);
     }
-
     mediaContainer = element; // replace da old div :3
 }
+
 
 function renderDialogueText(theText, pageNum) {
     textContainer.innerHTML = "";
@@ -172,10 +172,8 @@ function renderDialogueText(theText, pageNum) {
 
         const p = document.createElement("p");
 
-        if (matchedClass) {
-            p.classList.add(matchedClass);
-        }
-
+        if (matchedClass) p.classList.add(matchedClass);
+        
         appendSpecialText(p, trimmed, pageNum);
 
         textContainer.appendChild(p);
@@ -193,10 +191,8 @@ function appendSpecialText(container, theText, pageNum) {
             const el = document.createElement("a");
             el.className = "special";
 
-            if (pageNum < STYLE_SPLIT) {
-                el.classList.add("vr-special");
-            }
-
+            if (pageNum < STYLE_SPLIT) el.classList.add("vr-special");
+        
             el.textContent = part;
 
             el.addEventListener("click", () => {
@@ -334,54 +330,114 @@ function updateNavigation() {
 }
 
 // ChitChatTime specific functions
-// function loadIndex94Hitbox() {
-//     if (getCurrentPage() !== 94) return;
 
-//     const video = mediaCCT.querySelector("video");
-//     if (!video) return;
+function renderBiscord(element, page = getPageData()) {
+    // ChitChatTime Exclusive
 
-//     let shouldReverse = false;
-//     let isReversed = false;
+    // remove existing media (img or video)
+    if (mediaCCT) {
+        mediaCCT.innerHTML = "";
+        mediaCCT.appendChild(element);
+    }
+    // clear chat
+    biscordContainer.innerHTML = "";
 
-//     // disable native looping to control loop boundary
-//     video.loop = false;
+    // get chat
+    const lines = (page.text || "")
+        .split("\n")
+        .filter(line => line.trim() !== "");
 
-//     // handle manual looping + optional swap
-//     video.addEventListener("ended", () => {
-//         if (shouldReverse) {
-//             isReversed = !isReversed;
-//             shouldReverse = false;
+    // group consecutive messages by same speaker
+    const grouped = [];
 
-//             const newSrc = isReversed
-//                 ? "./Images/95b.mov" // reversed version
-//                 : getPageData().media; // original
+    lines.forEach(line => {
+        const [name, ...rest] = line.split(" : ");
+        const message = rest.join(" : ").trim();
 
-//             video.src = newSrc;
+        if (!PROFILES[name]) return;
 
-//             // ensure seamless playback
-//             video.currentTime = 0;
-//             video.play();
-//         } else {
-//             // normal loop
-//             video.currentTime = 0;
-//             video.play();
-//         }
-//     });
+        const lastGroup = grouped[grouped.length - 1];
 
-//     buildHitbox({
-//         top: "68%",
-//         left: "5%",
-//         width: "17%",
-//         height: "25%",
-//         onEnter: () => {},
-//         onLeave: () => {},
-//         onClick: () => {
-//             // queue reversal for next loop boundary
-//             shouldReverse = true;
-//         }, 
-//         mediaContainer: mediaCCT
-//     });
-// }
+        if (lastGroup && lastGroup.name === name) {
+            // same speaker, append message
+            lastGroup.messages.push(message);
+        } else {
+            // new speaker, create new group
+            grouped.push({
+                name: name,
+                messages: [message]
+            });
+        }
+    });
+
+    // render grouped messages
+    grouped.forEach(group => {
+        const profile = PROFILES[group.name];
+
+        const combinedMessage = group.messages
+            .map(msg => msg.replace(/\n/g, "<br>"))
+            .join("<br>");
+
+        const chatHTML = `
+            <div class="biscord-body">
+                <img src="${profile.img}" class="pfp">
+                <p class="top ${profile.class}">${group.name}</p>
+                <p class="bot">${combinedMessage}</p>
+            </div>
+        `;
+        biscordContainer.insertAdjacentHTML("beforeend", chatHTML);
+    });
+    loadIndex94Hitbox() // check if we need to load the index 94 hitbox for easter egg
+}
+
+function loadIndex94Hitbox() {
+    if (getCurrentPage() !== 94) return;
+
+    const video = mediaCCT.querySelector("video");
+    if (!video) return;
+
+    let shouldReverse = false;
+    let isReversed = false;
+
+    // disable native looping to control loop boundary
+    video.loop = false;
+
+    // handle manual looping + optional swap
+    video.addEventListener("ended", () => {
+        if (shouldReverse) {
+            isReversed = !isReversed;
+            shouldReverse = false;
+
+            const newSrc = isReversed
+                ? "./Images/95b.mov" // reversed version
+                : getPageData().media; // original
+
+            video.src = newSrc;
+
+            // ensure seamless playback
+            video.currentTime = 0;
+            video.play();
+        } else {
+            // normal loop
+            video.currentTime = 0;
+            video.play();
+        }
+    });
+
+    buildHitbox({
+        top: "68%",
+        left: "5%",
+        width: "17%",
+        height: "25%",
+        onEnter: () => {},
+        onLeave: () => {},
+        onClick: () => {
+            // queue reversal for next loop boundary
+            shouldReverse = true;
+        }, 
+        mediaContainer: mediaCCT
+    });
+}
 
 const INTERACTABLE_NAV = {
     // index 5

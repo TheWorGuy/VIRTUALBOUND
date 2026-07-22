@@ -54,7 +54,19 @@ function renderPage() {
     }
     element.classList.add("img");
 
+    renderBiscord(element, page); // render biscord chat in text area
+}
 
+// Navigation - not needed for PageHandler.js, but kept for ChitChatTime.js 
+function nextPageCC() {
+    goToPage(getCurrentPage() + 1);
+}
+
+function prevPageCC() {
+    goToPage(getCurrentPage() - 1);
+}
+
+function renderBiscord(element, page = getPageData()) {
     // ChitChatTime Exclusive
 
     // remove existing media (img or video)
@@ -111,15 +123,6 @@ function renderPage() {
         biscordContainer.insertAdjacentHTML("beforeend", chatHTML);
     });
     loadIndex94Hitbox() // check if we need to load the index 94 hitbox for easter egg
-}
-
-// Navigation - not needed for PageHandler.js, but kept for ChitChatTime.js 
-function nextPageCC() {
-    goToPage(getCurrentPage() + 1);
-}
-
-function prevPageCC() {
-    goToPage(getCurrentPage() - 1);
 }
 
 // Easter Egg for index 94
