@@ -39,7 +39,6 @@ function getPageData(index = currPage) {
 function getPageType(index) {
     if (INTERACT_INDICES.includes(index)) return "interactable";
     if (index === 77) return "fly";
-    //if (CHAT_INDICES.includes(index)) return "chat";
     return "comic";
 }
 
@@ -48,7 +47,6 @@ function getCurrentPageType() {
 
     if (path.includes("Interactable")) return "interactable";
     if (path.includes("FlyMinigame")) return "fly";
-    //if (path.includes("ChitChatTime")) return "chat";
 
     if (path.includes("VRShipPages")) return "vrship";
     if (path.includes("VRBeachPages")) return "vrbeach";
@@ -88,8 +86,6 @@ function goToPage(index) {
     if (newRenderType === currentType) {
         if (newType === "comic" && typeof showPage === "function") {
             showPage(index);
-        // } else if (newType === "chat" && typeof renderPage === "function") {
-        //     renderPage();
         } else if (newType === "interactable") {
             if (typeof loadPage === "function") {
                 currInteract = index;
@@ -117,9 +113,6 @@ function goToPage(index) {
         case "fly":
             window.location.replace("FlyMinigame.html");
             break;
-        // case "chat":
-        //     window.location.replace("ChitChatTime.html");
-        //     break;
         case "vrship":
             window.location.replace("VRShipPages.html");
             break;
