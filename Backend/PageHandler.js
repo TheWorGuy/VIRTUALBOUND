@@ -30,33 +30,19 @@ const PROFILES = {
     }
 };
 
-/* 
-    TODO: check if Comic Pages or ChitChatTime
-    If ChitChatTime, load ChitChatTime.js and render chat and modify html:
-    Temporarily remove the following elements from the html:
-
-    <div id="comic-media" class="img" autoplay></div>
-        <div class="text">
-            <p id="comic-text"></p>
-        </div>
-
-    And replace with:
-    <div class="media-container"></div>
-    <div class="text-biscord"></div>
-*/
-
 // gather elements
-const textContainer = document.getElementById("comic-text");
+const textContainer = document.querySelector(".text");
 const prev = document.getElementById("previous");
 const next = document.getElementById("next");
 
 // gather elements for ChitChatTime
-const biscordContainer = document.querySelector(".text-biscord");
+//const textContainer = document.querySelector(".text-biscord");
 const img = document.querySelector(".img");
 const containerParent = document.querySelector(".container");
 const mediaCCT = document.querySelector(".media-container");
 
 // Globals
+let textParagraph = document.getElementById("comic-text");
 let mediaContainer;
 let mediaParent;
 
@@ -99,12 +85,25 @@ function showPage(pageNum) {
     if (!page) return;
 
     const file = page.media;
+    
+    removeHitboxes(); // remove any existing hitboxes
+    resetTextContainer(); 
+    textContainer.classList.remove("text-biscord");
 
     // get da div
     mediaParent = mediaContainer?.parentElement;
     
-    renderMedia(file);
-    renderDialogueText(page.text, pageNum);
+    const mediaElement = renderMedia(file);
+
+    // render text area
+    if (isChitChatTimePage(pageNum)) {
+        
+        textContainer.classList.add("text-biscord");
+        renderBiscord(mediaElement, page);
+
+    } else {
+        renderDialogueText(page.text, pageNum);
+    }
 
     console.log("Index " + pageNum + " loaded.");
 
@@ -141,17 +140,15 @@ function renderMedia(theFile) {
     element.id = "comic-media";
     element.classList.add("img");
 
-    if (mediaParent && mediaContainer) {
-        mediaParent.replaceChild(element, mediaContainer);
-    } else if (mediaContainer) {
-        mediaContainer.appendChild(element);
-    }
-    mediaContainer = element; // replace da old div :3
+    mediaContainer.innerHTML = "";
+    mediaContainer.appendChild(element);
+
+    return element;
 }
 
 
 function renderDialogueText(theText, pageNum) {
-    textContainer.innerHTML = "";
+    textParagraph.innerHTML = "";
     if (!theText) return;
 
     const lines = theText.split("\n");
@@ -176,7 +173,7 @@ function renderDialogueText(theText, pageNum) {
         
         appendSpecialText(p, trimmed, pageNum);
 
-        textContainer.appendChild(p);
+        textParagraph.appendChild(p);
     });
 }
 
@@ -329,18 +326,27 @@ function updateNavigation() {
 
 }
 
+function resetTextContainer() {
+    textContainer.innerHTML = `
+        <p id="comic-text"></p>
+    `;
+
+    // Update the global reference
+    textParagraph = document.getElementById("comic-text");
+}
+
+function removeHitboxes() {
+    document.querySelectorAll(".hitbox").forEach(hitbox => hitbox.remove());
+}
+
 // ChitChatTime specific functions
+function isChitChatTimePage(pageNum) { // returns true or false if the page is a ChitChatTime page
+    return CHAT_INDICES.includes(pageNum);
+}
 
 function renderBiscord(element, page = getPageData()) {
-    // ChitChatTime Exclusive
-
-    // remove existing media (img or video)
-    if (mediaCCT) {
-        mediaCCT.innerHTML = "";
-        mediaCCT.appendChild(element);
-    }
     // clear chat
-    biscordContainer.innerHTML = "";
+    textContainer.innerHTML = "";
 
     // get chat
     const lines = (page.text || "")
@@ -385,7 +391,7 @@ function renderBiscord(element, page = getPageData()) {
                 <p class="bot">${combinedMessage}</p>
             </div>
         `;
-        biscordContainer.insertAdjacentHTML("beforeend", chatHTML);
+        textContainer.insertAdjacentHTML("beforeend", chatHTML);
     });
     loadIndex94Hitbox() // check if we need to load the index 94 hitbox for easter egg
 }
@@ -393,7 +399,8 @@ function renderBiscord(element, page = getPageData()) {
 function loadIndex94Hitbox() {
     if (getCurrentPage() !== 94) return;
 
-    const video = mediaCCT.querySelector("video");
+    const video = mediaContainer.querySelector("video");
+
     if (!video) return;
 
     let shouldReverse = false;
@@ -435,7 +442,7 @@ function loadIndex94Hitbox() {
             // queue reversal for next loop boundary
             shouldReverse = true;
         }, 
-        mediaContainer: mediaCCT
+        mediaContainer: mediaContainer
     });
 }
 
