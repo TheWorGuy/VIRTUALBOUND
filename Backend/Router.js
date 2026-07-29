@@ -162,3 +162,26 @@ function buildHitbox({ top, left, width, height, onEnter, onLeave, onClick, medi
     mediaContainer.appendChild(hitbox);
     return hitbox;
 }
+
+// used in ace attorney pages to build hitboxes over media in replacement of putting text in comic text box
+function buildTextBox({ top = "65%", left = "6%", width = "90%", height = "30%", mediaContainer, text }) {
+    const textbox = document.createElement("div");
+    textbox.classList.add("textbox");
+    textbox.style.position = "absolute";
+    textbox.style.top = top;
+    textbox.style.left = left;
+    textbox.style.width = width;
+    textbox.style.height = height;
+    textbox.style.zIndex = "19";
+    textbox.style.cursor = "pointer";
+    textbox.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+    
+    const textElement = document.createElement("p");
+    textElement.classList.add("text-attorney"); // change this style to match the regular comic text style
+    textElement.classList.add("ye");
+    textElement.textContent = text;
+
+    textbox.appendChild(textElement);
+    mediaContainer.appendChild(textbox);
+    return textbox;
+}

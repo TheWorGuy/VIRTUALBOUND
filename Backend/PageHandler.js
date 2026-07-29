@@ -29,6 +29,8 @@ const PROFILES = {
         class: "ka"
     }
 };
+const ATTORNEY_START = 174;
+const ATTORNEY_END = 198;
 
 // gather elements
 const textContainer = document.querySelector(".text");
@@ -101,9 +103,12 @@ function showPage(pageNum) {
         textContainer.classList.add("text-biscord");
         renderBiscord(mediaElement, page);
 
+    } else if (isAttorneyPage(pageNum)) {
+        renderAttorney(pageNum);
     } else {
         renderDialogueText(page.text, pageNum);
     }
+
 
     console.log("Index " + pageNum + " loaded.");
 
@@ -339,9 +344,13 @@ function removeHitboxes() {
     document.querySelectorAll(".hitbox").forEach(hitbox => hitbox.remove());
 }
 
-// ChitChatTime specific functions
+// Additional Page Type Functions
 function isChitChatTimePage(pageNum) { // returns true or false if the page is a ChitChatTime page
     return CHAT_INDICES.includes(pageNum);
+}
+
+function isAttorneyPage(pageNum) {
+    return (pageNum >= ATTORNEY_START && pageNum <= ATTORNEY_END);
 }
 
 function renderBiscord(element, page = getPageData()) {
@@ -444,6 +453,23 @@ function loadIndex94Hitbox() {
         }, 
         mediaContainer: mediaContainer
     });
+}
+
+function renderAttorney(pageNum = getCurrentPage()) {
+
+    const page = getPageData(pageNum);
+
+    buildTextBox({
+        mediaContainer: mediaContainer,
+        text: page.text
+        // put text in here instead of the comic text box and 
+        // animate each character like in the ace attorney games
+        // as soon as all text is rendered, the text just stays there. 
+        // might need to do in CSS @keyframes or something.
+    });
+
+    console.log("Attorney page rendered. Text box built.");
+    console.log(page.text);
 }
 
 const INTERACTABLE_NAV = {
