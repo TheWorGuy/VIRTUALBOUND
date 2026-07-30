@@ -102,13 +102,15 @@ function showPage(pageNum) {
         
         textContainer.classList.add("text-biscord");
         renderBiscord(mediaElement, page);
+        mediaContainer.style.cursor = "default"; // reset cursor for biscord pages
 
     } else if (isAttorneyPage(pageNum)) {
         renderAttorney(pageNum);
+        mediaContainer.style.cursor = "pointer"; // set cursor for attorney pages
     } else {
         renderDialogueText(page.text, pageNum);
+        mediaContainer.style.cursor = "default"; // reset cursor for normal pages
     }
-
 
     console.log("Index " + pageNum + " loaded.");
 
@@ -456,16 +458,23 @@ function loadIndex94Hitbox() {
 }
 
 function renderAttorney(pageNum = getCurrentPage()) {
-
+    
     const page = getPageData(pageNum);
 
     buildTextBox({
         mediaContainer: mediaContainer,
-        text: page.text
-        // put text in here instead of the comic text box and 
-        // animate each character like in the ace attorney games
-        // as soon as all text is rendered, the text just stays there. 
-        // might need to do in CSS @keyframes or something.
+    });
+
+    const textbox = document.querySelector(".textbox");
+
+    currentSpans = animateText(mediaContainer, textbox, document.querySelector(".text-attorney"), page.text, 50);
+
+    mediaContainer.addEventListener("click", () => {
+        if (isTyping) {
+            finishAttorneyText();
+            mediaContainer.style.cursor = "default";
+            textbox.style.cursor = "default";
+        }
     });
 
     console.log("Attorney page rendered. Text box built.");

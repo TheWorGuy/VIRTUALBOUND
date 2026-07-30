@@ -7,6 +7,8 @@ const IMAGE_TYPES = ["png", "jpg", "jpeg", "gif"];
 const VIDEO_TYPES = ["mp4", "webm", "mov"];
 const STYLE_SPLIT = 25; // index at which style changes from VR to web
 const DEBUG_MODE = true;
+const DEFAULT_DELAY = 50; // default delay for text animation
+
 
 // Globals
 let currPage = 0; // current page 
@@ -164,24 +166,85 @@ function buildHitbox({ top, left, width, height, onEnter, onLeave, onClick, medi
 }
 
 // used in ace attorney pages to build hitboxes over media in replacement of putting text in comic text box
-function buildTextBox({ top = "65%", left = "6%", width = "90%", height = "30%", mediaContainer, text }) {
+function buildTextBox({ top = "65%", left = "6%", width = "90%", height = "30%", mediaContainer }) {
     const textbox = document.createElement("div");
     textbox.classList.add("textbox");
-    textbox.style.position = "absolute";
     textbox.style.top = top;
     textbox.style.left = left;
     textbox.style.width = width;
     textbox.style.height = height;
-    textbox.style.zIndex = "19";
-    textbox.style.cursor = "pointer";
-    textbox.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
     
     const textElement = document.createElement("p");
     textElement.classList.add("text-attorney"); // change this style to match the regular comic text style
     textElement.classList.add("ye");
-    textElement.textContent = text;
 
     textbox.appendChild(textElement);
+
     mediaContainer.appendChild(textbox);
+
     return textbox;
+}
+
+let typingInterval = null;
+let isTyping = false;
+let currentSpans = [];
+
+function animateText(mediaContainer, textbox, textElement, text, speed = DEFAULT_DELAY) {
+
+    if (typingInterval) {
+        clearInterval(typingInterval);
+    }
+
+    textElement.innerHTML = ""; // Clear existing text
+
+    const spans = [];
+
+    for (const char of text) {
+
+        const span = document.createElement("span");
+
+        span.textContent = char;
+
+        span.style.visibility = "hidden"; // Hide the character initially
+
+        textElement.appendChild(span);
+
+        spans.push(span);
+
+    }
+
+    let index = 0;
+    isTyping = true;
+
+    typingInterval = setInterval(() => {
+
+        if (index >= spans.length) {
+            clearInterval(typingInterval);
+            isTyping = false;
+            textbox.style.cursor = "default";
+            mediaContainer.style.cursor = "default";
+            return;
+        }
+
+        spans[index].style.visibility = "visible"; // Show the character
+
+        index++;
+
+    }, speed);
+
+    currentSpans = spans; // Store the spans for potential further manipulation
+    return spans;
+}
+
+function finishAttorneyText() {
+
+    if (!isTyping) return;
+
+    clearInterval(typingInterval);
+
+    currentSpans.forEach(span => {
+        span.style.visibility = "visible";
+    });
+
+    isTyping = false;
 }
