@@ -220,9 +220,14 @@ function animateText(mediaContainer, textbox, textElement, text, speed = DEFAULT
 
         if (index >= spans.length) {
             clearInterval(typingInterval);
+
             isTyping = false;
+
             textbox.style.cursor = "default";
             mediaContainer.style.cursor = "default";
+
+            stopMediaAnimation(mediaContainer);
+
             return;
         }
 
@@ -236,7 +241,7 @@ function animateText(mediaContainer, textbox, textElement, text, speed = DEFAULT
     return spans;
 }
 
-function finishAttorneyText() {
+function finishAttorneyText(mediaContainer) {
 
     if (!isTyping) return;
 
@@ -247,4 +252,25 @@ function finishAttorneyText() {
     });
 
     isTyping = false;
+
+    stopMediaAnimation(mediaContainer);
+    
+}
+
+function stopMediaAnimation(mediaContainer) {
+    const video = mediaContainer.querySelector("video");
+
+    if (!video) return;
+
+    video.loop = false;
+
+    video.pause();
+
+    video.currentTime = 0;
+
+    video.addEventListener(
+        "seeked",
+        () => video.pause(),
+        { once : true }
+    );
 }

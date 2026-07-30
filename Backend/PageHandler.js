@@ -138,6 +138,7 @@ function renderMedia(theFile) {
         element.loop = true;
         element.muted = false;
         element.playsInline = true;
+        element.preload = "auto";
     } else { // if neither... GET OUT
         console.warn("Unsupported media type:", ext);
         return;
@@ -467,18 +468,20 @@ function renderAttorney(pageNum = getCurrentPage()) {
 
     const textbox = document.querySelector(".textbox");
 
-    currentSpans = animateText(mediaContainer, textbox, document.querySelector(".text-attorney"), page.text, 50);
+    currentSpans = animateText(mediaContainer, textbox, 
+        document.querySelector(".text-attorney"), page.text);
 
-    mediaContainer.addEventListener("click", () => {
-        if (isTyping) {
-            finishAttorneyText();
-            mediaContainer.style.cursor = "default";
-            textbox.style.cursor = "default";
-        }
-    });
+    mediaContainer.onclick = () => {
 
-    console.log("Attorney page rendered. Text box built.");
-    console.log(page.text);
+        if (!isTyping) return;
+
+        finishAttorneyText(mediaContainer);
+
+        mediaContainer.style.cursor = "default";
+
+        textbox.style.cursor = "default";
+
+    };
 }
 
 const INTERACTABLE_NAV = {
