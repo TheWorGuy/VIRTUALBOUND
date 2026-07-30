@@ -15,6 +15,7 @@ let currPage = 0; // current page
 let pagesData = [];
 let initialized = false;
 let secret = false;
+let keyboardInitialized = false;
 
 // get the json!!!
 async function initRouter() {
@@ -27,6 +28,8 @@ async function initRouter() {
     currPage = saved ? parseInt(saved) : 0;
 
     initialized = true;
+
+    initKeyboardNavigation();
 }
 
 // getters
@@ -262,6 +265,11 @@ function stopMediaAnimation(mediaContainer) {
 
     if (!video) return;
 
+    // Don't pause defendant_1.MOV
+    if (video.currentSrc.toLowerCase().includes("defendant_1.mov")) {
+        return;
+    }
+
     video.loop = false;
 
     video.pause();
@@ -273,4 +281,42 @@ function stopMediaAnimation(mediaContainer) {
         () => video.pause(),
         { once : true }
     );
+}
+
+function initKeyboardNavigation() {
+
+    if (keyboardInitialized) return;
+    keyboardInitialized = true;
+
+    document.addEventListener("keydown", (e) => {
+
+        // don't interfere with typing into inputs later
+        if (
+            e.target.tagName === "INPUT" ||
+            e.target.tagName === "TEXTAREA" ||
+            e.target.isContentEditable
+        ) return;
+        
+        switch (e.key) {
+            case "ArrowLeft":
+                const prev = document.getElementById("previous");
+
+                if (prev && prev.offsetParent !== null) {
+                    prev.click();
+                }
+
+                break;
+
+            case "ArrowRight":
+                const next = document.getElementById("next");
+
+                if (next && next.offsetParent !== null) {
+                    next.click();
+                }
+
+                break;
+        }
+
+    });
+
 }

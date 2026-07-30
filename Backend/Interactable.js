@@ -891,3 +891,5 @@ function handleSweaterClick(theEvent) { // implement later
             break;
     }
 }
+
+// Kimiko IDs Section
