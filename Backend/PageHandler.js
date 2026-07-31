@@ -38,7 +38,6 @@ const prev = document.getElementById("previous");
 const next = document.getElementById("next");
 
 // gather elements for ChitChatTime
-//const textContainer = document.querySelector(".text-biscord");
 const img = document.querySelector(".img");
 const containerParent = document.querySelector(".container");
 const mediaCCT = document.querySelector(".media-container");

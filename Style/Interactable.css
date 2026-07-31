@@ -65,3 +65,126 @@
         grid-row: 3/4; 
     }
 }
+
+/* Kimiko IDs Page */
+.id-button {
+    position: absolute;
+    width: 7%;
+    height: auto;
+
+    cursor: pointer;
+    user-select: none;
+
+    z-index: 25;
+
+    opacity: 1;
+
+    --scale: 1;
+
+    transition:
+        transform 400ms cubic-bezier(0.22,1,0.36,1),
+        opacity 300ms ease,
+        filter 150ms ease;
+}
+.id-button:hover {
+    --scale: 1.12;
+}
+.id-button:active {
+    --scale: 0.92;
+    filter: brightness(.8);
+}
+
+.left-btn {
+    left: 3%;
+    top: 50%;
+    transform:
+        translateY(-50%)
+        scale(var(--scale));
+}
+.left-btn.hidden {
+    transform:
+        translate(-200%, -50%)
+        scale(var(--scale));
+}
+
+.right-btn {
+    right: 3%;
+    top: 50%;
+    transform:
+        translateY(-50%)
+        scale(var(--scale));
+}
+.right-btn.hidden {
+    transform:
+        translate(200%, -50%)
+        scale(var(--scale));
+}
+
+.exit-btn {
+    top: 3%;
+    right: 3%;
+
+    transform:
+        translateY(0)
+        scale(var(--scale));
+}
+.exit-btn.hidden {
+    transform:
+        translateY(-200%)
+        scale(var(--scale));
+}
+
+.left-btn.disabled {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.right-btn.disabled {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.id-image {
+    position: absolute;
+
+    width: 100%;
+    height: auto;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 20;
+
+    transition:
+        transform 450ms cubic-bezier(0.22,1,0.36,1),
+        opacity 300ms ease;
+}
+.id-image.left {
+    transform: translate(-190%, -50%);
+}
+.id-image.center {
+    transform: translate(-50%, -50%);
+}
+.id-image.right {
+    transform: translate(90%, -50%);
+}
+.id-image.hidden {
+    opacity: 0;
+    transform: translate(-50%, 30%);
+}
+
+.id-tint {
+    position: absolute;
+    inset: 0;
+
+    background: rgba(0,0,0,0.55);
+
+    opacity: 0;
+
+    transition: opacity 300ms ease;
+
+    z-index: 15;
+}
+

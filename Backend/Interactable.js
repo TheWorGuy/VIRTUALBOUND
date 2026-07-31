@@ -1,3 +1,4 @@
+// Interactable.js
 // Globals
 let currInteract = INTERACT_INDICES[0];
 let isHovering = false;
@@ -5,6 +6,13 @@ let blinkOn= true;
 let blinkInterval = null;
 let outlineImages = [];
 let nextIndex;
+let currID = 0; // for Kimiko IDs
+let isSliding = false;
+let idImage = null;
+let left_btn = null;
+let right_btn = null;
+let exit_btn = null;
+let tint = null;
 
 console.log(currInteract);
 
@@ -35,6 +43,13 @@ const textBox = document.querySelector(".text");
 const swit = document.querySelector(".switch");
 
 const BANANA_PAGE = 228;
+const ID_LETTERS = [
+        "a","b","c","d","e",
+        "f","g","h","i","j"
+    ];
+const ID_MIN = 0;
+const ID_MAX = ID_LETTERS.length - 1;
+const TIMEOUT = 450;
 
 // Function
 function nextPageIn() { // goes to next page depending on current page
@@ -74,6 +89,10 @@ function loadPage() {
         case 49: 
             loadInteract49(); 
             nextIndex = 57;
+            break;
+        case 106:
+            loadInteract106();
+            nextIndex = 107;
             break;
         case 64: 
             loadInteract64(); 
@@ -213,6 +232,7 @@ function resetInteract() {
     isHovering = false;
     blinkOn = true;
     next.hidden = false;
+    currID = 0;
 }
 
 function startBlinking() {
@@ -807,8 +827,8 @@ function loadInteract64() {
         { letter: "h", top: "20%", left: "89%", width: "11%", height: "75%" }
     ];
 
-    let basePath = "./Images/id_65_img/65"; // can be a - h 
-    let fileType = ".png" // append after specifier
+    const basePath = "./Images/id_65_img/65"; // can be a - h 
+    const fileType = ".png" // append after specifier
 
     interactBG.src = "./Images/id_65_img/65_background.png";
 
@@ -893,3 +913,173 @@ function handleSweaterClick(theEvent) { // implement later
 }
 
 // Kimiko IDs Section
+function loadInteract106() {
+    resetInteract();
+    
+    currInteract = 106;
+
+    const page = getPageData(currInteract); // grab page
+    interactText.innerText = page?.text || ""; // set text
+
+    interactBG.src = "./Images/107.PNG";
+
+    const ids = document.createElement("img");
+    ids.src = "./Images/id_106_img/106_ids.PNG";
+    ids.classList.add("interact-parts", "suspects");
+
+    interactArea.appendChild(ids);
+
+    ids.style.opacity = "0"; // initial
+    outlineImages.push(ids);
+
+    // hitbox for plush
+    buildHitbox({
+        top: "62%",
+        left: "39%",
+        width: "15.5%",
+        height: "7%",
+        onEnter: () => ids.style.opacity = "1",
+        onLeave: () => ids.style.opacity = "0",
+        onClick: () => idSelect(),
+        mediaContainer: interactArea
+    });
+
+    startBlinking();
+}
+
+function idSelect() {
+    console.log("ids selected! activate overlay!");
+
+    left_btn = document.createElement("img");
+    right_btn = document.createElement("img");
+    exit_btn = document.createElement("img");
+    tint = document.createElement("div");
+    idImage = document.createElement("img");
+
+    left_btn.src = "./Images/id_106_img/106_left.png";
+    right_btn.src = "./Images/id_106_img/106_right.png";
+    exit_btn.src = "./Images/id_106_img/106_exit.png";
+
+    left_btn.classList.add("id-button", "left-btn", "hidden");
+    right_btn.classList.add("id-button", "right-btn", "hidden");
+    exit_btn.classList.add("id-button", "exit-btn", "hidden");
+    tint.classList.add("id-tint");
+
+    interactArea.appendChild(tint);
+    interactArea.appendChild(left_btn);
+    interactArea.appendChild(right_btn);
+    interactArea.appendChild(exit_btn);
+
+    idImage.classList.add("id-image", "hidden");
+    interactArea.appendChild(idImage);
+
+    requestAnimationFrame(() => {
+
+        tint.style.opacity = "1";
+
+        left_btn.classList.remove("hidden");
+        right_btn.classList.remove("hidden");
+        exit_btn.classList.remove("hidden");
+
+        idImage.classList.remove("hidden");
+        idImage.classList.add("center");
+
+    });
+    
+    idImage.src = `./Images/id_106_img/106_id_${ID_LETTERS[currID]}.png`;
+
+    left_btn.onclick = () => {
+        if (currID > ID_MIN)
+            slideTo(currID - 1, "left");
+    };
+
+    right_btn.onclick = () => {
+        if (currID < ID_MAX)
+            slideTo(currID + 1, "right");
+    };
+
+    exit_btn.onclick = () => {
+
+        tint.style.opacity = "0";
+        left_btn.classList.add("hidden");
+        right_btn.classList.add("hidden");
+        exit_btn.classList.add("hidden");
+        idImage.classList.add("hidden");
+
+        setTimeout(() => {
+
+            tint.remove();
+            idImage.remove();
+            left_btn.remove();
+            right_btn.remove();
+            exit_btn.remove();
+
+        }, TIMEOUT);
+
+    };
+
+    idImage.classList.add("id-image", "center");
+    interactArea.appendChild(idImage);
+
+    updateButtons();
+}
+
+function slideTo(newIndex, direction) {
+
+    if (isSliding) return;
+    isSliding = true;
+
+    const oldImage = idImage;
+
+    const newImage = document.createElement("img");
+    newImage.className = "id-image";
+
+    newImage.src =
+        `./Images/id_106_img/106_id_${ID_LETTERS[newIndex]}.png`;
+
+    // Start just outside the center
+    if (direction === "right")
+        newImage.classList.add("right");
+    else
+        newImage.classList.add("left");
+
+    interactArea.appendChild(newImage);
+
+    newImage.offsetHeight;
+
+    requestAnimationFrame(() => {
+
+        // Old image leaves
+        oldImage.classList.remove("center");
+
+        if (direction === "right")
+            oldImage.classList.add("left");
+        else
+            oldImage.classList.add("right");
+
+        // New image enters
+        newImage.classList.remove(direction === "right" ? "right" : "left");
+        newImage.classList.add("center");
+    });
+
+    setTimeout(() => {
+
+        oldImage.remove();
+
+        idImage = newImage;
+        currID = newIndex;
+
+        updateButtons();
+
+        isSliding = false;
+
+    }, TIMEOUT);
+}
+
+function updateButtons() {
+    if (currID === ID_MIN) left_btn.classList.add("disabled");
+    else left_btn.classList.remove("disabled");
+
+    if (currID === ID_MAX) right_btn.classList.add("disabled");
+    else right_btn.classList.remove("disabled");
+}

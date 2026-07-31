@@ -1024,3 +1024,9 @@ a:hover {
     display: flex;
     align-items: flex-start;
 }
+
+/* Page Number Display */
+.pg-num {
+    font-family: "Jersey 10", sans-serif;
+    font-weight: 400;
+}

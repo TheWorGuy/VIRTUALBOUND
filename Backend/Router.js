@@ -2,13 +2,14 @@
 const MAX_INDEX = 224; // 0–224 allowed in normal flow
 // const SECRET_INDICES = [225, 226, 227, 228, 229, 230, 231, 232]; // secret pages
 const CHAT_INDICES = [85, 91, 94, 95, 96, 97, 99];
-const INTERACT_INDICES = [5, 16, 30, 40, 49, 64, 111, 151]; 
+const INTERACT_INDICES = [5, 16, 30, 40, 49, 64, 106, 111, 151]; 
 const IMAGE_TYPES = ["png", "jpg", "jpeg", "gif"];
 const VIDEO_TYPES = ["mp4", "webm", "mov"];
 const STYLE_SPLIT = 25; // index at which style changes from VR to web
 const DEBUG_MODE = true;
 const DEFAULT_DELAY = 50; // default delay for text animation
-
+const STILL_START = 195;
+const STILL_END = 198;
 
 // Globals
 let currPage = 0; // current page 
@@ -194,6 +195,11 @@ let currentSpans = [];
 
 function animateText(mediaContainer, textbox, textElement, text, speed = DEFAULT_DELAY) {
 
+    let currPage = getCurrentPage()
+    if (currPage >= STILL_START && currPage <= STILL_END) {
+        stopMediaAnimation(mediaContainer);
+    }
+
     if (typingInterval) {
         clearInterval(typingInterval);
     }
@@ -319,4 +325,14 @@ function initKeyboardNavigation() {
 
     });
 
+}
+
+function displayPageNumber(textContainer) {
+    let pageNum = getCurrentPage();
+    let pageType = getCurrentPageType();
+
+    // insert the page number in the div with the text class, aka textContainer in PageHandler.js
+    // the page number should appear in the bottom right corner
+    // make it scalable like how the textbox text was done in the ace attorney thing
+    // colors change based on page type
 }
