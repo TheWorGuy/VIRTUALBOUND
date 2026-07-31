@@ -105,7 +105,7 @@ function showPage(pageNum) {
 
     } else if (isAttorneyPage(pageNum)) {
         renderAttorney(pageNum);
-        mediaContainer.style.cursor = "pointer"; // set cursor for attorney pages
+        if (DEBUG_MODE) mediaContainer.style.cursor = "pointer"; // set cursor for attorney pages
     } else {
         renderDialogueText(page.text, pageNum);
         mediaContainer.style.cursor = "default"; // reset cursor for normal pages
@@ -472,12 +472,9 @@ function renderAttorney(pageNum = getCurrentPage()) {
 
     mediaContainer.onclick = () => {
 
-        if (!isTyping) return;
-
+        if (!isTyping || !DEBUG_MODE) return;
         finishAttorneyText(mediaContainer);
-
         mediaContainer.style.cursor = "default";
-
         textbox.style.cursor = "default";
 
     };

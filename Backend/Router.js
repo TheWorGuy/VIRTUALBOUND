@@ -177,6 +177,7 @@ function buildTextBox({ top = "65%", left = "6%", width = "90%", height = "30%",
     textbox.style.left = left;
     textbox.style.width = width;
     textbox.style.height = height;
+    if (DEBUG_MODE) textbox.style.cursor = "pointer";
     
     const textElement = document.createElement("p");
     textElement.classList.add("text-attorney"); // change this style to match the regular comic text style
