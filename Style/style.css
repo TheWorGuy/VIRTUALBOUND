@@ -82,6 +82,9 @@ a:hover {
     transform: scale(1.1);
     cursor: pointer;
 }
+.switch .web-a:hover {
+    transform: none;
+}
 
 .button {
     background-color: rgb(233, 233, 233);
@@ -460,9 +463,11 @@ a:hover {
     padding: 3vh;
     grid-column: 2/3;
     grid-row: 1/2;
+    overflow-x: hidden;
     overflow-y: auto;
     max-height: 80vh;
     clip-path: polygon(1% 1%, 100% 0, 99% 100%, 2% 99%);
+    position: relative;
 }
 
 .text-biscord {
@@ -532,8 +537,10 @@ a:hover {
     font-weight: 400;
     font-style: normal;
     font-size: 9vh;
-    text-align: center;
-    word-spacing: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
     clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%);
 }
 
@@ -895,7 +902,7 @@ a:hover {
     height: 100%;
     margin-left: 2%;
     margin-right: 2%;
-    word-spacing: 30px;
+    gap: 30px;
 }
 
 .web-a {
@@ -1025,7 +1032,20 @@ a:hover {
 }
 
 /* Page Number Display */
-.pg-num {
+.page-number {
+    color: rgb(75, 75, 75);
+
     font-family: "Jersey 10", sans-serif;
-    font-weight: 400;
+    font-size: 7vh;
+
+    pointer-events: none;
+    user-select: none;
+    opacity: 1;
+}
+
+.page-vr {
+    color: rgb(255, 196, 0);
+}
+.page-chit-chat {
+    color: rgb(255, 255, 255);
 }

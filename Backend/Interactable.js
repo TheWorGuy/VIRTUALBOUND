@@ -27,6 +27,7 @@ async function initInteract() {
     console.log("Index " + currInteract + " loaded.");
 
     loadPage();
+    displayPageNumber();
 }
 
 // gather elements

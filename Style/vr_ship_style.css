@@ -14,6 +14,9 @@
     transform: scale(1.1);
     cursor: pointer;
 }
+.switch .vr-ship-a:hover {
+    transform: none;
+}
 
 .button-vr-ship {
     background-color: rgb(15, 7, 84);

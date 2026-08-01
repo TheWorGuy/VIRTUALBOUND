@@ -1,3 +1,5 @@
+// PageHandler.js
+
 // declare all media types that can be displayed
 const FIRST_PAGE = 0;
 const SPECIAL_TEXT = {
@@ -79,6 +81,7 @@ async function init() {
     mediaParent = mediaContainer?.parentElement;
 
     showPage(currPage);
+    displayPageNumber();
 }
 
 function showPage(pageNum) {
@@ -610,7 +613,7 @@ const INTERACTABLE_NAV = {
     227: { next: 74, prev: 70 }, // onix special page
     228: { next: 30, prev: 40 }, // banana 
     229: { next: 74, prev: 68 }, // oil 
-    // 230: { next: 88, prev: 86 }, // damnit 87
-    // 231: { next: 88, prev: 87 }, // dubai chocowate (intended index numbers)
-    // 232: { next: 89, prev: 87 }, // nyle tweaking 88
+
+    230: { next: 88, prev: 87 }, // dubai chocowate (intended index numbers)
+
 };

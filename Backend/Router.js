@@ -1,12 +1,14 @@
+// Router.js
+
 // Constants
 const MAX_INDEX = 224; // 0–224 allowed in normal flow
-// const SECRET_INDICES = [225, 226, 227, 228, 229, 230, 231, 232]; // secret pages
-const CHAT_INDICES = [85, 91, 94, 95, 96, 97, 99];
+const SECRET_INDICES = [225, 226, 227, 228, 229, 230]; // secret pages
+const CHAT_INDICES = [85, 91, 94, 95, 96, 97, 99, 230];
 const INTERACT_INDICES = [5, 16, 30, 40, 49, 64, 106, 111, 151]; 
 const IMAGE_TYPES = ["png", "jpg", "jpeg", "gif"];
 const VIDEO_TYPES = ["mp4", "webm", "mov"];
 const STYLE_SPLIT = 25; // index at which style changes from VR to web
-const DEBUG_MODE = true;
+const DEBUG_MODE = false;
 const DEFAULT_DELAY = 50; // default delay for text animation
 const STILL_START = 195;
 const STILL_END = 198;
@@ -76,7 +78,7 @@ function goToPage(index) {
     if (newType === "comic") {
         if (index < STYLE_SPLIT) {
             newRenderType = "vrship";
-        } else if (index >= 213 && index <= 219) {
+        } else if (isBeachPage(index)) {
             newRenderType = "vrbeach";
         } else {
             newRenderType = "web";
@@ -92,12 +94,14 @@ function goToPage(index) {
     if (newRenderType === currentType) {
         if (newType === "comic" && typeof showPage === "function") {
             showPage(index);
+            displayPageNumber();
         } else if (newType === "interactable") {
             if (typeof loadPage === "function") {
                 currInteract = index;
                 currPage = index;
                 localStorage.setItem("currPage", index);
                 loadPage();
+                displayPageNumber();
             } else {
                 // defer until interactable is initialized
                 window.addEventListener("DOMContentLoaded", () => {
@@ -105,6 +109,7 @@ function goToPage(index) {
                     currPage = index;
                     localStorage.setItem("currPage", index);
                     loadPage();
+                    displayPageNumber();
                 });
             }
         }
@@ -138,6 +143,18 @@ function unlockPage(index) {
         unlocked.push(index);
         localStorage.setItem("unlockedPages", JSON.stringify(unlocked));
     }
+}
+
+function isBeachPage(index) {
+    return (index >= 213 && index <= 219);
+}
+
+function isChitChatPage(index) {
+    return CHAT_INDICES.includes(index);
+}
+
+function isSecretPage(index) {
+    return SECRET_INDICES.includes(index);
 }
 
 // used in interactable pages to build hitboxes over media 
@@ -328,12 +345,21 @@ function initKeyboardNavigation() {
 
 }
 
-function displayPageNumber(textContainer) {
-    let pageNum = getCurrentPage();
-    let pageType = getCurrentPageType();
+function displayPageNumber() {
 
-    // insert the page number in the div with the text class, aka textContainer in PageHandler.js
-    // the page number should appear in the bottom right corner
-    // make it scalable like how the textbox text was done in the ace attorney thing
-    // colors change based on page type
+    const pageNumber = document.querySelector(".page-number");
+    const currentPage = getCurrentPage();
+
+    if (!pageNumber) return;
+
+    pageNumber.textContent = getCurrentPage() + 1; // Display page number starting from 1
+    pageNumber.classList.remove("page-vr");
+
+    if (currentPage < STYLE_SPLIT || isBeachPage(currentPage)) {
+        pageNumber.classList.add("page-vr");
+    } 
+
+    if (isSecretPage(currentPage) && !DEBUG_MODE) {
+        pageNumber.textContent = "???";
+    }
 }
