@@ -445,7 +445,7 @@
     },
     {
         "media": "./Images/112.png",
-        "text": "Looking around your room, you can deduce that your id was not merely lost…\nIt was STOLEN! [Put a dramatic audio clip]\nWho could have possibly committed such a vile act of evil?! You're going to have to look around the surrounding area to try to find this criminal.\nYou've got your trusty [NOTEPAD] to help keep track of everything."
+        "text": "Looking around your room, you can deduce that your id was not merely lost…\nIt was STOLEN!\nWho could have possibly committed such a vile act of evil?! You're going to have to look around the surrounding area to try to find this criminal."
     },
     {
         "media": "./Images/113.jpg",
@@ -501,7 +501,7 @@
     },
     {
         "media": "./Images/126.png",
-        "text": "Hey! The rat's stealing one of your ids!\nWait a minute… GASP!\nIt must've been the rat!\nThough, the more you think about it, maybe it was trying to defend itself or something? It'd be best to not jump to conclusions just yet. But you've got your eye on him.\n[NOTEPAD]"
+        "text": "Hey! The rat's stealing one of your ids!\nWait a minute… GASP!\nIt must've been the rat!\nThough, the more you think about it, maybe it was trying to defend itself or something? It'd be best to not jump to conclusions just yet."
     },
     {
         "media": "./Images/127.png",
@@ -520,7 +520,7 @@
         "text": "??? : * Walks towawd a suspicious wooking pwushie and tawks in a chawismatic yet demanding voice *\n??? : Hello Mister William After!\n??? : * Pats his shouwders to give him a sense of secuwity *\n??? : I've come to ask you a couple of questions."
     },
     {
-        "media": "./Images/131_151_174.png",
+        "media": "./Images/131.png",
         "text": ""
     },
     {
@@ -549,7 +549,7 @@
     },
     {
         "media": "./Images/138.png",
-        "text": "Hmmm, he's quite the stubborn fellow isn't he.\nYou'd normally use more drastic measures in order to get answers out of this friend turned potential con.\nLike tickling him, cuddling him, not kissing him goodnight and so many more cruel methods.\nBut alas, you know he's too resilient to fall for such premodernal torture methods.\nHe did serve in all seven world wars after all!\nHowever, you won't take your eyes off of him just yet. He knows a lot about you, he knows what you hold dear and you know he's the type to act irrationally.\nYou should probably write him down as a potential suspect.\n[NOTEPAD]"
+        "text": "Hmmm, he's quite the stubborn fellow isn't he.\nYou'd normally use more drastic measures in order to get answers out of this friend turned potential con.\nLike tickling him, cuddling him, not kissing him goodnight and so many more cruel methods.\nBut alas, you know he's too resilient to fall for such premodernal torture methods.\nHe did serve in all seven world wars after all!\nHowever, you won't take your eyes off of him just yet. He knows a lot about you, he knows what you hold dear and you know he's the type to act irrationally.\nYou should probably write him down as a potential suspect."
     },
     {
         "media": "./Images/139.jpg",
@@ -565,7 +565,7 @@
     },
     {
         "media": "./Images/142.mov",
-        "text": "You search up some Vocaboid songs.\nLet's see… Oh, this song looks good. Nateru's New Darling ft. Matsune Hiku! \nSeems to be in Japanese though. Whatever, couldn't hurt to give it a listen [Put link to the song]"
+        "text": "You search up some Vocaboid songs.\nLet's see… Oh, this song looks good. Nateru's New Darling ft. Matsune Hiku! \nSeems to be in Japanese though. Whatever, couldn't hurt to give it a listen\nhttps://youtu.be/nXNeufhq_nw?si=IJsgap3d3g6Lxyhr"
     },
     {
         "media": "./Images/143.png",
@@ -585,7 +585,7 @@
     },
     {
         "media": "./Images/147.png",
-        "text": "But wait, what's this?\nThere seems to be a written message near the bottom right corner of the poster.\n“Matsune Hiku is coming!!!”\nWhat the hell does that even mean?\nOn one hand, this could be just a promotional poster advertising her next performance.\nBut on the other hand, it could be a threat!\nYou need to write this down on your [NOTEPAD] this second!"
+        "text": "But wait, what's this?\nThere seems to be a written message near the bottom right corner of the poster.\n“Matsune Hiku is coming!!!”\nWhat the hell does that even mean?\nOn one hand, this could be just a promotional poster advertising her next performance.\nBut on the other hand, it could be a threat!\nYou need to write this down this second!"
     },
     {
         "media": "./Images/148.png",
@@ -657,11 +657,11 @@
     },
     {
         "media": "./Images/165.png",
-        "text": ""
+        "text": "Dear\nGod\nShe's here..."
     },
     {
         "media": "./Images/166.png",
-        "text": "??? : Hey, umm, would you happen to have a paper with Matsune Hiku's signature on it? I lost it and I've been searching for it for a whi-"
+        "text": "Matsune Hiku? : Hey, umm, would you happen to have a paper with Matsune Hiku's signature on it? I lost it and I've been searching for it for a whi-"
     },
     {
         "media": "./Images/167.png",
@@ -809,7 +809,7 @@
     },
     {
         "media": "./Images/203.png",
-        "text": ""
+        "text": "In we goooooooo!"
     },
     {
         "media": "./Images/204.png",

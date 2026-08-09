@@ -16,6 +16,7 @@ const SPEAKERS = {
     "??? :": "gray-ye",
     "KimiwimiUwU :": "ye",
     "Token :": "ka",
+    "Matsune Hiku? :": "aq",
 };
 const PROFILES = {
     "KimiwimiUwU": {

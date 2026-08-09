@@ -587,7 +587,7 @@ a:hover {
 }
 
 .gray-ye {
-    color: rgb(254, 246, 11);
+    color: rgb(255, 221, 0);
 }
 
 .ka {
@@ -632,6 +632,10 @@ a:hover {
 
 .hp {
     color: rgb(220, 11, 126);
+}
+
+.aq {
+    color: rgb(152, 255, 255);
 }
 
 /* Media Query*/
