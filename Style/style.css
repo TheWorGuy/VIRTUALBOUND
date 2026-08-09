@@ -630,6 +630,10 @@ a:hover {
     color: rgb(201 239 243);
 }
 
+.hp {
+    color: rgb(220, 11, 126);
+}
+
 /* Media Query*/
 @media (max-width: 1250px) {
 
