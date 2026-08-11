@@ -38,6 +38,8 @@ const ATTORNEY_START = 174;
 const ATTORNEY_END = 198;
 const ATTORNEY_EXCEPTION = 181;
 
+const SPECIAL_TEXT_RETURN_KEY = "specialTextReturnPage";
+
 // gather elements
 const textContainer = document.querySelector(".text");
 const prev = document.getElementById("previous");
@@ -203,7 +205,10 @@ function appendSpecialText(container, theText, pageNum) {
             el.className = "special";
 
             if (pageNum < STYLE_SPLIT) el.classList.add("vr-special");
-        
+            if (SPECIAL_TEXT[part] === null) {
+                el.classList.add("special-link");
+            }
+
             el.textContent = part;
 
             el.addEventListener("click", () => {
@@ -212,6 +217,9 @@ function appendSpecialText(container, theText, pageNum) {
                     window.open(part, "_blank");
                     return;
                 } else {
+                    if (part === "You know what that means") {
+                        setSpecialTextReturnPage(pageNum);
+                    }
                     goToPage(SPECIAL_TEXT[part]);
                 }
             });
@@ -222,6 +230,16 @@ function appendSpecialText(container, theText, pageNum) {
         }
     });
 }
+
+function setSpecialTextReturnPage(pageNum) {
+    localStorage.setItem(SPECIAL_TEXT_RETURN_KEY, pageNum);
+}
+
+function getSpecialTextReturnPage() {
+    const saved = localStorage.getItem(SPECIAL_TEXT_RETURN_KEY);
+    return saved !== null ? parseInt(saved, 10) : null;
+}
+
 
 function isSpecialText(theText) {
     if (!theText) return false;
@@ -280,6 +298,20 @@ function nextPage() {
         return;
     }
 
+    // "You know what that means" secret page
+    if (curr === 225) {
+        const returnPage = getSpecialTextReturnPage();
+
+        if (returnPage !== null) {
+            goToPage(returnPage + 1);
+        } else {
+            // fallback if the secret page was accessed directly
+            goToPage(returnPage);
+        }
+
+        return;
+    }
+
     if (nav) {
         if (nav.next === null) {
             // next button disabled, do nothing
@@ -296,6 +328,20 @@ function nextPage() {
 function prevPage() {
     const curr = getCurrentPage();
     const nav = INTERACTABLE_NAV[curr];
+
+    // "You know what that means" secret page
+    if (curr === 225) {
+        const returnPage = getSpecialTextReturnPage();
+
+        if (returnPage !== null) {
+            goToPage(returnPage);
+        } else {
+            // "fallback" if the secret page was accessed directly
+            goToPage(returnPage);
+        }
+
+        return;
+    }
 
     if (nav) {
         if (nav.prev === null) {

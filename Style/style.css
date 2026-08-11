@@ -568,6 +568,13 @@ a:hover {
     color: rgb(194, 194, 194);
     cursor: pointer;
 }
+.special-link {
+    color: rgb(59, 59, 59);
+}
+.special-link:hover {
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+}
 
 /* Colours */
 .pavo-pu {
