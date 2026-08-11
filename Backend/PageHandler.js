@@ -1,6 +1,6 @@
 // PageHandler.js
 
-// declare all media types that can be displayed
+// declare all media types that can be displayed 
 const FIRST_PAGE = 0;
 const SPECIAL_TEXT = {
     "John the Banana": 226,
@@ -9,6 +9,8 @@ const SPECIAL_TEXT = {
     "You know what that means": 225,
     "oil": 229,
     "DAMNIT": 230,
+    "https://youtu.be/nXNeufhq_nw?si=IJsgap3d3g6Lxyhr": null, 
+    // if any external link, put null to open in new tab
 };
 const SPEAKERS = {
     "Captain Kracker :": "or",
@@ -205,7 +207,13 @@ function appendSpecialText(container, theText, pageNum) {
             el.textContent = part;
 
             el.addEventListener("click", () => {
-                goToPage(SPECIAL_TEXT[part]);
+                if (SPECIAL_TEXT[part] === null) {
+                    // take link and open in new tab
+                    window.open(part, "_blank");
+                    return;
+                } else {
+                    goToPage(SPECIAL_TEXT[part]);
+                }
             });
 
             container.appendChild(el);
