@@ -34,6 +34,7 @@ const PROFILES = {
 };
 const ATTORNEY_START = 174;
 const ATTORNEY_END = 198;
+const ATTORNEY_EXCEPTION = 181;
 
 // gather elements
 const textContainer = document.querySelector(".text");
@@ -356,7 +357,7 @@ function isChitChatTimePage(pageNum) { // returns true or false if the page is a
 }
 
 function isAttorneyPage(pageNum) {
-    return (pageNum >= ATTORNEY_START && pageNum <= ATTORNEY_END);
+    return (pageNum >= ATTORNEY_START && pageNum <= ATTORNEY_END && pageNum !== ATTORNEY_EXCEPTION);
 }
 
 function renderBiscord(element, page = getPageData()) {

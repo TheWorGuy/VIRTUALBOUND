@@ -1046,14 +1046,19 @@ a:hover {
     font-family: "Jersey 10", sans-serif;
     font-size: 7vh;
 
-    pointer-events: none;
     user-select: none;
     opacity: 1;
+    text-decoration: none;
+    cursor: pointer;
+}
+.switch .page-number:hover {
+    transform: none;
 }
 
-.page-vr {
+.switch .page-vr {
     color: rgb(255, 196, 0);
 }
-.page-chit-chat {
-    color: rgb(255, 255, 255);
+.switch .page-vr:hover {
+    transform: none;
+    color: rgb(255, 153, 0);
 }
