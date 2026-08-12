@@ -596,30 +596,30 @@ function loadInteract111() {
     const page = getPageData(currInteract); // grab page
     interactText.innerText = page?.text || ""; // set text
 
-    interactBG.src = "./Images/id_111_img/111_background.PNG";
+    interactBG.src = "./Images/id_111_img/111_background.png";
 
     const crackwall = document.createElement("img");
-    crackwall.src = "./Images/id_111_img/111_crackwall.PNG";
+    crackwall.src = "./Images/id_111_img/111_crackwall.png";
     crackwall.classList.add("interact-parts", "kimikohouse");
 
     const plushpile = document.createElement("img");
-    plushpile.src = "./Images/id_111_img/111_plushpile.PNG";
+    plushpile.src = "./Images/id_111_img/111_plushpile.png";
     plushpile.classList.add("interact-parts", "kimikohouse");
 
     const posters = document.createElement("img");
-    posters.src = "./Images/id_111_img/111_posters.PNG";
+    posters.src = "./Images/id_111_img/111_posters.png";
     posters.classList.add("interact-parts", "kimikohouse");
 
     const wallet = document.createElement("img");
-    wallet.src = "./Images/id_111_img/111_wallet.PNG";
+    wallet.src = "./Images/id_111_img/111_wallet.png";
     wallet.classList.add("interact-parts", "kimikohouse");
 
     const note = document.createElement("img");
-    note.src = "./Images/id_111_img/111_note.PNG";
+    note.src = "./Images/id_111_img/111_note.png";
     note.classList.add("interact-parts", "kimikohouse");
 
     const kimiko = document.createElement("img");
-    kimiko.src = "./Images/id_111_img/111_kimiko.PNG";
+    kimiko.src = "./Images/id_111_img/111_kimiko.png";
     kimiko.classList.add("interact-parts", "kimikohouse");
 
     interactArea.appendChild(crackwall);
@@ -925,7 +925,7 @@ function loadInteract106() {
     interactBG.src = "./Images/107.PNG";
 
     const ids = document.createElement("img");
-    ids.src = "./Images/id_106_img/106_ids.PNG";
+    ids.src = "./Images/id_106_img/106_ids.png";
     ids.classList.add("interact-parts", "suspects");
 
     interactArea.appendChild(ids);
