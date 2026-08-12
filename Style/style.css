@@ -532,16 +532,28 @@ a:hover {
     background-color: rgb(176, 176, 176, 0.7);
     grid-column: 2/3;
     grid-row: 2/3;
+
     height: 100%;
+    box-sizing: border-box;
+
+    padding: 0 5%;
+
     font-family: "Jersey 10", sans-serif;
     font-weight: 400;
     font-style: normal;
-    font-size: 9vh;
+    font-size: clamp(32px, min(9vh, 6vw), 72px);
+
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 50px;
+
+    gap: clamp(4px, calc(2.5vw - 5px), 50px);
+
     clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%);
+}
+.switch > * {
+    min-width: 0;
+    flex-shrink: 1;
 }
 
 .text-close {
@@ -1051,12 +1063,16 @@ a:hover {
     color: rgb(75, 75, 75);
 
     font-family: "Jersey 10", sans-serif;
-    font-size: 7vh;
+    font-size: clamp(28px, min(7vh, 5vw), 60px);
 
     user-select: none;
     opacity: 1;
     text-decoration: none;
     cursor: pointer;
+}
+.switch .page-number {
+    flex: 0 1 auto;
+    white-space: nowrap;
 }
 .switch .page-number:hover {
     transform: none;
