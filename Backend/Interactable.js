@@ -596,7 +596,7 @@ function loadInteract111() {
     const page = getPageData(currInteract); // grab page
     interactText.innerText = page?.text || ""; // set text
 
-    interactBG.src = "./Images/id_111_img/111_background.png";
+    interactBG.src = "./Images/id_111_img/111_background.PNG";
 
     const crackwall = document.createElement("img");
     crackwall.src = "./Images/id_111_img/111_crackwall.png";
