@@ -1,24 +1,57 @@
-// declare all media types that can be displayed
+// PageHandler.js
+
+// declare all media types that can be displayed 
 const FIRST_PAGE = 0;
 const SPECIAL_TEXT = {
-    "John the Banana": 103,
-    "Rose the Grape": 103,
-    "onyx": 104,
-    "You know what that means": 102,
-    "oil": 106,
-    "DAMNIT": 108,
+    "John the Banana": 226,
+    "Rose the Grape": 226,
+    "onyx": 227,
+    "You know what that means": 225,
+    "oil": 229,
+    "DAMNIT": 230,
+    "https://youtu.be/nXNeufhq_nw?si=IJsgap3d3g6Lxyhr": null, 
+    // if any external link, put null to open in new tab
 };
 const SPEAKERS = {
     "Captain Kracker :": "or",
     "Captain Pavo :": "pavo-pu",
+    "??? :": "gray-ye",
+    "KimiwimiUwU :": "ye",
+    "Token :": "ka",
+    "Matsune Hiku? :": "aq",
 };
+const PROFILES = {
+    "KimiwimiUwU": {
+        img: "./Images/kimiko_pfp.PNG",
+        class: "ye"
+    },
+    "xXDyedFeatherXx": {
+        img: "./Images/nyle_pfp.PNG",
+        class: "pu"
+    },
+    "Token": {
+        img: "./Images/karmine_pfp.PNG",
+        class: "ka"
+    }
+};
+const ATTORNEY_START = 174;
+const ATTORNEY_END = 198;
+const ATTORNEY_EXCEPTION = 181;
+
+const SPECIAL_TEXT_RETURN_KEY = "specialTextReturnPage";
 
 // gather elements
-const textContainer = document.getElementById("comic-text");
+const textContainer = document.querySelector(".text");
 const prev = document.getElementById("previous");
 const next = document.getElementById("next");
 
+// gather elements for ChitChatTime
+const img = document.querySelector(".img");
+const containerParent = document.querySelector(".container");
+const mediaCCT = document.querySelector(".media-container");
+
 // Globals
+let textParagraph = document.getElementById("comic-text");
 let mediaContainer;
 let mediaParent;
 
@@ -35,7 +68,13 @@ async function init() {
 
     let expectedRenderType = expectedType;
     if (expectedType === "comic") {
-        expectedRenderType = currPage < STYLE_SPLIT ? "vr" : "web";
+        if (currPage < STYLE_SPLIT) {
+            expectedRenderType = "vrship";
+        } else if (currPage >= 213 && currPage <= 219) {
+            expectedRenderType = "vrbeach";
+        } else {
+            expectedRenderType = "web";
+        }
     }
 
     if (expectedRenderType !== currentType) {
@@ -48,6 +87,7 @@ async function init() {
     mediaParent = mediaContainer?.parentElement;
 
     showPage(currPage);
+    displayPageNumber();
 }
 
 function showPage(pageNum) {
@@ -55,12 +95,30 @@ function showPage(pageNum) {
     if (!page) return;
 
     const file = page.media;
+    
+    removeHitboxes(); // remove any existing hitboxes
+    resetTextContainer(); 
+    textContainer.classList.remove("text-biscord");
 
     // get da div
     mediaParent = mediaContainer?.parentElement;
     
-    renderMedia(file);
-    renderDialogueText(page.text, pageNum);
+    const mediaElement = renderMedia(file);
+
+    // render text area
+    if (isChitChatTimePage(pageNum)) {
+        
+        textContainer.classList.add("text-biscord");
+        renderBiscord(mediaElement, page);
+        mediaContainer.style.cursor = "default"; // reset cursor for biscord pages
+
+    } else if (isAttorneyPage(pageNum)) {
+        renderAttorney(pageNum);
+        if (DEBUG_MODE) mediaContainer.style.cursor = "pointer"; // set cursor for attorney pages
+    } else {
+        renderDialogueText(page.text, pageNum);
+        mediaContainer.style.cursor = "default"; // reset cursor for normal pages
+    }
 
     console.log("Index " + pageNum + " loaded.");
 
@@ -88,6 +146,7 @@ function renderMedia(theFile) {
         element.loop = true;
         element.muted = false;
         element.playsInline = true;
+        element.preload = "auto";
     } else { // if neither... GET OUT
         console.warn("Unsupported media type:", ext);
         return;
@@ -97,17 +156,15 @@ function renderMedia(theFile) {
     element.id = "comic-media";
     element.classList.add("img");
 
-    if (mediaParent && mediaContainer) {
-        mediaParent.replaceChild(element, mediaContainer);
-    } else if (mediaContainer) {
-        mediaContainer.appendChild(element);
-    }
+    mediaContainer.innerHTML = "";
+    mediaContainer.appendChild(element);
 
-    mediaContainer = element; // replace da old div :3
+    return element;
 }
 
+
 function renderDialogueText(theText, pageNum) {
-    textContainer.innerHTML = "";
+    textParagraph.innerHTML = "";
     if (!theText) return;
 
     const lines = theText.split("\n");
@@ -128,13 +185,11 @@ function renderDialogueText(theText, pageNum) {
 
         const p = document.createElement("p");
 
-        if (matchedClass) {
-            p.classList.add(matchedClass);
-        }
-
+        if (matchedClass) p.classList.add(matchedClass);
+        
         appendSpecialText(p, trimmed, pageNum);
 
-        textContainer.appendChild(p);
+        textParagraph.appendChild(p);
     });
 }
 
@@ -149,14 +204,24 @@ function appendSpecialText(container, theText, pageNum) {
             const el = document.createElement("a");
             el.className = "special";
 
-            if (pageNum < STYLE_SPLIT) {
-                el.classList.add("vr-special");
+            if (pageNum < STYLE_SPLIT) el.classList.add("vr-special");
+            if (SPECIAL_TEXT[part] === null) {
+                el.classList.add("special-link");
             }
 
             el.textContent = part;
 
             el.addEventListener("click", () => {
-                goToPage(SPECIAL_TEXT[part]);
+                if (SPECIAL_TEXT[part] === null) {
+                    // take link and open in new tab
+                    window.open(part, "_blank");
+                    return;
+                } else {
+                    if (part === "You know what that means") {
+                        setSpecialTextReturnPage(pageNum);
+                    }
+                    goToPage(SPECIAL_TEXT[part]);
+                }
             });
 
             container.appendChild(el);
@@ -165,6 +230,16 @@ function appendSpecialText(container, theText, pageNum) {
         }
     });
 }
+
+function setSpecialTextReturnPage(pageNum) {
+    localStorage.setItem(SPECIAL_TEXT_RETURN_KEY, pageNum);
+}
+
+function getSpecialTextReturnPage() {
+    const saved = localStorage.getItem(SPECIAL_TEXT_RETURN_KEY);
+    return saved !== null ? parseInt(saved, 10) : null;
+}
+
 
 function isSpecialText(theText) {
     if (!theText) return false;
@@ -223,6 +298,20 @@ function nextPage() {
         return;
     }
 
+    // "You know what that means" secret page
+    if (curr === 225) {
+        const returnPage = getSpecialTextReturnPage();
+
+        if (returnPage !== null) {
+            goToPage(returnPage + 1);
+        } else {
+            // fallback if the secret page was accessed directly
+            goToPage(returnPage);
+        }
+
+        return;
+    }
+
     if (nav) {
         if (nav.next === null) {
             // next button disabled, do nothing
@@ -239,6 +328,20 @@ function nextPage() {
 function prevPage() {
     const curr = getCurrentPage();
     const nav = INTERACTABLE_NAV[curr];
+
+    // "You know what that means" secret page
+    if (curr === 225) {
+        const returnPage = getSpecialTextReturnPage();
+
+        if (returnPage !== null) {
+            goToPage(returnPage);
+        } else {
+            // "fallback" if the secret page was accessed directly
+            goToPage(returnPage);
+        }
+
+        return;
+    }
 
     if (nav) {
         if (nav.prev === null) {
@@ -287,6 +390,153 @@ function updateNavigation() {
         next.style.display = "inline";
     }
 
+}
+
+function resetTextContainer() {
+    textContainer.innerHTML = `
+        <p id="comic-text"></p>
+    `;
+
+    // Update the global reference
+    textParagraph = document.getElementById("comic-text");
+}
+
+function removeHitboxes() {
+    document.querySelectorAll(".hitbox").forEach(hitbox => hitbox.remove());
+}
+
+// Additional Page Type Functions
+function isChitChatTimePage(pageNum) { // returns true or false if the page is a ChitChatTime page
+    return CHAT_INDICES.includes(pageNum);
+}
+
+function isAttorneyPage(pageNum) {
+    return (pageNum >= ATTORNEY_START && pageNum <= ATTORNEY_END && pageNum !== ATTORNEY_EXCEPTION);
+}
+
+function renderBiscord(element, page = getPageData()) {
+    // clear chat
+    textContainer.innerHTML = "";
+
+    // get chat
+    const lines = (page.text || "")
+        .split("\n")
+        .filter(line => line.trim() !== "");
+
+    // group consecutive messages by same speaker
+    const grouped = [];
+
+    lines.forEach(line => {
+        const [name, ...rest] = line.split(" : ");
+        const message = rest.join(" : ").trim();
+
+        if (!PROFILES[name]) return;
+
+        const lastGroup = grouped[grouped.length - 1];
+
+        if (lastGroup && lastGroup.name === name) {
+            // same speaker, append message
+            lastGroup.messages.push(message);
+        } else {
+            // new speaker, create new group
+            grouped.push({
+                name: name,
+                messages: [message]
+            });
+        }
+    });
+
+    // render grouped messages
+    grouped.forEach(group => {
+        const profile = PROFILES[group.name];
+
+        const combinedMessage = group.messages
+            .map(msg => msg.replace(/\n/g, "<br>"))
+            .join("<br>");
+
+        const chatHTML = `
+            <div class="biscord-body">
+                <img src="${profile.img}" class="pfp">
+                <p class="top ${profile.class}">${group.name}</p>
+                <p class="bot">${combinedMessage}</p>
+            </div>
+        `;
+        textContainer.insertAdjacentHTML("beforeend", chatHTML);
+    });
+    loadIndex94Hitbox() // check if we need to load the index 94 hitbox for easter egg
+}
+
+function loadIndex94Hitbox() {
+    if (getCurrentPage() !== 94) return;
+
+    const video = mediaContainer.querySelector("video");
+
+    if (!video) return;
+
+    let shouldReverse = false;
+    let isReversed = false;
+
+    // disable native looping to control loop boundary
+    video.loop = false;
+
+    // handle manual looping + optional swap
+    video.addEventListener("ended", () => {
+        if (shouldReverse) {
+            isReversed = !isReversed;
+            shouldReverse = false;
+
+            const newSrc = isReversed
+                ? "./Images/95b.mov" // reversed version
+                : getPageData().media; // original
+
+            video.src = newSrc;
+
+            // ensure seamless playback
+            video.currentTime = 0;
+            video.play();
+        } else {
+            // normal loop
+            video.currentTime = 0;
+            video.play();
+        }
+    });
+
+    buildHitbox({
+        top: "68%",
+        left: "5%",
+        width: "17%",
+        height: "25%",
+        onEnter: () => {},
+        onLeave: () => {},
+        onClick: () => {
+            // queue reversal for next loop boundary
+            shouldReverse = true;
+        }, 
+        mediaContainer: mediaContainer
+    });
+}
+
+function renderAttorney(pageNum = getCurrentPage()) {
+    
+    const page = getPageData(pageNum);
+
+    buildTextBox({
+        mediaContainer: mediaContainer,
+    });
+
+    const textbox = document.querySelector(".textbox");
+
+    currentSpans = animateText(mediaContainer, textbox, 
+        document.querySelector(".text-attorney"), page.text);
+
+    mediaContainer.onclick = () => {
+
+        if (!isTyping || !DEBUG_MODE) return;
+        finishAttorneyText(mediaContainer);
+        mediaContainer.style.cursor = "default";
+        textbox.style.cursor = "default";
+
+    };
 }
 
 const INTERACTABLE_NAV = {
@@ -351,12 +601,75 @@ const INTERACTABLE_NAV = {
     79: { next: 80, prev: 77 }, // hit
     80: { next: 81, prev: 77 }, // end
 
-    102: { next: 93, prev: 92 }, // fish special page
-    103: { next: 16, prev: 19 }, // homestuck special page
-    104: { next: 74, prev: 70 }, // onix special page
-    105: { next: 30, prev: 40 }, // banana 
-    106: { next: 74, prev: 68 }, // oil 
-    107: { next: 88, prev: 86 }, // damnit 87
-    108: { next: 88, prev: 87 }, // dubai chocowate (intended index numbers)
-    109: { next: 89, prev: 87 }, // nyle tweaking 88
+    // index 111
+    111: { next: 150, prev: 110 }, // interact 
+    112: { next: 113, prev: 111 }, // crack
+    113: { next: 114, prev: 112 },
+    114: { next: 115, prev: 113 },
+    115: { next: 116, prev: 114 },
+    116: { next: 117, prev: 115 },
+    117: { next: 118, prev: 116 },
+    118: { next: 119, prev: 117 },
+    119: { next: 120, prev: 118 },
+    120: { next: 121, prev: 119 },
+    121: { next: 122, prev: 120 },
+    122: { next: 123, prev: 121 },
+    123: { next: 124, prev: 122 },
+    124: { next: 125, prev: 123 },
+    125: { next: 111, prev: 124 },
+    126: { next: 127, prev: 111 }, // plushpile
+    127: { next: 128, prev: 126 },
+    128: { next: 129, prev: 127 },
+    129: { next: 130, prev: 128 },
+    130: { next: 131, prev: 129 },
+    131: { next: 132, prev: 130 },
+    132: { next: 133, prev: 131 },
+    133: { next: 134, prev: 132 },
+    134: { next: 135, prev: 133 },
+    135: { next: 136, prev: 134 },
+    136: { next: 137, prev: 135 },
+    137: { next: 111, prev: 136 },
+    138: { next: 139, prev: 111 }, // posters
+    139: { next: 140, prev: 138 },
+    140: { next: 141, prev: 139 },
+    141: { next: 142, prev: 140 },
+    142: { next: 143, prev: 141 },
+    143: { next: 144, prev: 142 },
+    144: { next: 145, prev: 143 },
+    145: { next: 146, prev: 144 },
+    146: { next: 111, prev: 145 },
+    147: { next: 111, prev: 111 }, // wallet
+    148: { next: 111, prev: 111 }, // note
+    149: { next: 111, prev: 111 }, // kimiko
+    150: { next: 151, prev: 111 }, // end
+
+    // index 151
+    151: { next: 169, prev: 150 }, // interact 
+    152: { next: 153, prev: 151 }, // plush
+    153: { next: 154, prev: 152 },
+    154: { next: 155, prev: 153 },
+    155: { next: 156, prev: 154 },
+    156: { next: 151, prev: 155 },
+    157: { next: 158, prev: 151 }, // rat
+    158: { next: 159, prev: 157 },
+    159: { next: 160, prev: 158 },
+    160: { next: 161, prev: 159 },
+    161: { next: 151, prev: 160 },
+    162: { next: 163, prev: 151 }, // poster
+    163: { next: 164, prev: 162 },
+    164: { next: 165, prev: 163 },
+    165: { next: 166, prev: 164 },
+    166: { next: 167, prev: 165 },
+    167: { next: 168, prev: 166 },
+    168: { next: 151, prev: 167 },
+    169: { next: 170, prev: 151 }, // end
+
+    225: { next: 93, prev: 92 }, // fish special page
+    226: { next: 16, prev: 19 }, // homestuck special page
+    227: { next: 74, prev: 70 }, // onix special page
+    228: { next: 30, prev: 40 }, // banana 
+    229: { next: 74, prev: 68 }, // oil 
+
+    230: { next: 88, prev: 87 }, // dubai chocowate (intended index numbers)
+
 };

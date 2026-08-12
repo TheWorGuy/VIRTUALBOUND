@@ -1,0 +1,43 @@
+.vr-beach-header {
+    background-color: rgb(42, 1, 6);
+}
+
+.vr-beach-a:link,
+.vr-beach-a:visited,
+.vr-beach-a:active {
+  text-decoration: none;
+  color: rgb(255, 196, 0);
+}
+
+.vr-beach-a:hover {
+    color: rgb(255, 153, 0);
+    transform: scale(1.1);
+    cursor: pointer;
+}
+.switch .vr-beach-a:hover {
+    transform: none;
+}
+
+
+.button-vr-beach {
+    background-color: rgb(84, 7, 38);
+}
+
+.button-vr-beach:active {
+    background-color: rgb(56, 3, 24);
+}
+
+.text-vr-beach {
+    color: rgb(255, 255, 255);
+    background-color: rgb(84, 7, 38);
+}
+
+.switch-vr-beach {
+    background-color: rgb(84, 7, 38);
+    color: rgb(255, 196, 0);
+    user-select: none;
+}
+
+.vr-beach-a-switch {
+    font-size: inherit;
+}

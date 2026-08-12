@@ -1,18 +1,24 @@
+// Router.js
+
 // Constants
-const MAX_INDEX = 101; // 0–101 allowed in normal flow
-const SECRET_INDICES = [102, 103, 104, 105, 106, 108];
-const CHAT_INDICES = [85, 91, 94, 95, 96, 97, 99, 108];
-const INTERACT_INDICES = [5, 16, 30, 40, 49, 64]; 
+const MAX_INDEX = 224; // 0–224 allowed in normal flow
+const SECRET_INDICES = [225, 226, 227, 228, 229, 230]; // secret pages
+const CHAT_INDICES = [85, 91, 94, 95, 96, 97, 99, 230];
+const INTERACT_INDICES = [5, 16, 30, 40, 49, 64, 106, 111, 151]; 
 const IMAGE_TYPES = ["png", "jpg", "jpeg", "gif"];
 const VIDEO_TYPES = ["mp4", "webm", "mov"];
 const STYLE_SPLIT = 25; // index at which style changes from VR to web
 const DEBUG_MODE = false;
+const DEFAULT_DELAY = 50; // default delay for text animation
+const STILL_START = 195;
+const STILL_END = 198;
 
 // Globals
 let currPage = 0; // current page 
 let pagesData = [];
 let initialized = false;
 let secret = false;
+let keyboardInitialized = false;
 
 // get the json!!!
 async function initRouter() {
@@ -25,6 +31,8 @@ async function initRouter() {
     currPage = saved ? parseInt(saved) : 0;
 
     initialized = true;
+
+    initKeyboardNavigation();
 }
 
 // getters
@@ -39,7 +47,6 @@ function getPageData(index = currPage) {
 function getPageType(index) {
     if (INTERACT_INDICES.includes(index)) return "interactable";
     if (index === 77) return "fly";
-    if (CHAT_INDICES.includes(index)) return "chat";
     return "comic";
 }
 
@@ -48,9 +55,9 @@ function getCurrentPageType() {
 
     if (path.includes("Interactable")) return "interactable";
     if (path.includes("FlyMinigame")) return "fly";
-    if (path.includes("ChitChatTime")) return "chat";
 
-    if (path.includes("VRPages")) return "vr";
+    if (path.includes("VRShipPages")) return "vrship";
+    if (path.includes("VRBeachPages")) return "vrbeach";
     if (path.includes("WebPages")) return "web";
 
     return "comic";
@@ -69,8 +76,14 @@ function goToPage(index) {
 
     let newRenderType = newType;
     if (newType === "comic") {
-        newRenderType = index < STYLE_SPLIT ? "vr" : "web";
-    }
+        if (index < STYLE_SPLIT) {
+            newRenderType = "vrship";
+        } else if (isBeachPage(index)) {
+            newRenderType = "vrbeach";
+        } else {
+            newRenderType = "web";
+        }
+    } 
 
     currPage = index;
     localStorage.setItem("currPage", index);
@@ -81,14 +94,14 @@ function goToPage(index) {
     if (newRenderType === currentType) {
         if (newType === "comic" && typeof showPage === "function") {
             showPage(index);
-        } else if (newType === "chat" && typeof renderPage === "function") {
-            renderPage();
+            displayPageNumber();
         } else if (newType === "interactable") {
             if (typeof loadPage === "function") {
                 currInteract = index;
                 currPage = index;
                 localStorage.setItem("currPage", index);
                 loadPage();
+                displayPageNumber();
             } else {
                 // defer until interactable is initialized
                 window.addEventListener("DOMContentLoaded", () => {
@@ -96,6 +109,7 @@ function goToPage(index) {
                     currPage = index;
                     localStorage.setItem("currPage", index);
                     loadPage();
+                    displayPageNumber();
                 });
             }
         }
@@ -110,11 +124,11 @@ function goToPage(index) {
         case "fly":
             window.location.replace("FlyMinigame.html");
             break;
-        case "chat":
-            window.location.replace("ChitChatTime.html");
+        case "vrship":
+            window.location.replace("VRShipPages.html");
             break;
-        case "vr":
-            window.location.replace("VRPages.html");
+        case "vrbeach":
+            window.location.replace("VRBeachPages.html");
             break;
         case "web":
             window.location.replace("WebPages.html");
@@ -128,5 +142,224 @@ function unlockPage(index) {
     if (!unlocked.includes(index)) {
         unlocked.push(index);
         localStorage.setItem("unlockedPages", JSON.stringify(unlocked));
+    }
+}
+
+function isBeachPage(index) {
+    return (index >= 213 && index <= 219);
+}
+
+function isChitChatPage(index) {
+    return CHAT_INDICES.includes(index);
+}
+
+function isSecretPage(index) {
+    return SECRET_INDICES.includes(index);
+}
+
+// used in interactable pages to build hitboxes over media 
+function buildHitbox({ top, left, width, height, onEnter, onLeave, onClick, mediaContainer }) {
+    const hitbox = document.createElement("div");
+    hitbox.classList.add("hitbox");
+    hitbox.style.position = "absolute";
+    hitbox.style.top = top;
+    hitbox.style.left = left;
+    hitbox.style.width = width;
+    hitbox.style.height = height;
+    hitbox.style.zIndex = "20";
+    hitbox.style.cursor = "pointer";
+    if (DEBUG_MODE) {
+        hitbox.style.backgroundColor = "rgba(255, 0, 0, 0.2)";
+    }
+    hitbox.addEventListener("mouseenter", () => {
+        isHovering = true;
+        onEnter();
+    });
+    hitbox.addEventListener("mouseleave", () => {
+        isHovering = false;
+        onLeave();
+    });
+    if (onClick) {
+        hitbox.addEventListener("mousedown", onClick);
+    }
+    mediaContainer.appendChild(hitbox);
+    return hitbox;
+}
+
+// used in ace attorney pages to build hitboxes over media in replacement of putting text in comic text box
+function buildTextBox({ top = "65%", left = "6%", width = "90%", height = "30%", mediaContainer }) {
+    const textbox = document.createElement("div");
+    textbox.classList.add("textbox");
+    textbox.style.top = top;
+    textbox.style.left = left;
+    textbox.style.width = width;
+    textbox.style.height = height;
+    if (DEBUG_MODE) textbox.style.cursor = "pointer";
+    
+    const textElement = document.createElement("p");
+    textElement.classList.add("text-attorney"); // change this style to match the regular comic text style
+    textElement.classList.add("ye");
+
+    textbox.appendChild(textElement);
+
+    mediaContainer.appendChild(textbox);
+
+    return textbox;
+}
+
+let typingInterval = null;
+let isTyping = false;
+let currentSpans = [];
+
+function animateText(mediaContainer, textbox, textElement, text, speed = DEFAULT_DELAY) {
+
+    let currPage = getCurrentPage()
+    if (currPage >= STILL_START && currPage <= STILL_END) {
+        stopMediaAnimation(mediaContainer);
+    }
+
+    if (typingInterval) {
+        clearInterval(typingInterval);
+    }
+
+    textElement.innerHTML = ""; // Clear existing text
+
+    const spans = [];
+
+    for (const char of text) {
+
+        const span = document.createElement("span");
+
+        span.textContent = char;
+
+        span.style.visibility = "hidden"; // Hide the character initially
+
+        textElement.appendChild(span);
+
+        spans.push(span);
+
+    }
+
+    let index = 0;
+    isTyping = true;
+
+    typingInterval = setInterval(() => {
+
+        if (index >= spans.length) {
+            clearInterval(typingInterval);
+
+            isTyping = false;
+
+            textbox.style.cursor = "default";
+            mediaContainer.style.cursor = "default";
+
+            stopMediaAnimation(mediaContainer);
+
+            return;
+        }
+
+        spans[index].style.visibility = "visible"; // Show the character
+
+        index++;
+
+    }, speed);
+
+    currentSpans = spans; // Store the spans for potential further manipulation
+    return spans;
+}
+
+function finishAttorneyText(mediaContainer) {
+
+    if (!isTyping) return;
+
+    clearInterval(typingInterval);
+
+    currentSpans.forEach(span => {
+        span.style.visibility = "visible";
+    });
+
+    isTyping = false;
+
+    stopMediaAnimation(mediaContainer);
+    
+}
+
+function stopMediaAnimation(mediaContainer) {
+    const video = mediaContainer.querySelector("video");
+
+    if (!video) return;
+
+    // Don't pause defendant_1.MOV
+    if (video.currentSrc.toLowerCase().includes("defendant_1.mov")) {
+        return;
+    }
+
+    video.loop = false;
+
+    video.pause();
+
+    video.currentTime = 0;
+
+    video.addEventListener(
+        "seeked",
+        () => video.pause(),
+        { once : true }
+    );
+}
+
+function initKeyboardNavigation() {
+
+    if (keyboardInitialized) return;
+    keyboardInitialized = true;
+
+    document.addEventListener("keydown", (e) => {
+
+        // don't interfere with typing into inputs later
+        if (
+            e.target.tagName === "INPUT" ||
+            e.target.tagName === "TEXTAREA" ||
+            e.target.isContentEditable
+        ) return;
+        
+        switch (e.key) {
+            case "ArrowLeft":
+                const prev = document.getElementById("previous");
+
+                if (prev && prev.offsetParent !== null) {
+                    prev.click();
+                }
+
+                break;
+
+            case "ArrowRight":
+                const next = document.getElementById("next");
+
+                if (next && next.offsetParent !== null) {
+                    next.click();
+                }
+
+                break;
+        }
+
+    });
+
+}
+
+function displayPageNumber() {
+
+    const pageNumber = document.querySelector(".page-number");
+    const currentPage = getCurrentPage();
+
+    if (!pageNumber) return;
+
+    pageNumber.textContent = getCurrentPage() + 1; // Display page number starting from 1
+    pageNumber.classList.remove("page-vr");
+
+    if (currentPage < STYLE_SPLIT || isBeachPage(currentPage)) {
+        pageNumber.classList.add("page-vr");
+    } 
+
+    if (isSecretPage(currentPage) && !DEBUG_MODE) {
+        pageNumber.textContent = "???";
     }
 }

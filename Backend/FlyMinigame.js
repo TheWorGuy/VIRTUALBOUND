@@ -38,6 +38,7 @@ async function initFlyMinigame() {
 
     setCurrPage(77);
 
+    displayPageNumber();
     console.log(getCurrentPage());
 }
 
@@ -135,6 +136,9 @@ function loadWin() {
     
     const resultText = document.getElementById('result-text');
     if (resultText) resultText.textContent = "SWATTED";
+
+    setCurrPage(79);
+    displayPageNumber();
 }
 function loadLose() {
     resultMedia.src = './Images/79.MOV';
@@ -143,6 +147,8 @@ function loadLose() {
     if (resultText) resultText.textContent = "Don't swat yourself dumbass!";
 
     prevButton.textContent = "<Retry";
+    setCurrPage(78);
+    displayPageNumber();
 }
 function startTimer() {
     if (timerStarted) return;

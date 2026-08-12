@@ -8,6 +8,7 @@
     <script defer src="Backend/Interactable.js"></script>
     <link rel="stylesheet" href="./Style/style.css">
     <link rel="stylesheet" href="./Style/Interactable.css">
+    <link rel="stylesheet" href="./Style/vr_ship_style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" rel="stylesheet">
@@ -22,15 +23,20 @@
         <a href="./credits.html" class="credits-button button">Credits</a>
     </header>
     <div class="container">
-        <div class="interact-area">
+
+        <!-- Interactable Media -->
+        <div class="interact-area media-container">
             <img src="" class="interact-bg" alt="Interactable background">
         </div>
+
         <div class="text">
             <p id="interact-text"></p>
         </div>
+
         <div class="switch">
             <a id="previous" onclick="prevPageIn()" class="web-a">&lt;Previous</a>
             <a id="next" onclick="nextPageIn()" class="web-a">Next&gt;</a>
+            <a class="page-number" href="episode_1_pages.html"></a>
         </div>
     </div>
     <br class="br-empty">
