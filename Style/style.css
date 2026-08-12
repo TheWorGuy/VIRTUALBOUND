@@ -547,7 +547,7 @@ a:hover {
     justify-content: center;
     align-items: center;
 
-    gap: clamp(4px, calc(2.5vw - 5px), 50px);
+    gap: clamp(8px, calc(2.5vw - 5px), 50px);
 
     clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%);
 }
@@ -1084,4 +1084,17 @@ a:hover {
 .switch .page-vr:hover {
     transform: none;
     color: rgb(255, 153, 0);
+}
+
+
+/* Small landscape screens because fuck it idc anymore... */
+@media (min-width: 751px) and (max-width: 890px) and (orientation: landscape) {
+    .switch {
+        font-size: clamp(20px, min(7vh, 5vw), 50px);
+        gap: 20px;
+    }
+
+    .switch .page-number {
+        font-size: clamp(18px, min(6vh, 4vw), 45px);
+    }
 }
