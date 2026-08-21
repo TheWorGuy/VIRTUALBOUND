@@ -1,39 +1,37 @@
-// TODO: make the class separable into another file 
-// reorganize this junky code
-// make all globals/constants that can be set in the below area 
+// TODO: make the FlyController class separable into another file
+// NOTE: DEBUG_MODE is referenced below but declared in another script (external global)
 
-// Constants
+// CONSTANTS
 const RATE = 60; // ms (lower = faster buzzing) - used in FlyController
 const FLY_SPEED = 0.01;
-const PAGE_NUM = 77; // guaranteed to be index 77 
+const PAGE_NUM = 77; // guaranteed to be index 77
 
-// Global Variables
-let gameActive = true; // Flag to control game state
-let result = true; // true = win, false = lose
-let timeRemaining = 15000; // 15000 = 15 seconds in ms - change for debugging
-let timerStarted = false;
-let flyController; // fly object
-
-// Gather all elements needed
+// DOM REFERENCES
 const gameArea = document.querySelector('.game-area');
 const gameText = document.getElementById('game-text');
-const gameArrows = document.getElementById('game-arrows'); 
+const gameArrows = document.getElementById('game-arrows');
 const nextButton = document.getElementById('next');
 const prevButton = document.getElementById('previous');
 const fly = document.getElementById('fly');
 const swatter = document.getElementById('swatter');
+const flyMusic = document.getElementById('fly-music');
+
 const debugBox = document.createElement('div');
 const flyDebugBox = document.createElement('div');
 const resultMedia = document.createElement('video');
-const flyMusic = document.getElementById('fly-music');
 
-// initial conditions
+// GAME STATE GLOBALS
+let gameActive = true;      // Flag to control game state
+let result = true;          // true = win, false = lose
+let timeRemaining = 15000;  // 15000 = 15 seconds in ms - change for debugging
+let timerStarted = false;
+let flyController;          // fly object
+
+// INITIAL CONDITIONS
 nextButton.style.display = 'none';
 
-document.addEventListener("DOMContentLoaded", initFlyMinigame);
-
-// get json (router)
-async function initFlyMinigame() {
+// PAGE ROUTER INIT
+async function initFlyMinigame() { // get json (router)
     await initRouter();
 
     setCurrPage(77);
@@ -41,12 +39,12 @@ async function initFlyMinigame() {
     displayPageNumber();
     console.log(getCurrentPage());
 }
+document.addEventListener("DOMContentLoaded", initFlyMinigame);
 
-window.addEventListener('DOMContentLoaded', () => {
-
-    const nextButton = document.getElementById('next');
-    const prevButton = document.getElementById('previous');
-
+// INITIALIZATION (DOMContentLoaded)
+// Split into small init functions so each piece stays isolated
+// (a guard clause in one won't block the others from running)
+function initNavigationButtons() {
     if (!nextButton || !prevButton) {
         console.log("Buttons not found");
         return;
@@ -69,9 +67,72 @@ window.addEventListener('DOMContentLoaded', () => {
         console.log("Next clicked");
         goToPage(80);
     });
+}
+
+function initFlyController() {
+    if (!gameArea || !fly) return;
+    flyController = new FlyController(fly, gameArea, swatter);
+
+    if (DEBUG_MODE) { // debug
+        debugBox.style.position = 'fixed';
+        debugBox.style.border = '2px solid green';
+        debugBox.style.pointerEvents = 'none';
+        debugBox.style.zIndex = '2';
+        document.body.appendChild(debugBox);
+
+        flyDebugBox.style.position = 'fixed';
+        flyDebugBox.style.border = '2px solid red';
+        flyDebugBox.style.pointerEvents = 'none';
+        flyDebugBox.style.zIndex = '2';
+        document.body.appendChild(flyDebugBox);
+    }
+    startTimer();
+}
+
+// Swatter movement based on cursor position
+function initSwatterMovement() {
+    if (!gameArea || !swatter) return;
+
+    let areaRect = gameArea.getBoundingClientRect();
+
+    const updateRect = () => {
+        areaRect = gameArea.getBoundingClientRect();
+    };
+
+    // Fraction offsets of swatter's width to keep consistent scaling cursor alignment
+    const xOffsetFraction = 0 / 160;
+    const yOffsetFraction = 240 / 160;
+    const maxTopBoundaryFraction = 235 / 160; // swatter top boundary
+
+    const updateSwatterPosition = (event) => {
+        const swatterWidth = swatter.offsetWidth;
+        const xOffset = xOffsetFraction * swatterWidth;
+        const yOffset = yOffsetFraction * swatterWidth;
+        const maxTopBoundary = maxTopBoundaryFraction * swatterWidth;
+
+        const currentAreaRect = gameArea.getBoundingClientRect();
+
+        const x = event.clientX - currentAreaRect.left + xOffset;
+        let y = event.clientY - currentAreaRect.top + yOffset;
+
+        y = Math.max(y, maxTopBoundary);
+
+        swatter.style.left = `${x}px`;
+        swatter.style.top = `${y}px`;
+    };
+
+    window.addEventListener('resize', updateRect);
+    document.addEventListener('mousemove', updateSwatterPosition);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    initNavigationButtons();
+    initFlyController();
+    initSwatterMovement();
 });
 
-// Functions
+
+// GAME LOGIC FUNCTIONS
 function startMusic() {
     if (!flyMusic) {
         console.log("flyMusic not found");
@@ -89,12 +150,14 @@ function startMusic() {
         console.log("Play failed:", err);
     });
 }
+
 function stopMusic() {
     if (!flyMusic) return;
 
     flyMusic.pause();
     flyMusic.currentTime = 0;
 }
+
 function checkGameState() {
     if (gameActive) {
         nextButton.style.display = 'none';
@@ -130,19 +193,21 @@ function checkGameState() {
         gameArea.style.display = 'block';
     }
 }
+
 function loadWin() {
     nextButton.style.display = 'inline';
     resultMedia.src = './Images/80.MOV';
-    
+
     const resultText = document.getElementById('result-text');
     if (resultText) resultText.textContent = "SWATTED";
 
     setCurrPage(79);
     displayPageNumber();
 }
+
 function loadLose() {
     resultMedia.src = './Images/79.MOV';
-    
+
     const resultText = document.getElementById('result-text');
     if (resultText) resultText.textContent = "Don't swat yourself dumbass!";
 
@@ -150,6 +215,7 @@ function loadLose() {
     setCurrPage(78);
     displayPageNumber();
 }
+
 function startTimer() {
     if (timerStarted) return;
     if (!flyController) return;
@@ -160,17 +226,18 @@ function startTimer() {
         if (timeRemaining <= 0) {
             clearInterval(interval);
             stopMusic();
-            flyController.enterSleepMode(); 
+            flyController.enterSleepMode();
         }
     }, 100);
 }
+
 function checkHitOrMiss() {
     if (!flyController) return;
 
     const flyRect = flyController.getFlyHitbox();
     const swatterRect = flyController.getSwatterHeadRect();
 
-    const hit = 
+    const hit =
         flyRect.right > swatterRect.left &&
         flyRect.left < swatterRect.right &&
         flyRect.bottom > swatterRect.top &&
@@ -180,85 +247,28 @@ function checkHitOrMiss() {
     console.log(hit ? "Hit" : "Miss");
 }
 
-// ACTIVATE MUSIC
-window.addEventListener('mousedown', () => {
+// EVENT LISTENERS (music activation, click / swat)
+window.addEventListener('mousedown', () => { // activate music
     if (gameActive) {
         //startMusic();
     }
 }, { once: true });
-
-// Initialize fly controller
-window.addEventListener('DOMContentLoaded', () => {
-    if (!gameArea || !fly) return;
-    flyController = new FlyController(fly, gameArea, swatter);
-
-    if (DEBUG_MODE) { // debug
-        debugBox.style.position = 'fixed';
-        debugBox.style.border = '2px solid green';
-        debugBox.style.pointerEvents = 'none';
-        debugBox.style.zIndex = '2';
-        document.body.appendChild(debugBox);
-
-        flyDebugBox.style.position = 'fixed';
-        flyDebugBox.style.border = '2px solid red';
-        flyDebugBox.style.pointerEvents = 'none';
-        flyDebugBox.style.zIndex = '2';
-        document.body.appendChild(flyDebugBox);
-    }
-    startTimer();
-});
-
-// Swatter movement based on cursor position
-window.addEventListener('DOMContentLoaded', () => {
-    if (!gameArea || !swatter) return;
-
-    let areaRect = gameArea.getBoundingClientRect();
-
-    const updateRect = () => {
-        areaRect = gameArea.getBoundingClientRect();
-    };
-
-    // Fraction offsets of swatter's width to keep consistent scaling cursor alignment 
-    const xOffsetFraction = 0/160;
-    const yOffsetFraction = 240/160;
-    const maxTopBoundaryFraction = 235/160; // swatter top boundary
-
-    const updateSwatterPosition = (event) => {
-        const swatterWidth = swatter.offsetWidth;
-        const xOffset = xOffsetFraction * swatterWidth;
-        const yOffset = yOffsetFraction * swatterWidth;
-        const maxTopBoundary = maxTopBoundaryFraction * swatterWidth;
-
-        const currentAreaRect = gameArea.getBoundingClientRect();
-
-        const x = event.clientX - currentAreaRect.left + xOffset;
-        let y = event.clientY - currentAreaRect.top + yOffset;
-
-        y = Math.max(y, maxTopBoundary);
-
-        swatter.style.left = `${x}px`;
-        swatter.style.top = `${y}px`;
-    };
-
-    window.addEventListener('resize', updateRect);
-    document.addEventListener('mousemove', updateSwatterPosition);
-});
 
 // listens for clicks
 if (gameArea) {
     gameArea.addEventListener('mousedown', () => {
         if (!gameActive) return;
 
-        checkHitOrMiss();        
-        gameActive = false; 
-        
+        checkHitOrMiss();
+        gameActive = false;
+
         stopMusic();
 
-        checkGameState(); 
+        checkGameState();
     });
 }
 
-// make this into its own file later
+// FLY CONTROLLER CLASS
 class FlyController {
     constructor(flyElement, gameArea, swatterElem) {
         this.fly = flyElement;
@@ -282,22 +292,22 @@ class FlyController {
             "./Images/fly_minigame/fly_game_fly_2.PNG"
         ];
         this.currentFrame = 0;
-        this.animationInterval = RATE; 
+        this.animationInterval = RATE;
         this.animationTimer = 0;
-        
+
         this.initialize();
         this.generateNewWaypoint();
         this.startAnimation();
 
         // wall avoidance
         this.wallTime = 0;
-        this.wallThreshold = 250; // ms 
+        this.wallThreshold = 250; // ms
         this.wallMargin = 20; // px dist from wall
 
-        // swatter escape 
+        // swatter escape
         this.isEscaping = false;
         this.escapeTime = 0;
-        this.escapeDuration = 200; // ms 
+        this.escapeDuration = 200; // ms
         this.escapeSpeed = 5; // multiplier for zip speed
         this.escapeDirX = 0;
         this.escapeDirY = 0;
@@ -317,7 +327,7 @@ class FlyController {
             this.sleepTargetX = rect.width * 0.1;
             this.sleepTargetY = rect.height * 0.925;
 
-            // Instantly snap 
+            // Instantly snap
             this.x = this.sleepTargetX;
             this.y = this.sleepTargetY;
 
@@ -336,7 +346,7 @@ class FlyController {
         const rect = this.gameArea.getBoundingClientRect();
         const width = rect.width;
         const height = rect.height;
-        
+
         // Start fly in center area
         this.x = width * 0.5;
         this.y = height * 0.4;
@@ -350,8 +360,8 @@ class FlyController {
         const width = rect.width;
         const height = rect.height;
         const padding = Math.min(width, height) * 0.15;
-        
-        // Generate random waypoint (location) within game area 
+
+        // Generate random waypoint (location) within game area
         this.targetX = padding + Math.random() * (width - padding * 2);
         this.targetY = padding + Math.random() * (height - padding * 2);
         this.waypointTime = 0;
@@ -392,7 +402,7 @@ class FlyController {
         const size = rect.width;
 
         // configure this for swatter hitbox
-        const shrink = 0.1; 
+        const shrink = 0.1;
 
         return {
             left: rect.left + size * shrink,
@@ -401,6 +411,7 @@ class FlyController {
             bottom: rect.top + size * (1 - shrink)
         };
     }
+
     getFlyHitbox() {
         const rect = this.fly.getBoundingClientRect();
 
@@ -434,7 +445,7 @@ class FlyController {
         this.sleepTargetY = rect.height * 0.925;
 
         this.isEscaping = false;
-    }   
+    }
 
     checkSwatterThreat() {
         if (this.isEscaping) return;
@@ -532,7 +543,7 @@ class FlyController {
         const rect = this.gameArea.getBoundingClientRect();
         const width = rect.width;
         const height = rect.height;
-        
+
         // Switch waypoint if duration exceeded
         if (this.waypointTime > this.waypointDuration) {
             this.generateNewWaypoint();
@@ -578,11 +589,11 @@ class FlyController {
             baseY = this.y + (this.targetY - this.y) * speed;
         }
 
-        
+
         // Add "noise" to the movement
         const noiseX = this.getNoiseOffset(this.noisePhaseX, this.time);
         const noiseY = this.getNoiseOffset(this.noisePhaseY, this.time);
-        
+
         if (this.isEscaping) {
             this.x = baseX;
             this.y = baseY;
@@ -590,9 +601,9 @@ class FlyController {
             this.x = baseX + noiseX;
             this.y = baseY + noiseY;
         }
-        
+
         const margin = width * 0.05;
-        
+
         this.x = Math.max(margin, Math.min(this.x, width - margin));
         this.y = Math.max(margin, Math.min(this.y, height - margin));
 
@@ -628,7 +639,7 @@ class FlyController {
             this.generateEscapeWaypoint();
             this.wallTime = 0;
         }
-        
+
         // Update position
         this.fly.style.left = `${this.x}px`;
         this.fly.style.top = `${this.y}px`;
@@ -644,6 +655,7 @@ class FlyController {
         debugBox.style.width = `${head.right - head.left}px`;
         debugBox.style.height = `${head.bottom - head.top}px`;
     }
+
     updateFlyDebugBox() {
         if (!this.fly || !DEBUG_MODE) return;
 
@@ -661,16 +673,16 @@ class FlyController {
 
     startAnimation() { // helper
         let lastTime = Date.now();
-        
+
         const animate = () => {
             const currentTime = Date.now();
             const deltaTime = currentTime - lastTime;
             lastTime = currentTime;
-            
+
             this.update(deltaTime);
             requestAnimationFrame(animate);
         };
-        
+
         requestAnimationFrame(animate);
     }
 }
